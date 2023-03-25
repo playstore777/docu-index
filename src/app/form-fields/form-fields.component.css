@@ -1,0 +1,65 @@
+.form-fields {
+  width: 45vw;
+  height: 75vh;
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100%;
+  background-color: rgb(212, 212, 212);
+  padding: 30px;
+  border: 3px solid black;
+}
+
+.all-rows {
+  height: 90%;
+  overflow-y: auto;
+}
+
+#header {
+  background-color: skyblue;
+  padding: 10px 5px;
+  text-align: center;
+  border: 2px solid black;
+}
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 6fr;
+  column-gap: 10px;
+  place-items: center;
+}
+
+img {
+  max-width: 20vw;
+  max-height: 20vh;
+  border: 2px solid black;
+}
+
+.col:not(:first-child) {
+  background-color: white;
+  padding: 5px;
+  border: 3px solid skyblue;
+}
+
+input {
+  width: 20px;
+  height: 20px;
+  outline: 2px solid black;
+}
+
+.rows {
+  margin-top: 10px;
+}
+
+.bottom-toolbar {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-toolbar div {
+  padding: 4px 14px;
+  border: 1px solid black;
+  cursor: pointer;
+}

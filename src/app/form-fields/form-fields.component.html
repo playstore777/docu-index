@@ -1,0 +1,37 @@
+<div class="form-fields">
+  <div class="container">
+    <div id="header" class="fields-grid">
+      <div class="col">
+        <input type="checkbox" name="select-all" id="select-all" (change)="onChangeSelectAll()" [(ngModel)]="allSelected"/>
+      </div>
+      <div class="col">Fields#</div>
+      <div class="col">Pages#</div>
+      <div class="col">Review & Display Region</div>
+    </div>
+    <div class="all-rows">
+      <div *ngFor="let row of data" class="rows fields-grid">
+        <div class="col">
+          <input
+            type="checkbox"
+            name="{{ row.fieldNumber }}"
+            id="{{ row.fieldNumber }}"
+            [(ngModel)]="row.isSelected"
+          />
+        </div>
+        <div class="col">{{ row.fieldNumber }}</div>
+        <div class="col">{{ row.pageNumber }}</div>
+        <div class="col">
+          <div class="image">
+            <img src="{{ row.imgSrc }}" alt="snippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-toolbar">
+    <div class="add" (click)="addField()">Add Field</div>
+    <div class="delete">Delete Field</div>
+    <div class="save">Save & Exit</div>
+    <div class="cancel">Cancel</div>
+  </div>
+</div>
