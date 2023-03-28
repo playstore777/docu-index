@@ -1,3 +1,62 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.header div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header .Logo-text {
+  font-size: 1.5rem;
+}
+
+.vertical-line {
+  background-color: rgb(245, 245, 245);
+}
+
+.line-bold {
+  width: 5px;
+  height: 30px;
+}
+
+.line-thin {
+  background-color: rgb(236, 236, 236);
+  width: 2px;
+  height: 20px;
+}
+
+.link {
+  color: rgb(54, 158, 255);
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.link:focus {
+  border: 1px solid black;
+}
+
+.nav-bar {
+  width: 100%;
+  background-color: rgb(0, 132, 255);
+  color: white;
+  padding: 5px 20px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1%;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
 .nav-head {
   padding: 10px;
   display: flex;
@@ -30,6 +89,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-top: 10px;
 }
 
 .center {

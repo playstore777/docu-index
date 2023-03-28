@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-form-fields',
@@ -9,7 +9,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class FormFieldsComponent implements OnInit {
   @Input() currentPageNumber = 1;
   @Input() docType = 0;
-  allSelected: boolean = false;
+  allSelectedReview: boolean = false;
+  allSelectedMandatory: boolean = false;
 
   data: any = [];
   addFieldButton = document.querySelector('.bottom-toolbar .add');
@@ -22,7 +23,7 @@ export class FormFieldsComponent implements OnInit {
   }
 
   getFieldsAPI(page: any) {
-    this.allSelected = false;
+    this.allSelectedReview = false;
     if (page.target) {
       this.docType = page.target.value;
       page = 1;
@@ -42,7 +43,8 @@ export class FormFieldsComponent implements OnInit {
             fieldNumber: element.field_no,
             pageNumber: element.page_no,
             imgSrc: element.filed_value,
-            isSelected: false
+            isSelectedReview: false,
+            isSelectedMandatory: false,
           }
           this.data.push(obj);
         });
@@ -50,7 +52,7 @@ export class FormFieldsComponent implements OnInit {
   }
 
   addField() {
-    let selectedFields = this.data.filter((element: any) => element.isSelected === true);
+    let selectedFields = this.data.filter((element: any) => element.isSelectedReview === true);
     console.log('from onSubmit(): ', selectedFields);
     selectedFields.forEach((item: any) => {
       let obj = {
@@ -66,7 +68,7 @@ export class FormFieldsComponent implements OnInit {
         'Accept': '*/*',
         'Content-Type': 'application/json'
       });
-      let res = this.http
+      this.http
         .post<any>(`https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateDocumentFields`, obj, {
           headers: headers
         }).subscribe(e => e)
@@ -75,10 +77,10 @@ export class FormFieldsComponent implements OnInit {
   }
 
   onChangeSelectAll() {
-    if (this.allSelected) {
-      this.data.forEach((element:any) => element.isSelected = true);
+    if (this.allSelectedReview) {
+      this.data.forEach((element:any) => element.isSelectedReview = true);
     }else{
-      this.data.forEach((element:any) => element.isSelected = false);
+      this.data.forEach((element:any) => element.isSelectedReview = false);
     }
   }
 

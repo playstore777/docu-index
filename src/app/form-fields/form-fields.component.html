@@ -2,7 +2,12 @@
   <div class="container">
     <div id="header" class="fields-grid">
       <div class="col">
-        <input type="checkbox" name="select-all" id="select-all" (change)="onChangeSelectAll()" [(ngModel)]="allSelected"/>
+        Reivew field#
+        <!-- <input type="checkbox" name="select-all" id="select-all" (change)="onChangeSelectAll()" [(ngModel)]="allSelectedReview"/> -->
+      </div>
+      <div class="col">
+        Mandatory field#
+        <!-- <input type="checkbox" name="select-all" id="select-all" (change)="onChangeSelectAll()" [(ngModel)]="allSelectedMandatory"/> -->
       </div>
       <div class="col">Fields#</div>
       <div class="col">Pages#</div>
@@ -10,12 +15,20 @@
     </div>
     <div class="all-rows">
       <div *ngFor="let row of data" class="rows fields-grid">
-        <div class="col">
+        <div class="col-checkbox">
           <input
             type="checkbox"
             name="{{ row.fieldNumber }}"
             id="{{ row.fieldNumber }}"
-            [(ngModel)]="row.isSelected"
+            [(ngModel)]="row.isSelectedReview"
+          />
+        </div>
+        <div class="col-checkbox">
+          <input
+            type="checkbox"
+            name="{{ row.fieldNumber }}"
+            id="{{ row.fieldNumber }}"
+            [(ngModel)]="row.isSelectedMandatory"
           />
         </div>
         <div class="col">{{ row.fieldNumber }}</div>
