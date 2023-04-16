@@ -1,0 +1,9 @@
+<div class="form-main">
+    <div class="upload">
+        <input type="file" class="file-upload" (change)="uploadFile($event)"/>
+    </div>
+    <div class="flex">
+        <app-forms-fields-su [currentPageNumber]="currentPageNumber" #formsfieldssu></app-forms-fields-su>
+        <app-pdf-view-su [currentPageNumber]="currentPageNumber" #pdfviewsu></app-pdf-view-su>
+    </div>
+</div>

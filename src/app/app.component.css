@@ -1,3 +1,8 @@
+a {
+  color: white;
+  text-decoration: none;
+}
+
 .header {
   width: 100%;
   display: flex;
@@ -30,14 +35,14 @@
   height: 20px;
 }
 
-.link {
+.header .link, .header .link a {
   color: rgb(54, 158, 255);
   outline: none;
   border: none;
   background-color: transparent;
 }
 
-.link:focus {
+.header .link:focus {
   border: 1px solid black;
 }
 
@@ -86,10 +91,13 @@
 }
 
 .form-main {
+  margin-top: 10px;
+}
+
+.form-main .flex {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 10px;
 }
 
 .center {

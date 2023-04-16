@@ -1,0 +1,20 @@
+<!-- <button (click)="crop()" class="btn btn-warning button-margin" data-toggle="tooltip" data-placement="top" title="Crop">
+    <i class="fa fa-crop" aria-hidden="true"></i>CROP
+  </button> -->
+  
+  <div class="popup-overlay">
+    <div class="buttons">
+      <button (click)="upload()" class="btn btn-primary button-margin">Upload</button>
+      <button (click)="reset()" data-toggle="tooltip" data-placement="top" title="Reset" *ngIf="isCropImage"
+        class="btn btn-danger button-margin"><i class="fa fa-undo" aria-hidden="true"></i>X</button>
+    </div>
+    <div class="img-container" [hidden]="!isCropImage">
+      <img #image src="" id="cropper-img" crossorigin>
+    </div>
+  </div>
+  
+  <div class="pdf">
+    <ngx-extended-pdf-viewer [base64Src]="base64String" [useBrowserLocale]="true" [scrollMode]="3"
+      [(page)]="currentPageNumber" (pageChange)="pageChange($event)" class="pdf-container"></ngx-extended-pdf-viewer>
+  </div>
+  

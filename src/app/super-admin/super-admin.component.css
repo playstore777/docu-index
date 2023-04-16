@@ -1,0 +1,31 @@
+.upload {
+    display: grid;
+    place-items: center;
+}
+
+.form-header {
+    text-align: center;
+    border: 1px solid black;
+    padding: 4px;
+    background-color: rgb(200, 158, 255);
+    margin-bottom: 10px;
+}
+
+.form-main {
+    margin-top: 10px;
+}
+
+.form-main .flex {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.center {
+    display: grid;
+    place-items: center;
+}
+
+.dropdown {
+    margin-bottom: 2%;
+}

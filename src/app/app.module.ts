@@ -1,14 +1,22 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PdfViewComponent } from './pdf-view/pdf-view.component';
-import { FormFieldsComponent } from './form-fields/form-fields.component';
+import { PdfViewComponent } from './admin/pdf-view/pdf-view.component';
+import { FormFieldsComponent } from './admin/form-fields/form-fields.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { TableComponent } from './analysis-page/table/table.component';
+import { AdminComponent } from './admin/admin.component';
+import { SuperAdminComponent } from './super-admin/super-admin.component';
+import { PdfViewSuComponent } from './super-admin/pdf-view-su/pdf-view-su.component';
+import { FormsFieldsSuComponent } from './super-admin/forms-fields-su/forms-fields-su.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from './store/reducers/app.reducer';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { LoadingInterceptor } from './loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -16,15 +24,25 @@ import { TableComponent } from './analysis-page/table/table.component';
     PdfViewComponent,
     FormFieldsComponent,
     TableComponent,
+    AdminComponent,
+    SuperAdminComponent,
+    PdfViewSuComponent,
+    FormsFieldsSuComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgxExtendedPdfViewerModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({ app: appReducer })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

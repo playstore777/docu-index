@@ -1,0 +1,81 @@
+<div class="form-fields">
+  <div class="container">
+    <div class="popup-overlay">
+      <div class="buttons">
+        <button (click)="upload()" class="btn btn-primary button-margin">
+          Upload
+        </button>
+        <button
+          (click)="reset()"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Reset"
+          *ngIf="isCropImage"
+          class="btn btn-danger button-margin"
+        >
+          <i class="fa fa-undo" aria-hidden="true"></i>X
+        </button>
+      </div>
+      <div class="img-container" [hidden]="!isCropImage">
+        <img #image src="" id="cropper-img" crossorigin />
+      </div>
+    </div>
+    <div id="header" class="fields-grid">
+      <div class="col">Field Name</div>
+      <div class="col">Fields#</div>
+      <div class="col">Pages#</div>
+      <div class="col">Review & Upload Region</div>
+    </div>
+    <div class="all-rows">
+      <div
+        *ngFor="let row of pageFields"
+        class="rows fields-grid"
+        [ngStyle]="{
+          'background-color': uploadedList.includes(row.field_no)
+            ? 'lime'
+            : 'transparent'
+        }"
+      >
+        <div class="col">{{ row.keyname }}</div>
+        <div class="col">{{ row.field_no }}</div>
+        <div class="col">{{ row.pageNumber }}</div>
+        <div class="col">
+          <ng-container
+            *ngIf="
+              row.imgSrc !== '' &&
+                row.imgSrc !== null &&
+                row.imgSrc !== undefined;
+              else elseBlock
+            "
+          >
+            <div class="image">
+              <img src="{{ row.imgSrc }}" alt="snippet" />
+            </div>
+          </ng-container>
+          <ng-template #elseBlock>
+            <div class="image">Please upload an image</div>
+          </ng-template>
+        </div>
+        <div class="col">
+          <div class="image">
+            <div
+              (click)="crop($event)"
+              class="btn btn-warning button-margin"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Crop"
+            >
+              <i class="fa fa-crop" aria-hidden="true"></i>CROP
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-toolbar">
+    <div class="add" (click)="addField()">Add Field</div>
+    <div class="delete">Delete Field</div>
+    <div class="save">Save & Exit</div>
+    <div class="cancel">Cancel</div>
+  </div>
+</div>

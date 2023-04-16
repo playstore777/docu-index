@@ -14,28 +14,28 @@
       <div class="col">Review & Display Region</div>
     </div>
     <div class="all-rows">
-      <div *ngFor="let row of data" class="rows fields-grid">
+      <div *ngFor="let row of data$ | async" class="rows fields-grid">
         <div class="col-checkbox">
           <input
             type="checkbox"
-            name="{{ row.fieldNumber }}"
-            id="{{ row.fieldNumber }}"
+            name="{{ row.field_no }}"
+            id="{{ row.field_no }}"
             [(ngModel)]="row.isSelectedReview"
           />
         </div>
         <div class="col-checkbox">
           <input
             type="checkbox"
-            name="{{ row.fieldNumber }}"
-            id="{{ row.fieldNumber }}"
+            name="{{ row.field_no }}"
+            id="{{ row.field_no }}"
             [(ngModel)]="row.isSelectedMandatory"
           />
         </div>
-        <div class="col">{{ row.fieldNumber }}</div>
-        <div class="col">{{ row.pageNumber }}</div>
+        <div class="col">{{ row.field_no }}</div>
+        <div class="col">{{ row.page_no }}</div>
         <div class="col">
           <div class="image">
-            <img src="{{ row.imgSrc }}" alt="snippet" />
+            <img src="{{ row.filed_value }}" alt="snippet" />
           </div>
         </div>
       </div>

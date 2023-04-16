@@ -1,3 +1,4 @@
+<app-spinner></app-spinner>
 <div class="header">
   <div>
     <div class="image">
@@ -7,7 +8,7 @@
     <div class="Logo-text">Doc Analysis</div>
   </div>
   <div>
-    <button class="link">Admin</button>
+    <button class="link"><a routerLink="/admin">Admin</a></button>
     <div class="vertical-line line-thin"></div>
     <button class="link">logout</button>
   </div>
@@ -18,127 +19,11 @@
     <div class="nav-link">Home</div>
     <div class="nav-link">Scanning</div>
     <div class="nav-link">Indexing</div>
-    <div class="nav-link">Analysis</div>
-    <div class="nav-link">Batch Processing Status</div>
+    <div class="nav-link"><a routerLink="/analysis">Analysis</a>
+    </div>
     <div class="nav-link">Reports</div>
+    <div class="nav-link"><a routerLink="/super-admin">Super Admin</a></div>
   </div>
 </div>
 
-<!-- <div class="nav-head">
-  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button
-        class="nav-link btn-info text-dark"
-        id="pills-analysis-tab"
-        data-bs-toggle="pill"
-        data-bs-target="#pills-analysis"
-        type="button"
-        role="tab"
-        aria-controls="pills-analysis"
-        aria-selected="false"
-      >
-        Analysis
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button
-        class="nav-link btn-info text-dark"
-        id="pills-profile-tab"
-        data-bs-toggle="pill"
-        data-bs-target="#pills-profile"
-        type="button"
-        role="tab"
-        aria-controls="pills-profile"
-        aria-selected="false"
-      >
-        Reports
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button
-        class="nav-link active btn-info text-dark"
-        id="pills-admin-tab"
-        data-bs-toggle="pill"
-        data-bs-target="#pills-admin"
-        type="button"
-        role="tab"
-        aria-controls="pills-admin"
-        aria-selected="true"
-      >
-        Admin
-      </button>
-    </li>
-  </ul>
-</div>
-<div class="tab-content" id="pills-tabContent">
-  <div
-    class="tab-pane fade"
-    id="pills-analysis"
-    role="tabpanel"
-    aria-labelledby="pills-analysis-tab"
-    tabindex="0"
-  >
-    <app-table></app-table>
-  </div>
-  <div
-    class="tab-pane fade"
-    id="pills-profile"
-    role="tabpanel"
-    aria-labelledby="pills-profile-tab"
-    tabindex="0"
-  >
-    <div class="form-header">Analysis Review Report</div>
-  </div>
-  <div
-    class="tab-pane fade show active"
-    id="pills-admin"
-    role="tabpanel"
-    aria-labelledby="pills-admin-tab"
-    tabindex="0"
-  >
-    <div class="dropdown center">
-      <select
-        (change)="
-          onDropdownChange(
-            $event,
-            pdfview.pdfAPI($event),
-            formsfields.getFieldsAPI($event)
-          )
-        "
-      >
-        <option value="1">Consent_Admission</option>
-        <option value="2">English_Form</option>
-      </select>
-    </div>
-    <div class="form-header">Forms Fields Master</div>
-    <div class="form-main">
-      <app-form-fields
-        [currentPageNumber]="currentPageNumber"
-        [docType]="docType"
-        #formsfields
-      ></app-form-fields>
-      <app-pdf-view
-        [currentPageNumber]="currentPageNumber"
-        (pageNumber)="changeCurrentPageNumber($event)"
-        [docType]="docType"
-        (getFieldsAPICallback)="formsfields.getFieldsAPI($event)"
-        #pdfview
-      ></app-pdf-view>
-    </div>
-  </div>
-</div> -->
-<div class="form-main">
-  <app-form-fields
-    [currentPageNumber]="currentPageNumber"
-    [docType]="docType"
-    #formsfields
-  ></app-form-fields>
-  <app-pdf-view
-    [currentPageNumber]="currentPageNumber"
-    (pageNumber)="changeCurrentPageNumber($event)"
-    [docType]="docType"
-    (getFieldsAPICallback)="formsfields.getFieldsAPI($event)"
-    #pdfview
-  ></app-pdf-view>
-</div>
 <router-outlet></router-outlet>

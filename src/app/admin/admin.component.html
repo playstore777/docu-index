@@ -1,0 +1,16 @@
+<div class="form-main">
+  
+  <ng-container *ngIf="(dropdownList$ | async) ? dropdown : loader"></ng-container>
+    <div class="dropdown center" #dropdown>
+      <select (change)="onDropdownChange($event)">
+        <option style="text-align: center;" value="0">Select any PDF</option>
+        <option style="text-align: center;" value="1">Select any PDF</option>
+        <option *ngFor="let form of dropdownList$ | async" value={{form.doc_id}}>{{form.doc_name}}</option>
+      </select>
+    </div>
+  <ng-template #loader>Loading</ng-template>
+    <div class="flex">
+      <app-form-fields [docType]="docType" #formsfields></app-form-fields>
+      <app-pdf-view (getFieldsAPICallback)="formsfields.getFieldsAPI()" #pdfview></app-pdf-view>
+    </div>
+  </div>
