@@ -1,6 +1,7 @@
 .form-fields {
-  width: 45vw;
-  height: 75vh;
+  margin-block: 10px;
+  width: 55vw;
+  height: 80vh;
   box-sizing: border-box;
 }
 
@@ -25,7 +26,7 @@
 
 .fields-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 6fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr 3fr 1fr;
   column-gap: 10px;
   place-items: center;
 }
@@ -33,7 +34,6 @@
 img {
   max-width: 20vw;
   max-height: 20vh;
-  border: 2px solid black;
 }
 
 .col {
@@ -97,4 +97,22 @@ input {
 
 .uploaded {
   background-color: lime;
+}
+
+.draw-popup {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.draw-popup-active {
+  display: grid;
+  place-items: center;
 }

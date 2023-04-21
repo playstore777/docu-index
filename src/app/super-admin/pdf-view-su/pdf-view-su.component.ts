@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import html2canvas from "html2canvas";
 import Cropper from "cropperjs";
 import { Store } from "@ngrx/store";
 import { updateSUAdminData } from "src/app/store/actions/app.action";
+import { Subscription, catchError, debounceTime, of } from "rxjs";
 
 @Component({
   selector: "app-pdf-view-su",
@@ -12,39 +13,61 @@ import { updateSUAdminData } from "src/app/store/actions/app.action";
 })
 export class PdfViewSuComponent implements OnInit {
   @Input() currentPageNumber: number = 0;
-  docId: number = 1;
+  docId: number = 0;
   base64String: string = "";
   isCropImage: any;
   cropper: any;
-
+  subscription: Subscription = new Subscription();
+  
   constructor(private http: HttpClient, private store: Store) {}
 
   ngOnInit() {
     this.pdfAPI();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe(); // Unsubscribe from the subscription when the component is destroyed
+  }
+
   pdfAPI() {
-    this.store
+    this.subscription = this.store
       .select((state) => state)
-      .subscribe((data: any) => {
-        this.docId = data.app.suAdminData.docId;
-      });
-    let headers = new HttpHeaders({
-      Accept: "*/*",
-    });
-    this.http
-      .get<any>(
-        `https://pdfanalysis.azurewebsites.net/api/Analysis/GetDocument?data=${this.docId}`,
-        {
-          headers,
-        }
+      .pipe(
+        debounceTime(12000), // Debounce the API request for 300ms
+        catchError((error) => {
+          // Handle errors and return an empty observable to prevent breaking the chain
+          console.error("Error in pdfAPI():", error);
+          return of(null);
+        })
       )
-      .subscribe((data) => {
-        this.base64String = data[0].doc_value;
-        // console.log('base64: ', this.base64String);
-        this.store.dispatch(
-          updateSUAdminData({ suAdminData: { pdfSRC: data[0].doc_value } })
-        );
+      .subscribe((data: any) => {
+        const docID = data.app.suAdminData.docId;
+        // const docID = 2;
+        let headers = new HttpHeaders({
+          Accept: "*/*",
+        });
+        if (docID !== 0 && this.docId !== docID) {
+        // if (this.docId !== docID) {
+          console.log("docId before getDocumentAPI call: ", docID);
+          this.http
+            .get<any>(
+              `https://pdfanalysis.azurewebsites.net/api/Analysis/GetDocument?data=${docID}`,
+              {
+                headers,
+              }
+            )
+            .subscribe((data) => {
+              console.log('data from GetDocument API: ', data)
+              this.base64String = data[0].doc_value;
+              // console.log('base64: ', this.base64String);
+              this.store.dispatch(
+                updateSUAdminData({
+                  suAdminData: { pdfSRC: data[0].doc_value },
+                })
+              );
+            });
+          this.docId = docID;
+        }
       });
   }
 
@@ -113,7 +136,7 @@ export class PdfViewSuComponent implements OnInit {
     this.isCropImage = false;
     this.cropper.clear();
     this.cropper.destroy();
-    document.querySelector(".popup-overlay")?.classList.toggle("show");
+    // document.querySelector(".popup-overlay")?.classList.toggle("show");
   }
 
   UpdateMasterDocumentFields(fieldValue: string) {
@@ -131,4 +154,6 @@ export class PdfViewSuComponent implements OnInit {
       { headers }
     );
   }
+
+  
 }

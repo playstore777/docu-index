@@ -2,9 +2,7 @@
   <div class="container">
     <div class="popup-overlay">
       <div class="buttons">
-        <button (click)="upload()" class="btn btn-primary button-margin">
-          Upload
-        </button>
+        <button (click)="drawRect()" class="btn btn-primary button-margin">Draw</button>
         <button
           (click)="reset()"
           data-toggle="tooltip"
@@ -20,6 +18,26 @@
         <img #image src="" id="cropper-img" crossorigin />
       </div>
     </div>
+    
+    <div class="draw-popup">
+      <div class="buttons">
+        <button (click)="uploadEdited()" class="btn btn-primary button-margin">
+          Upload
+        </button>
+        <button
+          (click)="resetDraw()"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Reset"
+          *ngIf="isCropImage"
+          class="btn btn-danger button-margin"
+        >
+          <i class="fa fa-undo" aria-hidden="true"></i>X
+        </button>
+      </div>
+      <canvas #layout></canvas>
+    </div>
+    
     <div id="header" class="fields-grid">
       <div class="col">Field Name</div>
       <div class="col">Fields#</div>
@@ -38,7 +56,7 @@
       >
         <div class="col">{{ row.keyname }}</div>
         <div class="col">{{ row.field_no }}</div>
-        <div class="col">{{ row.pageNumber }}</div>
+        <div class="col">{{ row.page_no }}</div>
         <div class="col">
           <ng-container
             *ngIf="

@@ -4,6 +4,7 @@ import html2canvas from "html2canvas";
 import { Store } from "@ngrx/store";
 import {
   Observable,
+  Subscription,
   catchError,
   debounceTime,
   distinctUntilChanged,
@@ -26,6 +27,10 @@ export class FormsFieldsSuComponent implements OnInit {
   cropper: any;
   selectedFieldsList: Array<any> = [];
   cropTarget: any;
+  canvas: any;
+  @ViewChild("layout") canvasRef: any;
+  editedImageSRC: string = "";
+  croppedImageSRC: string = "";
 
   data$: Observable<any> = new Observable();
   pageFields: any = [];
@@ -33,7 +38,7 @@ export class FormsFieldsSuComponent implements OnInit {
   //cache data
   currPageNo: number = 0;
   docId: number = 0;
-  subscription: any;
+  subscription: Subscription = new Subscription();
   uploadedList: Array<Number> = [];
 
   addFieldButton = document.querySelector(".bottom-toolbar .add");
@@ -55,10 +60,10 @@ export class FormsFieldsSuComponent implements OnInit {
     this.subscription = this.store
       .select((state) => state)
       .pipe(
-        debounceTime(300), // Debounce the API request for 300ms
+        debounceTime(12000), // Debounce the API request for 300ms
         catchError((error) => {
           // Handle errors and return an empty observable to prevent breaking the chain
-          console.error("Error in getFieldsAPI:", error);
+          console.error("Error in getFieldsAPI():", error);
           return of(null);
         })
       )
@@ -67,10 +72,12 @@ export class FormsFieldsSuComponent implements OnInit {
           this.allSelectedReview = false;
         }
         const docID = data?.app?.suAdminData?.docId; // Use optional chaining to safely access nested properties
-        if (docID !== this.docId) {
+        // const docID = 2; // Use optional chaining to safely access nested properties
+        if (docID !== this.docId && docID !== 0) {
+          console.log("docID from store called in getFieldsAPI(): ", docID);
+          // if (docID !== this.docId) {
           console.log(this.index++);
           this.pageFields = [];
-          this.currentPageNumber = 1;
           this.http
             .get<any>(
               `https://pdfanalysis.azurewebsites.net/api/Analysis/GetMasterDocumentFields?Doc_Id=${docID}`,
@@ -82,6 +89,7 @@ export class FormsFieldsSuComponent implements OnInit {
             )
             .subscribe((res) => {
               this.data$ = of(res);
+              console.log("res from GetMasterDocumentFields: ", res);
               this.updatePageData();
               this.store.dispatch(
                 updateSUAdminData({ suAdminData: { fieldsList: res } })
@@ -200,32 +208,6 @@ export class FormsFieldsSuComponent implements OnInit {
     );
   }
 
-  public upload() {
-    let imageBase64SRC;
-    if (this.isCropImage) {
-      const canvas = this.cropper.getCroppedCanvas();
-      imageBase64SRC = this.getCanvasToUpload(canvas);
-    } else {
-      html2canvas(document.querySelector(".pdf-container") as HTMLElement).then(
-        (canvas: any) => {
-          imageBase64SRC = this.getCanvasToUpload(canvas);
-        }
-      );
-    }
-    const fieldNumber = parseInt(
-      this.cropTarget.parentElement.parentElement.parentElement.children[1]
-        .textContent
-    );
-    this.http.post<any>('https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateMasterDocumentFields', {
-      doc_no: this.docId,
-      page_no: this.currPageNo,
-      field_no: fieldNumber,
-      filed_value: imageBase64SRC
-    });
-    this.updateImageAfterUpload(imageBase64SRC, fieldNumber);
-    document.querySelector(".popup-overlay")?.classList.toggle("show");
-  }
-
   private getCanvasToUpload(canvas: any) {
     let ctx = canvas.getContext("2d");
     ctx.scale(3, 3);
@@ -246,11 +228,20 @@ export class FormsFieldsSuComponent implements OnInit {
     document.querySelector(".popup-overlay")?.classList.toggle("show");
   }
 
+  // reset crop image
+  public resetDraw() {
+    this.isCropImage = false;
+    this.cropper.clear();
+    this.cropper.destroy();
+    document.querySelector("draw-popup")?.classList.toggle("draw-popup-active");
+  }
+
   updateImageAfterUpload(imgSrc: string, fieldNumber: number) {
     const temp: Array<any> = [];
     this.data$.subscribe((element) => {
       element.forEach((data: any) => {
         if (data.field_no === fieldNumber) {
+          console.log("image in the blahblahblah: ", imgSrc);
           data = { ...data, imgSrc };
           this.uploadedList.push(fieldNumber);
         }
@@ -262,5 +253,127 @@ export class FormsFieldsSuComponent implements OnInit {
       );
     });
     this.updatePageData();
+  }
+
+  public drawRect() {
+    document.querySelector(".popup-overlay")?.classList.toggle("show");
+    this.croppedImageSRC = this.download();
+    document
+      .querySelector(".draw-popup")
+      ?.classList.toggle("draw-popup-active");
+    console.log("draw: ", document.querySelector(".draw-popup"));
+    let canvas = this.canvasRef.nativeElement;
+    let context = canvas.getContext("2d");
+    const ctx = context;
+
+    let source = new Image();
+    source.onload = () => {
+      context.drawImage(source, 0, 0);
+      //Variables
+      const a = canvas.getBoundingClientRect();
+      var canvasx = canvas.getBoundingClientRect().left;
+      var canvasy = canvas.getBoundingClientRect().top;
+      var last_mousex = 0,
+        last_mousey = 0;
+      var mousex = 0,
+        mousey = 0;
+      var mousedown = false;
+
+      //Mousedown
+      canvas.addEventListener("mousedown", function (e: any) {
+        last_mousex = e.clientX - canvasx;
+        last_mousey = e.clientY - canvasy;
+        mousedown = true;
+      });
+
+      //Mouseup
+      canvas.addEventListener("mouseup", function (e: any) {
+        mousedown = false;
+      });
+
+      //Mousemove
+      canvas.addEventListener("mousemove", function (e: any) {
+        mousex = e.clientX - canvasx;
+        mousey = e.clientY - canvasy;
+        if (mousedown) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height); //clear canvas
+          context.drawImage(source, 0, 0);
+          ctx.beginPath();
+          var width = mousex - last_mousex;
+          var height = mousey - last_mousey;
+          ctx.rect(last_mousex, last_mousey, width, height);
+          ctx.strokeStyle = "red";
+          ctx.lineWidth = 3;
+          ctx.stroke();
+        }
+      });
+    };
+
+    source.src = this.croppedImageSRC;
+  }
+
+  private getCanvasToDownload(canvas: any) {
+    let ctx = canvas.getContext("2d");
+    ctx.scale(3, 3);
+    let image = canvas.toDataURL("image/png").replace("image/png", "image/png");
+    var link = document.createElement("a");
+    link.href = image;
+    console.log("image from getCanvasToDownload(): ", image);
+    return image;
+  }
+
+  public download() {
+    if (this.isCropImage) {
+      let canvas = this.cropper.getCroppedCanvas();
+      return this.getCanvasToDownload(canvas);
+    } else {
+      html2canvas(document.querySelector("canvas") as HTMLElement).then(
+        (canvas: any) => {
+          return this.getCanvasToDownload(canvas);
+        }
+      );
+    }
+  }
+
+  public uploadEdited() {
+    html2canvas(document.querySelector("canvas") as HTMLElement).then(
+      (canvas: any) => {
+        const imageBase64SRC = this.getCanvasToDownload(canvas);
+        console.log("edited image: ", imageBase64SRC);
+        const fieldNumber = parseInt(
+          this.cropTarget.parentElement.parentElement.parentElement.children[1]
+            .textContent
+        );
+        this.store.select(state => state).subscribe(
+          (data: any) => {
+            this.currentPageNumber = data.app.suAdminData.currPage;
+            this.docId = data.app.suAdminData.docId;
+          }
+        )
+        const obj = {
+          doc_no: this.docId,
+          page_no: this.currentPageNumber,
+          field_no: fieldNumber,
+          filed_value: imageBase64SRC,
+        };
+        console.log(
+          "upload for UpdateMasterDocumentFields API",
+          obj
+        );
+        const res = this.http
+          .post<any>(
+            "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateMasterDocumentFields",
+            obj
+          )
+          .subscribe((response) => {
+            console.log(response);
+          });
+        console.log(res);
+        this.updateImageAfterUpload(imageBase64SRC, fieldNumber);
+      }
+    );
+    document
+      .querySelector(".draw-popup")
+      ?.classList.toggle("draw-popup-active");
   }
 }

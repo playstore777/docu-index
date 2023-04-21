@@ -6,8 +6,8 @@ import { AppState } from '../app.state';
 
 // Define the initial state
 export const initialState: AppState = {
-  adminData: {currPage: 1, docId: 1, pdfSRC: ''},
-  suAdminData: {currPage: 1, docId: 1, pdfSRC: '', fieldsList: []},
+  adminData: {currPage: 1, docId: 0, pdfSRC: ''},
+  suAdminData: {currPage: 1, docId: 0, pdfSRC: '', fieldsList: []},
 };
 
 // Define the reducer using createReducer and on from @ngrx/store

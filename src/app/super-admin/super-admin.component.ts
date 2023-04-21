@@ -35,7 +35,6 @@ export class SuperAdminComponent {
       let headers = new HttpHeaders({
       Accept: "*/*",
     });
-    
     await this.http
     .post<object>(
       "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdloadMasterDocument",
@@ -51,10 +50,10 @@ export class SuperAdminComponent {
         this.postRes = res;
       });
       
-      // console.log("this.postRes: ", typeof this.postRes.doc_id);
+      console.log("this.postRes: ", this.postRes.doc_id);
       this.docType = this.postRes.doc_id;
       this.store.dispatch(
-        updateSUAdminData({ suAdminData: { docId: this.docType } })
+        updateSUAdminData({ suAdminData: { docId: this.docType, pdfSRC: value } })
       );
     }
 }

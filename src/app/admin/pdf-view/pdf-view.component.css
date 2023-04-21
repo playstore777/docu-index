@@ -17,7 +17,7 @@ div {
   z-index: 10;
 }
 
-.popup-overlay.show {
+.show {
   display: grid;
   place-items: center;
   position: absolute;
