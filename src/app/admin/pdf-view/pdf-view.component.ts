@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import html2canvas from "html2canvas";
 import Cropper from "cropperjs";
@@ -54,7 +47,7 @@ export class PdfViewComponent implements OnInit {
           )
           .subscribe((data) => {
             this.store.dispatch(
-              updateAdminData({ adminData: { pdfSRC: data[0].doc_value } })
+              updateAdminData({ adminData: { pdfSRC: data[0].doc_value, currPage: this.currentPageNumber } })
             );
             this.updateBase64String();
           });
@@ -110,34 +103,6 @@ export class PdfViewComponent implements OnInit {
         });
       }
     );
-  }
-
-  
-
-  public download() {
-    if (this.isCropImage) {
-      let canvas = this.cropper.getCroppedCanvas();
-      return this.getCanvasToDownload(canvas);
-    } else {
-      html2canvas(document.querySelector("canvas") as HTMLElement).then(
-        (canvas: any) => {
-          return this.getCanvasToDownload(canvas);
-        }
-      );
-    }
-  }
-
-  
-
-  private getCanvasToDownload(canvas: any) {
-    let ctx = canvas.getContext("2d");
-    ctx.scale(3, 3);
-    let image = canvas.toDataURL("image/png").replace("image/png", "image/png");
-    var link = document.createElement("a");
-    link.download = "my-image.png";
-    link.href = image;
-    console.log("image from getCanvasToDownload(): ", image);
-    return image;
   }
 
   // reset crop image

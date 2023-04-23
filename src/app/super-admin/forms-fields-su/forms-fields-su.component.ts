@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import html2canvas from "html2canvas";
 import { Store } from "@ngrx/store";
@@ -60,7 +60,7 @@ export class FormsFieldsSuComponent implements OnInit {
     this.subscription = this.store
       .select((state) => state)
       .pipe(
-        debounceTime(12000), // Debounce the API request for 300ms
+        debounceTime(12000), // Debounce the API request for 12000ms
         catchError((error) => {
           // Handle errors and return an empty observable to prevent breaking the chain
           console.error("Error in getFieldsAPI():", error);
@@ -233,7 +233,9 @@ export class FormsFieldsSuComponent implements OnInit {
     this.isCropImage = false;
     this.cropper.clear();
     this.cropper.destroy();
-    document.querySelector("draw-popup")?.classList.toggle("draw-popup-active");
+    document
+      .querySelector(".draw-popup")
+      ?.classList.toggle("draw-popup-active");
   }
 
   updateImageAfterUpload(imgSrc: string, fieldNumber: number) {
@@ -344,22 +346,19 @@ export class FormsFieldsSuComponent implements OnInit {
           this.cropTarget.parentElement.parentElement.parentElement.children[1]
             .textContent
         );
-        this.store.select(state => state).subscribe(
-          (data: any) => {
+        this.store
+          .select((state) => state)
+          .subscribe((data: any) => {
             this.currentPageNumber = data.app.suAdminData.currPage;
             this.docId = data.app.suAdminData.docId;
-          }
-        )
+          });
         const obj = {
           doc_no: this.docId,
           page_no: this.currentPageNumber,
           field_no: fieldNumber,
           filed_value: imageBase64SRC,
         };
-        console.log(
-          "upload for UpdateMasterDocumentFields API",
-          obj
-        );
+        console.log("upload for UpdateMasterDocumentFields API", obj);
         const res = this.http
           .post<any>(
             "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateMasterDocumentFields",
@@ -372,8 +371,6 @@ export class FormsFieldsSuComponent implements OnInit {
         this.updateImageAfterUpload(imageBase64SRC, fieldNumber);
       }
     );
-    document
-      .querySelector(".draw-popup")
-      ?.classList.toggle("draw-popup-active");
+    this.resetDraw();
   }
 }

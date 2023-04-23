@@ -10,7 +10,7 @@ export class TableComponent implements OnInit {
     {
       fieldName: '1',
       pageNumber: '2',
-      imgSrc: 'assets/images/first_snippet.png', // remember use "/" forward slash not backward "\", because it takes it as escape character or something
+      imgSrc: 'assets/images/first_snippet.png',
       docType: 'Consents',
       encounter: 'B00000123456',
       facility: 'SJHMC',
@@ -19,7 +19,7 @@ export class TableComponent implements OnInit {
     {
       fieldName: '1',
       pageNumber: '1',
-      imgSrc: 'assets/images/second_snippet.png', // remember use "/" forward slash not backward "\", because it takes it as escape character or something
+      imgSrc: 'assets/images/second_snippet.png',
       docType: 'Consents',
       encounter: 'B00000123456',
       facility: 'SJHMC',

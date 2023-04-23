@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
+import { clearAdminData } from "src/app/store/actions/app.action";
 
 @Component({
   selector: "app-form-fields",
@@ -9,7 +10,6 @@ import { Observable } from "rxjs";
   styleUrls: ["./form-fields.component.css"],
 })
 export class FormFieldsComponent implements OnInit {
-  // @Input() currentPageNumber = 1;
   @Input() docType = 0;
   allSelectedReview: boolean = false;
   allSelectedMandatory: boolean = false;
@@ -30,6 +30,13 @@ export class FormFieldsComponent implements OnInit {
     this.getFieldsAPI();
   }
 
+  ngOnDestroy() {
+    this.store.dispatch(clearAdminData());
+    this.store
+      .select((state) => state)
+      .subscribe((data: any) => console.log("data on destroy: ", data));
+  }
+
   getFieldsAPI() {
     this.store
       .select((state) => state)
@@ -41,11 +48,6 @@ export class FormFieldsComponent implements OnInit {
         const currentPageNumber = data.app.adminData.currPage;
         const docId = data.app.adminData.docId;
         if (this.docID !== docId || this.currPageNo !== currentPageNumber) {
-          // console.log(
-          //   "before get fields call from Admin: ",
-          //   docId,
-          //   currentPageNumber
-          // );
           this.data$ = this.http.get<any>(
             `https://pdfanalysis.azurewebsites.net/api/Analysis/GetDocumentFields?Doc_Id=${docId}&page=${currentPageNumber}`,
             {
@@ -54,21 +56,35 @@ export class FormFieldsComponent implements OnInit {
           );
           this.docID = docId;
           this.currPageNo = currentPageNumber;
+          let temp: any = [];
+          this.data$.subscribe((element) => {
+            element.forEach((data: any) => {
+              data = { ...data, isReviewed: false, isMandatory: false };
+              temp.push(data);
+            });
+            this.data$ = of(temp);
+          });
         }
       });
   }
 
   addField() {
     console.log("from onSubmit(): ", this.selectedFields);
+    this.data$.subscribe(
+      (fieldData: any) =>
+        (this.selectedFields = fieldData.filter(
+          (element: any) => element.isReviewed || element.isMandatory
+        ))
+    );
     this.selectedFields.forEach((item: any) => {
       let obj = {
-        doc_no: this.docType,
-        page_no: item.pageNumber,
-        field_no: item.fieldNumber,
-        mandatory: "Y",
+        doc_no: item.doc_no,
+        page_no: item.page_no,
+        field_no: item.field_no,
+        mandatory: item.isMandatory ? "Y" : "N",
       };
 
-      console.log("object to be sent: ", JSON.stringify(obj));
+      console.log("object to be sent: ", JSON.stringify(obj), item);
 
       let headers = new HttpHeaders({
         Accept: "*/*",
@@ -83,14 +99,8 @@ export class FormFieldsComponent implements OnInit {
           }
         )
         .subscribe((e) => e);
+      item.isReviewed = false;
+      item.isMandatory = false;
     });
-  }
-
-  onChangeSelectAll() {
-    // if (this.allSelectedReview) {
-    //   this.data.forEach((element:any) => element.isSelectedReview = true);
-    // }else{
-    //   this.data.forEach((element:any) => element.isSelectedReview = false);
-    // }
   }
 }

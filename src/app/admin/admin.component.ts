@@ -22,8 +22,6 @@ export class AdminComponent {
 			.get<any>('https://pdfanalysis.azurewebsites.net/api/Analysis/GetAllDocumentList', {
         headers: headers
       })
-
-      this.dropdownList$.subscribe((data: any) => console.log(data[0].doc_name));
   }
 
   currentPageNumber: number = 1;
@@ -40,8 +38,5 @@ export class AdminComponent {
     this.store.dispatch(
       updateAdminData({ adminData: { docId: parseInt(event.target.value)} })
     );
-    // console.log('callAPI from onDropdownChange: ', pdfAPI);
-    // pdfAPI();
-    // getFieldsAPI();
   }
 }
