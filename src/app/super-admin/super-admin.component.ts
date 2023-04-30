@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
+
 import { Store } from "@ngrx/store";
+
 import { updateSUAdminData } from "../store/actions/app.action";
+import { SuperAdminService } from "../services/super-admin-services/super-admin.service";
 
 @Component({
   selector: "app-super-admin",
@@ -12,14 +15,12 @@ export class SuperAdminComponent {
   currentPageNumber: number = 1;
   docType: number = 0;
   pdfSrc: string = "";
-  isPdfUploaded: boolean = false;
   totalPages: any = 0;
   postRes: any;
-  @Output() getFieldsAPICallback = new EventEmitter<any>();
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private store: Store, private service: SuperAdminService) {}
 
-  async uploadFile(event: any) {
+  uploadFile(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -28,32 +29,26 @@ export class SuperAdminComponent {
       let bin = atob(reader.result?.slice(28) as string);
       this.totalPages = bin.match(/\/Type\s*\/Page\b/g)?.length;
       this.UploadMasterDocument(file.name, this.totalPages, this.pdfSrc);
-      };
-    }
+    };
+  }
 
-    async UploadMasterDocument(name: string, totalPages: number, value: string) {
-      let headers = new HttpHeaders({
+  async UploadMasterDocument(name: string, totalPages: number, value: string) {
+    let headers = new HttpHeaders({
       Accept: "*/*",
     });
-    await this.http
-    .post<object>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdloadMasterDocument",
-      {
-        doc_id: 0,
-        doc_value: value,
-        doc_name: name,
-        pages: totalPages,
-      },
-      { headers }
-      )
-      .forEach((res) => {
-        this.postRes = res;
-      });
-      
-      console.log("this.postRes: ", this.postRes.doc_id);
-      this.docType = this.postRes.doc_id;
-      this.store.dispatch(
-        updateSUAdminData({ suAdminData: { docId: this.docType, pdfSRC: value } })
-      );
-    }
+    const obj = {
+      doc_id: 0,
+      doc_value: value,
+      doc_name: name,
+      pages: totalPages,
+    };
+    await this.service.uploadMasterDocument(headers, obj).forEach((res) => {
+      this.postRes = res;
+    });
+
+    this.docType = this.postRes.doc_id;
+    this.store.dispatch(
+      updateSUAdminData({ suAdminData: { docId: this.docType, pdfSRC: value } })
+    );
+  }
 }

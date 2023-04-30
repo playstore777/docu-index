@@ -1,10 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
+
 import html2canvas from "html2canvas";
 import Cropper from "cropperjs";
 import { Store } from "@ngrx/store";
-import { updateAdminData } from "src/app/store/actions/app.action";
 import { Observable } from "rxjs";
+
+import { updateAdminData } from "src/app/store/actions/app.action";
+import { AdminService } from "src/app/services/admin-services/admin.service";
 
 @Component({
   selector: "app-pdf-view",
@@ -23,7 +26,7 @@ export class PdfViewComponent implements OnInit {
   docData$: Observable<any> = new Observable();
   docID: number = 0;
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private store: Store, private service: AdminService) {}
 
   ngOnInit() {
     console.log(this.store.select((state) => state).subscribe((data) => data));
@@ -38,29 +41,23 @@ export class PdfViewComponent implements OnInit {
     this.docData$.subscribe((state: any) => {
       const docId = state.app.adminData.docId;
       if (this.docID !== docId && docId !== 0) {
-        this.http
-          .get<any>(
-            `https://pdfanalysis.azurewebsites.net/api/Analysis/GetDocument?data=${docId}`,
-            {
-              headers: headers,
-            }
-          )
-          .subscribe((data) => {
-            this.store.dispatch(
-              updateAdminData({ adminData: { pdfSRC: data[0].doc_value, currPage: this.currentPageNumber } })
-            );
-            this.updateBase64String();
-          });
+        this.service.getDocument(headers, docId).subscribe((data) => {
+          this.store.dispatch(
+            updateAdminData({
+              adminData: {
+                pdfSRC: data[0].doc_value,
+                currPage: this.currentPageNumber,
+              },
+            })
+          );
+          this.updateBase64String();
+        });
         this.docID = docId;
       }
     });
   }
 
   updateBase64String() {
-    // this.base64String$ = this.store.select((store: any) => store).subscribe((data: any) => data);
-    this.base64String$.subscribe((a: any) =>
-      console.log("Observable string? ", a)
-    );
     this.store
       .select((state) => state)
       .subscribe(
@@ -69,7 +66,6 @@ export class PdfViewComponent implements OnInit {
   }
 
   pageChange(event: any) {
-    // this.pageNumber.emit();
     this.getFieldsAPICallback.emit();
     this.store.dispatch(updateAdminData({ adminData: { currPage: event } }));
   }

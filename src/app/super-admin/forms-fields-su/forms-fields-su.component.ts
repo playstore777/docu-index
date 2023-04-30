@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
+
 import html2canvas from "html2canvas";
 import { Store } from "@ngrx/store";
 import {
@@ -11,7 +12,9 @@ import {
   map,
   of,
 } from "rxjs";
+
 import { updateSUAdminData } from "src/app/store/actions/app.action";
+import { SuperAdminService } from "src/app/services/super-admin-services/super-admin.service";
 
 @Component({
   selector: "app-forms-fields-su",
@@ -19,17 +22,14 @@ import { updateSUAdminData } from "src/app/store/actions/app.action";
   styleUrls: ["./forms-fields-su.component.css"],
 })
 export class FormsFieldsSuComponent implements OnInit {
-  @Input() currentPageNumber: number = 2;
-  index: number = 0;
+  @Input() currentPageNumber: number = 1;
   allSelectedReview: boolean = false;
   allSelectedMandatory: boolean = false;
   isCropImage: any;
   cropper: any;
   selectedFieldsList: Array<any> = [];
   cropTarget: any;
-  canvas: any;
   @ViewChild("layout") canvasRef: any;
-  editedImageSRC: string = "";
   croppedImageSRC: string = "";
 
   data$: Observable<any> = new Observable();
@@ -43,7 +43,7 @@ export class FormsFieldsSuComponent implements OnInit {
 
   addFieldButton = document.querySelector(".bottom-toolbar .add");
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private store: Store, private service: SuperAdminService) {}
 
   ngOnInit() {
     this.getFieldsAPI();
@@ -72,33 +72,18 @@ export class FormsFieldsSuComponent implements OnInit {
           this.allSelectedReview = false;
         }
         const docID = data?.app?.suAdminData?.docId; // Use optional chaining to safely access nested properties
-        // const docID = 2; // Use optional chaining to safely access nested properties
         if (docID !== this.docId && docID !== 0) {
-          console.log("docID from store called in getFieldsAPI(): ", docID);
-          // if (docID !== this.docId) {
-          console.log(this.index++);
           this.pageFields = [];
-          this.http
-            .get<any>(
-              `https://pdfanalysis.azurewebsites.net/api/Analysis/GetMasterDocumentFields?Doc_Id=${docID}`,
-              {
-                headers: new HttpHeaders({
-                  Accept: "*/*",
-                }),
-              }
-            )
+          const headers = new HttpHeaders({
+            Accept: "*/*",
+          });
+          this.service
+            .getMasterDocumentFields(headers, docID)
             .subscribe((res) => {
               this.data$ = of(res);
-              console.log("res from GetMasterDocumentFields: ", res);
               this.updatePageData();
               this.store.dispatch(
                 updateSUAdminData({ suAdminData: { fieldsList: res } })
-              );
-              console.log(
-                "response from form-fields-su: ",
-                res,
-                this.data$,
-                this.pageFields
               );
             });
           this.docId = docID;
@@ -140,10 +125,6 @@ export class FormsFieldsSuComponent implements OnInit {
   }
 
   addField() {
-    // let selectedFields = this.data$.filter(
-    //   (element: any) => element.isSelectedReview === true
-    // );
-    // console.log("from onSubmit(): ", selectedFields);
     this.selectedFieldsList.forEach((item: any) => {
       let obj = {
         doc_no: this.docId,
@@ -152,30 +133,12 @@ export class FormsFieldsSuComponent implements OnInit {
         mandatory: "Y",
       };
 
-      // console.log("object to be sent: ", JSON.stringify(obj));
-
       let headers = new HttpHeaders({
         Accept: "*/*",
         "Content-Type": "application/json",
       });
-      this.http
-        .post<any>(
-          `https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateDocumentFields`,
-          obj,
-          {
-            headers: headers,
-          }
-        )
-        .subscribe((e) => e);
+      this.service.updateDocumentFields(headers, obj).subscribe((e) => e);
     });
-  }
-
-  onChangeSelectAll() {
-    // if (this.allSelectedReview) {
-    //   this.data.forEach((element:any) => element.isSelectedReview = true);
-    // }else{
-    //   this.data.forEach((element:any) => element.isSelectedReview = false);
-    // }
   }
 
   public crop(event: any) {
@@ -206,18 +169,6 @@ export class FormsFieldsSuComponent implements OnInit {
         });
       }
     );
-  }
-
-  private getCanvasToUpload(canvas: any) {
-    let ctx = canvas.getContext("2d");
-    ctx.scale(3, 3);
-    let image = canvas.toDataURL("image/png").replace("image/png", "image/png");
-    var link = document.createElement("a");
-    link.download = "my-image.png";
-    link.href = image;
-    return image;
-    // this.UpdateMasterDocumentFields(image);
-    // console.log("image from getCanvasToDownload(): ", image);
   }
 
   // reset crop image
@@ -352,6 +303,9 @@ export class FormsFieldsSuComponent implements OnInit {
             this.currentPageNumber = data.app.suAdminData.currPage;
             this.docId = data.app.suAdminData.docId;
           });
+        const headers = new HttpHeaders({
+          Accept: "*/*",
+        });
         const obj = {
           doc_no: this.docId,
           page_no: this.currentPageNumber,
@@ -359,11 +313,8 @@ export class FormsFieldsSuComponent implements OnInit {
           filed_value: imageBase64SRC,
         };
         console.log("upload for UpdateMasterDocumentFields API", obj);
-        const res = this.http
-          .post<any>(
-            "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateMasterDocumentFields",
-            obj
-          )
+        const res = this.service
+          .updateMasterDocumentFields(headers, obj)
           .subscribe((response) => {
             console.log(response);
           });

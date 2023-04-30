@@ -21,7 +21,6 @@ export const appReducer = createReducer(
   on(updateAdminData, (state, { adminData }) => {
     // Update the user object with the provided properties, keeping other properties unchanged
     const updatedAdminData: AdminData = { ...state.adminData, ...adminData };
-    // console.log('updatedAdminData from appReducer(): ', state);
     return { ...state, adminData: updatedAdminData };
   }),
   on(updateSUAdminData, (state, { suAdminData }) => {
@@ -30,7 +29,6 @@ export const appReducer = createReducer(
       ...state.suAdminData,
       ...suAdminData,
     };
-    // console.log('updatedSUAdminData from appReducer(): ', updateSUAdminData);
     return { ...state, suAdminData: updatedSUAdminData };
   }),
   on(clearAdminData, (state) => {

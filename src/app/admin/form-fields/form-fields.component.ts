@@ -1,8 +1,11 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
+
 import { Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
+
 import { clearAdminData } from "src/app/store/actions/app.action";
+import { AdminService } from "src/app/services/admin-services/admin.service";
 
 @Component({
   selector: "app-form-fields",
@@ -24,7 +27,7 @@ export class FormFieldsComponent implements OnInit {
   addFieldButton = document.querySelector(".bottom-toolbar .add");
   rows = document.getElementsByClassName("rows");
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private store: Store, private service: AdminService) {}
 
   ngOnInit() {
     this.getFieldsAPI();
@@ -48,11 +51,10 @@ export class FormFieldsComponent implements OnInit {
         const currentPageNumber = data.app.adminData.currPage;
         const docId = data.app.adminData.docId;
         if (this.docID !== docId || this.currPageNo !== currentPageNumber) {
-          this.data$ = this.http.get<any>(
-            `https://pdfanalysis.azurewebsites.net/api/Analysis/GetDocumentFields?Doc_Id=${docId}&page=${currentPageNumber}`,
-            {
-              headers: headers,
-            }
+          this.data$ = this.service.getDocumentFields(
+            headers,
+            docId,
+            currentPageNumber
           );
           this.docID = docId;
           this.currPageNo = currentPageNumber;
@@ -90,15 +92,7 @@ export class FormFieldsComponent implements OnInit {
         Accept: "*/*",
         "Content-Type": "application/json",
       });
-      this.http
-        .post<any>(
-          `https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateDocumentFields`,
-          obj,
-          {
-            headers: headers,
-          }
-        )
-        .subscribe((e) => e);
+      this.service.updateDocumentFields(headers, obj).subscribe((e) => e);
       item.isReviewed = false;
       item.isMandatory = false;
     });
