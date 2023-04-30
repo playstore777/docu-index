@@ -1,0 +1,22 @@
+.analysis {
+  display: grid;
+  place-items: center;
+  gap: 1%;
+}
+
+.search {
+  display: flex;
+  gap: 2%;
+}
+
+fieldset {
+    display: grid;
+    place-items: center;
+}
+
+button {
+  border-radius: 10%;
+  background-color: #0084ff;
+  color: white;
+  margin-left: 3px;
+}

@@ -35,7 +35,7 @@ export class PdfViewComponent implements OnInit {
 
   pdfAPI() {
     this.docData$ = this.store.select((state) => state);
-    let headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       Accept: "*/*",
     });
     this.docData$.subscribe((state: any) => {

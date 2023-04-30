@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from './store/reducers/app.reducer';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoadingInterceptor } from './loading.interceptor';
+import { AnalysisComponent } from './analysis-page/analysis/analysis.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { LoadingInterceptor } from './loading.interceptor';
     PdfViewSuComponent,
     FormsFieldsSuComponent,
     SpinnerComponent,
+    AnalysisComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,16 +3,19 @@ import {
   clearAdminData,
   clearSUAdminData,
   updateAdminData,
+  updateAnalysisList,
   updateSUAdminData,
 } from "../actions/app.action";
 import { AdminData } from "../models/admin.model";
 import { SUAdminData } from "../models/su-admin.model";
 import { AppState } from "../app.state";
+import { Observable, of } from "rxjs";
 
 // Define the initial state
 export const initialState: AppState = {
   adminData: { currPage: 1, docId: 0, pdfSRC: "" },
   suAdminData: { currPage: 1, docId: 0, pdfSRC: "", fieldsList: [] },
+  analysisDataList: of([]),
 };
 
 // Define the reducer using createReducer and on from @ngrx/store
@@ -36,5 +39,8 @@ export const appReducer = createReducer(
   }),
   on(clearSUAdminData, (state) => {
     return initialState;
+  }),
+  on(updateAnalysisList, (state, { analysisDataList }) => {
+    return { ...state, analysisDataList };
   })
 );

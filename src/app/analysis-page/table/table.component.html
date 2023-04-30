@@ -1,4 +1,8 @@
 <div class="form-fields">
+  <div class="popup-overlay">
+    <button class="close-btn" (click)="closeNote()">CLOSE</button>
+    <div class="text-content">Nothing as of now!</div>
+  </div>
   <div class="container">
     <div id="header" class="fields-grid">
       <div class="col">Fields</div>
@@ -11,10 +15,10 @@
       <div class="col">Encounter</div>
       <div class="col">Facility</div>
     </div>
-    <div *ngFor="let row of data" class="rows fields-grid">
-      <div class="col">
+    <div *ngFor="let row of tableData" class="rows fields-grid">
+      <div class="col image-{{ row.color_code }}">
         <div class="image">
-          <img src="{{ row.imgSrc }}" alt="snippet" />
+          <img src="{{ row.field_value }}" alt="snippet" />
         </div>
       </div>
       <div class="col icon">
@@ -31,7 +35,7 @@
           />
         </svg>
       </div>
-      <div class="col icon">
+      <div class="col icon" (click)="openNote(row)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -117,20 +121,38 @@
           <g transform="matrix(NaN NaN NaN NaN 0 0)"></g>
         </svg>
       </div>
-      <div class="col box">{{ row.fieldName }}</div>
+      <div class="col box">{{ row.field_no }}</div>
       <div class="col action">
-        <div class="review">
-          <label for="review-checkbox {{row.fieldName + row.pageNumber}}">Review</label>
-          <input type="checkbox" name="review-checkbox" id="review-checkbox {{row.fieldName + '' + row.pageNumber}}" (change)="actions($event)" [(ngModel)]="row.isSelected"/>
+        <div class="review review-active">
+          <label for="review-checkbox {{ row.field_no + row.page_no }}"
+            >Review</label
+          >
+          <input
+            type="checkbox"
+            name="review-checkbox"
+            id="review-checkbox {{ row.field_no + row.page_no }}"
+            (change)="actions($event, row)"
+            [(ngModel)]="row.isMandatory"
+            [disabled]="row.isDisabled"
+          />
         </div>
-        <div class="ignore ignore-active">
-          <label for="ignore-checkbox {{row.fieldName + row.pageNumber}}">Ignore</label>
-          <input type="checkbox" name="ignore-checkbox" id="ignore-checkbox {{row.fieldName + '' + row.pageNumber}}" (change)="actions($event)" [(ngModel)]="row.isSelected" />
+        <div class="ignore">
+          <label for="ignore-checkbox {{ row.field_no + row.page_no }}"
+            >Ignore</label
+          >
+          <input
+            type="checkbox"
+            name="ignore-checkbox"
+            id="ignore-checkbox {{ row.field_no + row.page_no }}"
+            (change)="actions($event, row)"
+            [(ngModel)]="row.isMandatory"
+            [disabled]="row.isDisabled"
+          />
         </div>
       </div>
-      <div class="col box">{{ row.pageNumber }}</div>
-      <div class="col box">{{ row.docType }}</div>
-      <div class="col box">{{ row.encounter }}</div>
+      <div class="col box">{{ row.page_no }}</div>
+      <div class="col box">{{ row.doc_type }}</div>
+      <div class="col box">{{ row.batch_no }}</div>
       <div class="col box">{{ row.facility }}</div>
     </div>
   </div>

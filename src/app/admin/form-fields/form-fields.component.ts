@@ -45,7 +45,7 @@ export class FormFieldsComponent implements OnInit {
       .select((state) => state)
       .subscribe((data: any) => {
         this.allSelectedReview = false;
-        let headers = new HttpHeaders({
+        const headers = new HttpHeaders({
           Accept: "*/*",
         });
         const currentPageNumber = data.app.adminData.currPage;

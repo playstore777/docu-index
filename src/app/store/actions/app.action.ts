@@ -1,6 +1,7 @@
 import { createAction, props } from "@ngrx/store";
 import { AdminData } from "../models/admin.model";
 import { SUAdminData } from "../models/su-admin.model";
+import { Observable } from "rxjs";
 
 // Define actions using createAction and props from @ngrx/store
 export const updateAdminData = createAction(
@@ -17,4 +18,9 @@ export const clearAdminData = createAction("[AdminData] Clear Admin Data");
 
 export const clearSUAdminData = createAction(
   "[SUAdminData] Clear SUAdmin Data"
+);
+
+export const updateAnalysisList = createAction(
+  "[AnalysisData] Update Analysis table data",
+  props<{ analysisDataList: Observable<any> }>()
 );
