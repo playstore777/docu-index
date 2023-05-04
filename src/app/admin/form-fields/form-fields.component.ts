@@ -84,6 +84,7 @@ export class FormFieldsComponent implements OnInit {
         page_no: item.page_no,
         field_no: item.field_no,
         mandatory: item.isMandatory ? "Y" : "N",
+        reviewed: item.isReviewed ? "Y" : "N",
       };
 
       console.log("object to be sent: ", JSON.stringify(obj), item);
