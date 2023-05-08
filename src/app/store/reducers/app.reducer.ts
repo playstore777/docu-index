@@ -1,5 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import {
+  addReportDocData,
+  addReportsList,
   clearAdminData,
   clearSUAdminData,
   updateAdminData,
@@ -9,7 +11,7 @@ import {
 import { AdminData } from "../models/admin.model";
 import { SUAdminData } from "../models/su-admin.model";
 import { AppState } from "../app.state";
-import { Observable, of } from "rxjs";
+import { of } from "rxjs";
 
 // Define the initial state
 export const initialState: AppState = {
@@ -42,5 +44,11 @@ export const appReducer = createReducer(
   }),
   on(updateAnalysisList, (state, { analysisDataList }) => {
     return { ...state, analysisDataList };
-  })
+  }),
+  on(addReportsList, (state, { reportsDataList }) => {
+    return { ...state, reportsDataList };
+  }),
+  on(addReportDocData, (state, { reportDocData }) => {
+    return { ...state, reportDocData };
+  }),
 );

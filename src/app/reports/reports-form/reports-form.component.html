@@ -1,0 +1,74 @@
+<div class="reports-form">
+  <div class="header">Analysis Review Report</div>
+  <div class="container">
+    <div class="cell">
+      <div class="label blue-border">Facility*</div>
+      <div class="dropdown center blue-border">
+        <select [(ngModel)]="facility" required="true">
+          <option value="SSMS">All Facilities</option>
+          <option
+            *ngFor="let facility of facilitiesList"
+            value="{{ facility.id }}"
+          >
+            {{ facility.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="cell cell-outside">
+      <div class="cell-inside">
+        <div class="label blue-border">Analysed Date Range*</div>
+        <div class="dropdown center blue-border">
+          <select
+            [(ngModel)]="Analysed"
+            required="true"
+            (change)="onAnalysisDropdownChange()"
+          >
+            <option *ngFor="let day of DateRange" value="{{ day.id }}">
+              {{ day.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div [ngClass]="showAnalysisDate">
+        <input type="date" [(ngModel)]="datePickerAnalysed" />
+      </div>
+    </div>
+    <div class="cell cell-outside">
+      <div class="cell-inside">
+        <div class="label blue-border">Indexed Date Range*</div>
+        <div class="dropdown center blue-border">
+          <select
+            [(ngModel)]="Indexed"
+            required="true"
+            (change)="onIndexedDropdownChange()"
+          >
+            <option *ngFor="let day of DateRange" value="{{ day.id }}">
+              {{ day.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div [ngClass]="showIndexedDate">
+        <input type="date" [(ngModel)]="datePickerIndexed" />
+      </div>
+    </div>
+    <div class="cell">
+      <div class="label blue-border">Batch ID</div>
+      <div class="input-box">
+        <input type="text" [(ngModel)]="BatchID" />
+      </div>
+    </div>
+    <div class="cell">
+      <div class="label blue-border">Analysis User</div>
+      <div class="input-box">
+        <input type="text" [(ngModel)]="AnalysisUser" />
+      </div>
+    </div>
+  </div>
+  <div class="bottom-toolbar">
+    <div (click)="onView()">View</div>
+    <div>Download</div>
+    <div>Cancel</div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+.reports-form {
+  width: 100%;
+  height: 100vh;
+}
+
+.container {
+  padding-block: 2%;
+  width: 90%;
+  height: 80%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4%;
+  background-color: rgb(212, 212, 212);
+  border: 3px solid black;
+}
+
+.cell {
+  padding: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2%;
+}
+
+.cell-outside {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.cell-inside {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2%;
+}
+
+.center {
+  display: grid;
+  place-items: center;
+}
+
+.dropdown {
+  margin-bottom: 1%;
+}
+
+.blue-border {
+  border: 3px solid skyblue;
+}
+
+select,
+.input-box {
+  width: 100%;
+}
+
+.label {
+  background-color: white;
+  width: 60%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.bottom-toolbar {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-toolbar div {
+  padding: 4px 14px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.bottom-toolbar div:active {
+  background-color: rgb(162, 205, 255);
+}
+
+.calendar.hide {
+  display: none;
+}
+
+.calendar.show {
+  display: block;
+}

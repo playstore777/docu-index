@@ -1,0 +1,26 @@
+<div class="container">
+  <table>
+    <tr>
+      <th>Facility</th>
+      <th>Batch ID</th>
+      <th>Patient Type</th>
+      <th>Account#</th>
+      <th>Doc Type</th>
+      <th>Page#</th>
+      <th>Field#</th>
+      <th>Admit Dt.</th>
+      <th>Discharge Dt.</th>
+      <th>Scanned Dt.</th>
+      <th>Analysed Dt.</th>
+      <th>Analysed User</th>
+      <th>Status</th>
+      <th>Note</th>
+    </tr>
+    <tr *ngFor="let row of data$ | async">
+      <td>{{ row.facility }}</td>
+      <ng-container *ngFor="let insideRow of row.reportDocData">
+        <td>{{ insideRow.doc_type }}</td>
+      </ng-container>
+    </tr>
+  </table>
+</div>

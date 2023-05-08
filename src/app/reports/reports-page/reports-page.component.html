@@ -1,0 +1,55 @@
+<div class="reports">
+  <div class="header">Analysis Review Report</div>
+  <div class="container">
+    <div class="headings fields-grid">
+      <div class="col">Facility</div>
+      <div class="col">Batch ID</div>
+      <div class="col">Patient Type</div>
+      <div class="col">Account#</div>
+      <div class="col">Admit Dt.</div>
+      <div class="col">Discharged Dt.</div>
+      <div class="col">Scanned Dt.</div>
+      <div class="col">Analysed Dt.</div>
+      <div class="col">Analysed User</div>
+    </div>
+    <div class="all-rows">
+      <div *ngFor="let row of data$ | async" class="rows fields-grid">
+        <div class="col">{{ row.facility }}</div>
+        <div class="col">{{ row.batch_id }}</div>
+        <div class="col">{{ row.patient_type }}</div>
+        <div class="col">{{ row.account }}</div>
+        <div class="col">{{ row.admit_date }}</div>
+        <div class="col">{{ row.discharge_date }}</div>
+        <div class="col">{{ row.scanned_date }}</div>
+        <div class="col">{{ row.analysed_date }}</div>
+        <div class="col">{{ row.analysed_user }}</div>
+        <div class="mini-table">
+          <div class="mini-headings mini-fields-grid">
+            <div class="col">Doc Type</div>
+            <div class="col">Page#</div>
+            <div class="col">Field#</div>
+            <div class="col">Status</div>
+            <div class="col">Note</div>
+          </div>
+          <div class="mini-all-rows">
+            <div
+              *ngFor="let reportDocDataRow of row.reportDocData"
+              class="rows mini-fields-grid"
+            >
+              <div class="col">{{ reportDocDataRow.doc_type }}</div>
+              <div class="col">{{ reportDocDataRow.pages }}</div>
+              <div class="col">{{ reportDocDataRow.field }}</div>
+              <div class="col">{{ reportDocDataRow.status }}</div>
+              <div class="col">{{ reportDocDataRow.note }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-toolbar">
+    <div (click)="onDownload()">Download</div>
+    <div>Cancel</div>
+  </div>
+</div>

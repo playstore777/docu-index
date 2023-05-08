@@ -24,3 +24,13 @@ export const updateAnalysisList = createAction(
   "[AnalysisData] Update Analysis table data",
   props<{ analysisDataList: Observable<any> }>()
 );
+
+export const addReportsList = createAction(
+  "[ReportsData] Update Reports table data",
+  props<{ reportsDataList: Observable<any> }>()
+);
+
+export const addReportDocData = createAction(
+  "[ReportDocData] Update Report Doc Data table data",
+  props<{ reportDocData: any }>()
+);

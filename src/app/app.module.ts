@@ -18,6 +18,10 @@ import { appReducer } from './store/reducers/app.reducer';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoadingInterceptor } from './loading.interceptor';
 import { AnalysisComponent } from './analysis-page/analysis/analysis.component';
+import { ReportsPageComponent } from './reports/reports-page/reports-page.component';
+import { ReportsFormComponent } from './reports/reports-form/reports-form.component';
+import { ReportsDownloadComponent } from './reports/reports-download/reports-download.component';
+import { AnalysisTableComponent } from './analysis-table/analysis-table.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,10 @@ import { AnalysisComponent } from './analysis-page/analysis/analysis.component';
     FormsFieldsSuComponent,
     SpinnerComponent,
     AnalysisComponent,
+    ReportsPageComponent,
+    ReportsFormComponent,
+    ReportsDownloadComponent,
+    AnalysisTableComponent,
   ],
   imports: [
     BrowserModule,
