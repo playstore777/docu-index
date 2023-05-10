@@ -1,9 +1,5 @@
-import { HttpHeaders } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { AnalysisService } from "src/app/services/analysis-services/analysis.service";
-import { updateAnalysisList } from "src/app/store/actions/app.action";
 
 @Component({
   selector: "app-analysis",
@@ -11,15 +7,66 @@ import { updateAnalysisList } from "src/app/store/actions/app.action";
   styleUrls: ["./analysis.component.css"],
 })
 export class AnalysisComponent {
-  data$: Observable<any> = new Observable();
-  constructor(private service: AnalysisService, private store: Store) {}
+  data: any;
+  constructor(private store: Store) {}
 
-  getData(event: any) {
-    const headers = new HttpHeaders({
-      Accept: "*/*",
-    });
-    const data = event.target.parentElement.firstChild.value;
-    this.data$ = this.service.getAnalysisData(headers, data);
-    this.store.dispatch(updateAnalysisList({ analysisDataList: this.data$ }));
+  ngOnInit() {
+    this.store
+      .select((state) => state)
+      .subscribe((e: any) => {
+        this.data = e.app.analysisMasterData;
+        console.log(e, this.data);
+      });
+  }
+
+  docFilter() {
+    console.log("consent!", this.data);
+    const docType = "G"; // just for testing purpose
+    this.store
+      .select((state) => state)
+      .subscribe((e: any) => {
+        const data = e.app.analysisDataList;
+        data.subscribe((element: any) => {
+          element.sort((a: any, b: any) => {
+            if (
+              a.color_code.startsWith(docType) &&
+              !b.color_code.startsWith(docType)
+            ) {
+              return -1; // a should come before b
+            } else if (
+              b.color_code.startsWith(docType) &&
+              !a.color_code.startsWith(docType)
+            ) {
+              return 1; // b should come before a
+            } else {
+              return 0; // no change in order
+            }
+          });
+          console.log(element);
+        });
+        console.log(e, this.data);
+      });
+  }
+
+  onDropdownChange(event: any) {
+    const type = event.target.value;
+    this.store
+      .select((state) => state)
+      .subscribe((e: any) => {
+        const data = e.app.analysisDataList;
+        data.subscribe((element: any) => {
+          element.sort((a: any, b: any) => {
+            if (a[type] > b[type]) {
+              return -1; // a should come before b
+            } else if (b[type] > a[type]) {
+              return 1; // b should come before a
+            } else {
+              return 0; // no change in order
+            }
+          });
+          console.log("from dropdown: ", element);
+        });
+        console.log("from dropdown: ", e, this.data);
+      });
   }
 }

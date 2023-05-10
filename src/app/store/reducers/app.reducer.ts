@@ -1,5 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import {
+  addAnalysisMasterData,
   addReportDocData,
   addReportsList,
   clearAdminData,
@@ -42,6 +43,9 @@ export const appReducer = createReducer(
   on(clearSUAdminData, (state) => {
     return initialState;
   }),
+  on(addAnalysisMasterData, (state, { analysisMasterData }) => {
+    return { ...state, analysisMasterData };
+  }),
   on(updateAnalysisList, (state, { analysisDataList }) => {
     return { ...state, analysisDataList };
   }),
@@ -50,5 +54,5 @@ export const appReducer = createReducer(
   }),
   on(addReportDocData, (state, { reportDocData }) => {
     return { ...state, reportDocData };
-  }),
+  })
 );

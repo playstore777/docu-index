@@ -6,9 +6,11 @@ import { AnalysisComponent } from "./analysis-page/analysis/analysis.component";
 import { ReportsPageComponent } from "./reports/reports-page/reports-page.component";
 import { ReportsFormComponent } from "./reports/reports-form/reports-form.component";
 import { ReportsDownloadComponent } from "./reports/reports-download/reports-download.component";
+import { AnalysisTableComponent } from "./analysis-page/analysis-table/analysis-table.component";
 
 const routes: Routes = [
-  { path: "analysis", component: AnalysisComponent },
+  { path: "analysis", component: AnalysisTableComponent },
+  { path: "analysis-details", component: AnalysisComponent },
   { path: "admin", component: AdminComponent },
   { path: "super-admin", component: SuperAdminComponent },
   { path: "reports", component: ReportsPageComponent },

@@ -1,0 +1,31 @@
+<div class="analysis-table">
+    <div class="container">
+      <div class="headings fields-grid">
+        <div class="col">Batch ID</div>
+        <div class="col">Facility</div>
+        <div class="col">MRN</div>
+        <div class="col">Encounter</div>
+        <div class="col">Scanned Date</div>
+        <div class="col">Scanned User</div>
+        <div class="col">Indexed Date</div>
+        <div class="col">Indexed User</div>
+        <div class="col">Analysis</div>
+      </div>
+      <div class="all-rows">
+        <div *ngFor="let row of data$ | async" class="rows fields-grid">
+          <div class="col">{{ row.batch_no }}</div>
+          <div class="col">{{ row.facility }}</div>
+          <div class="col">{{ row.mrn }}</div>
+          <div class="col">{{ row.encounter }}</div>
+          <div class="col">{{ row.scanned_date }}</div>
+          <div class="col">{{ row.scanned_user }}</div>
+          <div class="col">{{ row.indexed_date }}</div>
+          <div class="col">{{ row.indexed_user }}</div>
+          <div class="col" (click)="navigateToAnalysisPage(row)">
+            <span class="goto">Goto</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,12 +1,23 @@
 <div class="analysis">
-  <div class="search">
-    <fieldset>
-      <label for="search-bar">Batch Number</label>
-      <div class="input-btn">
-        <input type="text" name="search-bar" id="search-bar" />
-        <button (click)="getData($event)">Search</button>
+  <div class="header">
+    <div class="left-section">
+      Batch ID: {{ data.batch_no }}, Scanned By: {{ data.scanned_user }},
+      Scanned Dt: {{ data.scanned_date }}, Indexed By: {{ data.indexed_user }},
+      Indexed Dt: {{ data.indexed_date }}
+    </div>
+    <div class="mid-section" (click)="docFilter()">Doc Type: consent</div>
+    <div class="right-section">
+      <div class="dropdown" #dropdown>
+        <select (change)="onDropdownChange($event)">
+          <option style="text-align: center" value="docType">
+            Doc Type View
+          </option>
+          <option style="text-align: center" value="encounter">
+            Encounter View
+          </option>
+        </select>
       </div>
-    </fieldset>
+    </div>
   </div>
   <app-table></app-table>
 </div>

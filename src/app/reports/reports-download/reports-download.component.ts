@@ -9,51 +9,8 @@ import { Observable, of } from "rxjs";
 })
 export class ReportsDownloadComponent implements OnInit {
   data$: Observable<any> = new Observable();
-  data = [
-    {
-      batch_id: "12312",
-      facility: "SSMS",
-      patient_type: null,
-      account: "12312",
-      admit_date: null,
-      discharge_date: null,
-      scanned_date: "5/5/2023 12:00:00 AM",
-      analysed_date: "5/5/2023 12:00:00 AM",
-      analysed_user: "ram",
-    },
-    {
-      batch_id: "12234",
-      facility: "SSMS",
-      patient_type: null,
-      account: "12312",
-      admit_date: null,
-      discharge_date: null,
-      scanned_date: "5/5/2023 12:00:00 AM",
-      analysed_date: "5/5/2023 12:00:00 AM",
-      analysed_user: "ram",
-    },
-  ];
-  temp = [
-    {
-      "12312": [
-        {
-          doc_type: "Consent_for_Admission",
-          pages: 2,
-          field: 1,
-          status: "Red",
-          note: "",
-        },
-        ,
-        {
-          doc_type: "Consent_for_Admission",
-          pages: 2,
-          field: 2,
-          status: "Red",
-          note: "",
-        },
-      ],
-    },
-  ];
+  data: any[] = [];
+  temp: any[] = [];
   constructor(private store: Store) {}
 
   ngOnInit(): void {
@@ -65,32 +22,34 @@ export class ReportsDownloadComponent implements OnInit {
 
     this.data$.subscribe((value: any) => {
       this.data = value;
+      // delete this.data?.reportDocData;
       this.temp = []; // Clear the temp array
       value.forEach((e: any) => {
-        const obj: any = {}; // Define the object with a string index signature
-        obj[e.batch_id] = e.reportDocData;
-        this.temp.push(obj);
-        console.log("data from temp: ", this.temp);
+        e.reportDocData?.forEach((element: any) => {
+          element = { ...element, batch_id: e.batch_id };
+          this.temp.push(element);
+        });
+        console.log("data from temp: ", this.data, this.temp);
       });
-    });
 
-    const combinedArray: any[] = [];
+      const combinedArray: any[] = [];
+      let singleElement = this.data[0];
 
-    this.temp.forEach((tempItem) => {
-      Object.entries(tempItem).forEach(([batchId, documents]) => {
-        const dataItem = this.data.find((d) => d.batch_id === batchId);
-
-        if (dataItem) {
-          documents.forEach((document) => {
-            combinedArray.push({
-              ...dataItem,
-              ...document,
-            });
+      this.temp.forEach((tempItem: any) => {
+        console.log("tempData: ", tempItem);
+        if (singleElement.batch_id === tempItem.batch_id) {
+          combinedArray.push({ ...singleElement, ...tempItem });
+        } else {
+          this.data.forEach((item: any) => {
+            if (item.batch_id === tempItem.batch_id) {
+              singleElement = item;
+              combinedArray.push({ ...singleElement, ...tempItem });
+            }
           });
         }
+        console.log("combined array: ", combinedArray);
       });
+      this.data$ = of(combinedArray);
     });
-
-    console.log("combined array: ", combinedArray);
   }
 }

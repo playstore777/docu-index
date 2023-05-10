@@ -21,7 +21,7 @@ import { AnalysisComponent } from './analysis-page/analysis/analysis.component';
 import { ReportsPageComponent } from './reports/reports-page/reports-page.component';
 import { ReportsFormComponent } from './reports/reports-form/reports-form.component';
 import { ReportsDownloadComponent } from './reports/reports-download/reports-download.component';
-import { AnalysisTableComponent } from './analysis-table/analysis-table.component';
+import { AnalysisTableComponent } from './analysis-page/analysis-table/analysis-table.component';
 
 @NgModule({
   declarations: [

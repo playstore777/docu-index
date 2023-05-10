@@ -10,8 +10,8 @@
 }
 
 fieldset {
-    display: grid;
-    place-items: center;
+  display: grid;
+  place-items: center;
 }
 
 button {
@@ -19,4 +19,21 @@ button {
   background-color: #0084ff;
   color: white;
   margin-left: 3px;
+}
+
+.left-section {
+  border: 1px solid black;
+}
+
+.mid-section {
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.header {
+  margin-block: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1%;
 }

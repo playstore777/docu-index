@@ -20,6 +20,11 @@ export const clearSUAdminData = createAction(
   "[SUAdminData] Clear SUAdmin Data"
 );
 
+export const addAnalysisMasterData = createAction(
+  "[AnalysisMasterData] Add Analysis Master data",
+  props<{ analysisMasterData: Observable<any> }>()
+);
+
 export const updateAnalysisList = createAction(
   "[AnalysisData] Update Analysis table data",
   props<{ analysisDataList: Observable<any> }>()
