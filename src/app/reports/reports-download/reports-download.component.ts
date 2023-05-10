@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 
@@ -12,6 +12,7 @@ export class ReportsDownloadComponent implements OnInit {
   data: any[] = [];
   temp: any[] = [];
   constructor(private store: Store) {}
+  @ViewChild(HTMLElement) table!: ElementRef;
 
   ngOnInit(): void {
     this.store
@@ -51,5 +52,9 @@ export class ReportsDownloadComponent implements OnInit {
       });
       this.data$ = of(combinedArray);
     });
+    const location = "data:application/vnd.ms-excel;base64,";
+    const table = document.querySelector("table");
+    console.log(table);
+    window.location.href = location + window.btoa(table!.toString());
   }
 }

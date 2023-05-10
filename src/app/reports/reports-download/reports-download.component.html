@@ -1,5 +1,5 @@
 <div class="container">
-  <table>
+  <table #table>
     <tr>
       <th>Facility</th>
       <th>Batch ID</th>
@@ -18,9 +18,19 @@
     </tr>
     <tr *ngFor="let row of data$ | async">
       <td>{{ row.facility }}</td>
-      <ng-container *ngFor="let insideRow of row.reportDocData">
-        <td>{{ insideRow.doc_type }}</td>
-      </ng-container>
+      <td>{{ row.batch_id }}</td>
+      <td>{{ row.patient_type }}</td>
+      <td>{{ row.account }}</td>
+      <td>{{ row.doc_type }}</td>
+      <td>{{ row.pages }}</td>
+      <td>{{ row.field }}</td>
+      <td>{{ row.admit_date }}</td>
+      <td>{{ row.discharge_date }}</td>
+      <td>{{ row.scanned_date }}</td>
+      <td>{{ row.analysed_date }}</td>
+      <td>{{ row.analysed_user }}</td>
+      <td>{{ row.status }}</td>
+      <td>{{ row.note }}</td>
     </tr>
   </table>
 </div>

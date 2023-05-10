@@ -46,6 +46,12 @@ export class ReportsFormComponent implements OnInit {
     },
   ];
 
+  constructor(
+    private service: ReportsService,
+    private router: Router,
+    private store: Store
+  ) {}
+
   getYesterday(today: Date) {
     const yesterday = today;
     yesterday.setDate(yesterday.getDate() - 1);
@@ -84,13 +90,12 @@ export class ReportsFormComponent implements OnInit {
     }
   }
 
-  constructor(
-    private service: ReportsService,
-    private router: Router,
-    private store: Store
-  ) {}
+  onDownload() {
+    this.callAPI();
+    this.router.navigate(["reports-download"]);
+  }
 
-  async onView() {
+  callAPI() {
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
@@ -98,9 +103,11 @@ export class ReportsFormComponent implements OnInit {
     const obj = {
       batch_id: this.BatchID,
       facility: this.facility,
-      analysed_date: this.Analysed === "custom" ? this.datePickerAnalysed : this.Analysed,
+      analysed_date:
+        this.Analysed === "custom" ? this.datePickerAnalysed : this.Analysed,
       analysed_user: this.AnalysisUser,
-      indexed_date: this.Indexed === "custom" ? this.datePickerIndexed : this.Indexed,
+      indexed_date:
+        this.Indexed === "custom" ? this.datePickerIndexed : this.Indexed,
     };
 
     this.responseData = this.service.getReportData(headers, obj);
@@ -114,7 +121,10 @@ export class ReportsFormComponent implements OnInit {
       })
     );
     this.store.dispatch(addReportsList({ reportsDataList: this.responseData }));
+  }
 
+  onView() {
+    this.callAPI();
     this.router.navigate(["reports"]);
   }
 
