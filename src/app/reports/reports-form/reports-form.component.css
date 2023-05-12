@@ -3,6 +3,15 @@
   height: 100vh;
 }
 
+.header {
+  display: grid;
+  place-items: center;
+  margin: 0.5%;
+  border: 1px solid skyblue;
+  background-color: skyblue;
+  font-weight: bold;
+}
+
 .container {
   padding-block: 2%;
   width: 90%;

@@ -29,6 +29,9 @@ export class ReportsFormComponent implements OnInit {
   facilitiesList: any = [
     { id: "SSMS", name: "SJHMC" },
     { id: "SSMS", name: "BJH" },
+    { id: "SSMS", name: "STNH" },
+    { id: "SSMS", name: "KUMS" },
+    { id: "SSMS", name: "HYCC" },
   ];
   DateRange: any = [
     {
@@ -37,8 +40,17 @@ export class ReportsFormComponent implements OnInit {
     },
     { id: this.getYesterday(this.today), name: "Yesterday" },
     {
-      id: `${this.today.getFullYear()}-${this.today.getMonth()}-${this.today.getDate()}`,
+      id: this.getThisWeek(this.today),
       name: "This Week",
+    },
+    { id: this.getLastWeek(this.today), name: "Last Week" },
+    {
+      id: this.getThisMonth(this.today),
+      name: "This Month",
+    },
+    {
+      id: this.getLastMonth(this.today),
+      name: "Last Month",
     },
     {
       id: "custom",
@@ -59,15 +71,31 @@ export class ReportsFormComponent implements OnInit {
   }
 
   getLastWeek(today: Date) {
-    const lastWeek = today;
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    return `${lastWeek.getFullYear()}-${lastWeek.getMonth()}-${lastWeek.getDate()}`;
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+    const weekEndDate = new Date(today.setDate(diff + 6));
+    return `${weekEndDate.getFullYear()}-${weekEndDate.getMonth()}-${weekEndDate.getDate()}`;
+  }
+
+  getThisWeek(today: Date) {
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+    const weekStartDate = new Date(today.setDate(diff));
+    return `${weekStartDate.getFullYear()}-${weekStartDate.getMonth()}-${weekStartDate.getDate()}`;
+  }
+
+  getThisMonth(today: Date) {
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    return `${firstDayOfMonth.getFullYear()}-${firstDayOfMonth.getMonth()}-${firstDayOfMonth.getDate()}`;
   }
 
   getLastMonth(today: Date) {
-    const lastMonth = today;
-    lastMonth.setMonth(lastMonth.getMonth() - 1);
-    return `${lastMonth.getFullYear()}-${lastMonth.getMonth()}-${lastMonth.getDate()}`;
+    const lastDayOfMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0
+    );
+    return `${lastDayOfMonth.getFullYear()}-${lastDayOfMonth.getMonth()}-${lastDayOfMonth.getDate()}`;
   }
 
   onIndexedDropdownChange() {

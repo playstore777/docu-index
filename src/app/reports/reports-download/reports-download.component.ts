@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
+import * as XLSX from "xlsx";
 
 @Component({
   selector: "app-reports-download",
@@ -52,9 +53,14 @@ export class ReportsDownloadComponent implements OnInit {
       });
       this.data$ = of(combinedArray);
     });
-    const location = "data:application/vnd.ms-excel;base64,";
-    const table = document.querySelector("table");
-    console.log(table);
-    window.location.href = location + window.btoa(table!.toString());
+  }
+
+  htmlTableToExcelFile(): void {
+    const table = document.querySelector("table") as HTMLElement;
+    const fileName = "reports";
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, fileName + ".xlsx");
   }
 }

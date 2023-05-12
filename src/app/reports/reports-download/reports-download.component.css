@@ -4,6 +4,13 @@
 }
 
 table, th, td, tr {
+    margin: 10px;
     border: 1px solid black;
     padding-block: 0.5%;
+}
+
+.center {
+    margin: 10px;
+    display: grid;
+    place-items: center;
 }
