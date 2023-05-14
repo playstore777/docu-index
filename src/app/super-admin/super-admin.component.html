@@ -1,9 +1,26 @@
 <div class="form-main">
-    <div class="upload">
-        <input type="file" class="file-upload" (change)="uploadFile($event)"/>
-    </div>
-    <div class="flex">
-        <app-forms-fields-su [currentPageNumber]="currentPageNumber" #formsfieldssu></app-forms-fields-su>
-        <app-pdf-view-su [currentPageNumber]="currentPageNumber" #pdfviewsu></app-pdf-view-su>
-    </div>
+  <div class="upload">
+    <select (change)="onDropdownChange()" [(ngModel)]="dropdownValue">
+      <option class="text-center" value="Select a pdf">Select a pdf</option>
+      <option
+        *ngFor="let data of dropdownData$ | async"
+        value="{{ data.from_value }}"
+        class="text-center"
+      >
+        {{ data.from_Name }}
+      </option>
+    </select>
+
+    <!-- <input type="file" class="file-upload" (change)="uploadFile($event)"/> -->
+  </div>
+  <div class="flex">
+    <app-forms-fields-su
+      [currentPageNumber]="currentPageNumber"
+      #formsfieldssu
+    ></app-forms-fields-su>
+    <app-pdf-view-su
+      [currentPageNumber]="currentPageNumber"
+      #pdfviewsu
+    ></app-pdf-view-su>
+  </div>
 </div>

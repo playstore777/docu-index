@@ -35,7 +35,8 @@ a {
   height: 20px;
 }
 
-.header .link, .header .link a {
+.header .link,
+.header .link a {
   color: rgb(54, 158, 255);
   outline: none;
   border: none;
@@ -72,7 +73,7 @@ a {
   border: 2px solid black;
 }
 
-.navbar .list{
+.navbar .list {
   display: flex;
   border: 1px solid black;
 }

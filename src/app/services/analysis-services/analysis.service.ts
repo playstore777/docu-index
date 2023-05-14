@@ -23,4 +23,28 @@ export class AnalysisService {
       }
     );
   }
+
+  updateNoteColumn(headers: any, obj: any) {
+    return this.http.post<any>(
+      "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateNoteCoulmn",
+      obj,
+      { headers }
+    );
+  }
+
+  getFieldDocumentView(headers: any, obj: any) {
+    return this.http.post<any>(
+      "https://pdfanalysis.azurewebsites.net/api/Analysis/GetFieldDocumentView",
+      obj,
+      { headers }
+    );
+  }
+
+  updateColorCode(headers: any, obj: any) {
+    return this.http.post<any>(
+      "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateColorCode",
+      obj,
+      { headers }
+    );
+  }
 }

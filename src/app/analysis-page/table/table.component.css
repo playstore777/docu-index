@@ -73,7 +73,14 @@ svg {
   height: 100%;
 }
 
-.col.action {
+.action {
+  display: grid;
+  place-items: center;
+  background-color: transparent;
+  border: none;
+}
+
+.actions {
   display: flex;
   border: none;
   background-color: transparent;
@@ -103,24 +110,52 @@ input[type="checkbox"] {
   display: none;
   position: absolute;
   left: 0;
+  right: 0;
   top: 0;
+  bottom: 0;
   z-index: 10;
 }
 
 .popup-overlay.show {
   display: grid;
   place-items: center;
-  position: absolute;
+  position: fixed;
 }
 
-.popup-overlay .text-content {
+.popup-overlay .text-content textarea {
   padding: 2%;
   background-color: white;
   color: black;
+}
+
+.submit-btn {
+  background-color: skyblue;
+  color: white;
+  border-radius: 5%;
+  border-color: rgb(89, 198, 240);
 }
 
 .close-btn {
   background-color: red;
   color: white;
   border-radius: 10%;
+  border-color: red;
+}
+
+.card {
+  width: 70%;
+  height: 70%;
+  display: grid;
+  place-items: center;
+}
+
+.note,
+.doc {
+  display: none;
+}
+
+.document {
+  width: 70vw;
+  height: 80vh;
+  border: 2px solid black;
 }

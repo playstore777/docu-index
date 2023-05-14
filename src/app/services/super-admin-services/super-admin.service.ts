@@ -7,6 +7,13 @@ import { Injectable } from "@angular/core";
 export class SuperAdminService {
   constructor(private http: HttpClient) {}
 
+  getMasterForms(headers: any) {
+    return this.http.get<any>(
+      "https://pdfanalysis.azurewebsites.net/api/Analysis/GetMasterForms",
+      { headers }
+    );
+  }
+
   uploadMasterDocument(headers: any, obj: any) {
     return this.http.post<object>(
       "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdloadMasterDocument",
@@ -31,7 +38,7 @@ export class SuperAdminService {
       { headers }
     );
   }
-  
+
   updateDocumentFields(headers: any, obj: any) {
     return this.http.post<any>(
       `https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateDocumentFields`,

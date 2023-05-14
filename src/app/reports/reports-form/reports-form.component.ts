@@ -27,11 +27,12 @@ export class ReportsFormComponent implements OnInit {
   showAnalysisDate: string = "calendar hide";
 
   facilitiesList: any = [
-    { id: "SSMS", name: "SJHMC" },
-    { id: "SSMS", name: "BJH" },
-    { id: "SSMS", name: "STNH" },
-    { id: "SSMS", name: "KUMS" },
-    { id: "SSMS", name: "HYCC" },
+    { id: "SSMS", name: "SSMS" },
+    { id: "SJHMC", name: "SJHMC" },
+    { id: "BJH", name: "BJH" },
+    { id: "STNH", name: "STNH" },
+    { id: "KUMS", name: "KUMS" },
+    { id: "HYCC", name: "HYCC" },
   ];
   DateRange: any = [
     {
@@ -123,7 +124,7 @@ export class ReportsFormComponent implements OnInit {
     this.router.navigate(["reports-download"]);
   }
 
-  callAPI() {
+  async callAPI() {
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
@@ -141,7 +142,6 @@ export class ReportsFormComponent implements OnInit {
     this.responseData = this.service.getReportData(headers, obj);
     this.responseData.subscribe((e: any) =>
       e.forEach((element: any) => {
-        const { batch_id } = element;
         const { reportDocData } = element;
         this.store.dispatch(
           addReportDocData({ reportDocData: { batch_id: reportDocData } })

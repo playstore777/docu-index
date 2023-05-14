@@ -29,7 +29,7 @@ export class AnalysisTableComponent implements OnInit {
     });
     this.data$ = this.service.getAnalysisMasterData(headers);
   }
-  
+
   navigateToAnalysisPage(row: any) {
     const headers = new HttpHeaders({
       Accept: "*/*",
@@ -37,10 +37,8 @@ export class AnalysisTableComponent implements OnInit {
     this.responseData$ = this.service.getAnalysisData(headers, row.batch_no);
     this.store.dispatch(
       updateAnalysisList({ analysisDataList: this.responseData$ })
-      );
-      this.store.dispatch(
-        addAnalysisMasterData({ analysisMasterData: row })
-      );
+    );
+    this.store.dispatch(addAnalysisMasterData({ analysisMasterData: row }));
     this.router.navigate(["analysis-details"]);
   }
 }

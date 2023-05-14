@@ -61,7 +61,12 @@ export class FormFieldsComponent implements OnInit {
           let temp: any = [];
           this.data$.subscribe((element) => {
             element.forEach((data: any) => {
-              data = { ...data, isReviewed: false, isMandatory: false };
+              console.log(data, data.reviewed === "Y", data.mandatory === "Y");
+              data = {
+                ...data,
+                reviewed: data.reviewed === "Y" ? true : false,
+                mandatory: data.mandatory === "Y" ? true : false,
+              };
               temp.push(data);
             });
             this.data$ = of(temp);
@@ -75,7 +80,7 @@ export class FormFieldsComponent implements OnInit {
     this.data$.subscribe(
       (fieldData: any) =>
         (this.selectedFields = fieldData.filter(
-          (element: any) => element.isReviewed || element.isMandatory
+          (element: any) => element.reviewed || element.mandatory
         ))
     );
     this.selectedFields.forEach((item: any) => {
@@ -83,8 +88,8 @@ export class FormFieldsComponent implements OnInit {
         doc_no: item.doc_no,
         page_no: item.page_no,
         field_no: item.field_no,
-        mandatory: item.isMandatory ? "Y" : "N",
-        reviewed: item.isReviewed ? "Y" : "N",
+        mandatory: item.mandatory ? "Y" : "N",
+        reviewed: item.reviewed ? "Y" : "N",
       };
 
       console.log("object to be sent: ", JSON.stringify(obj), item);
@@ -94,8 +99,6 @@ export class FormFieldsComponent implements OnInit {
         "Content-Type": "application/json",
       });
       this.service.updateDocumentFields(headers, obj).subscribe((e) => e);
-      item.isReviewed = false;
-      item.isMandatory = false;
     });
   }
 }

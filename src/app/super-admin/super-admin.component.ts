@@ -1,24 +1,37 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { HttpHeaders } from "@angular/common/http";
 
 import { Store } from "@ngrx/store";
 
-import { updateSUAdminData } from "../store/actions/app.action";
+import {
+  clearSUAdminData,
+  updateSUAdminData,
+} from "../store/actions/app.action";
 import { SuperAdminService } from "../services/super-admin-services/super-admin.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-super-admin",
   templateUrl: "./super-admin.component.html",
   styleUrls: ["./super-admin.component.css"],
 })
-export class SuperAdminComponent {
+export class SuperAdminComponent implements OnInit {
+  dropdownData$: Observable<any> = new Observable();
   currentPageNumber: number = 1;
   docType: number = 0;
   pdfSrc: string = "";
   totalPages: any = 0;
   postRes: any;
+  dropdownValue: String = "Select a pdf";
 
   constructor(private store: Store, private service: SuperAdminService) {}
+
+  ngOnInit(): void {
+    const headers = new HttpHeaders({
+      Accept: "*/*",
+    });
+    this.dropdownData$ = this.service.getMasterForms(headers);
+  }
 
   uploadFile(event: any) {
     const file = event.target.files[0];
@@ -30,6 +43,19 @@ export class SuperAdminComponent {
       this.totalPages = bin.match(/\/Type\s*\/Page\b/g)?.length;
       this.UploadMasterDocument(file.name, this.totalPages, this.pdfSrc);
     };
+  }
+
+  onDropdownChange() {
+    console.log("dropdown value: ", this.dropdownValue);
+    if (this.dropdownValue !== "Select a pdf") {
+      let bin = atob(this.dropdownValue as string);
+      this.totalPages = bin.match(/\/Type\s*\/Page\b/g)?.length;
+      this.UploadMasterDocument(
+        "testing_Name",
+        this.totalPages,
+        this.dropdownValue as string
+      );
+    }
   }
 
   async UploadMasterDocument(name: string, totalPages: number, value: string) {
@@ -47,6 +73,8 @@ export class SuperAdminComponent {
     });
 
     this.docType = this.postRes.doc_id;
+    console.log(this.docType);
+    this.store.dispatch(clearSUAdminData());
     this.store.dispatch(
       updateSUAdminData({ suAdminData: { docId: this.docType, pdfSRC: value } })
     );

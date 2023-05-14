@@ -14,7 +14,7 @@
             type="checkbox"
             name="{{ row.field_no }}"
             id="{{ row.field_no }}"
-            [(ngModel)]="row.isReviewed"
+            [(ngModel)]="row.reviewed"
           />
         </div>
         <div class="col-checkbox">
@@ -22,7 +22,7 @@
             type="checkbox"
             name="{{ row.field_no }}"
             id="{{ row.field_no }}"
-            [(ngModel)]="row.isMandatory"
+            [(ngModel)]="row.mandatory"
           />
         </div>
         <div class="col">{{ row.field_no }}</div>

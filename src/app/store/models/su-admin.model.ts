@@ -1,6 +1,6 @@
 export interface SUAdminData {
     currPage: number;
     docId: number;
-    pdfSRC: string;
+    pdfSRC: String;
     fieldsList: Array<any>;
 }

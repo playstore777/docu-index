@@ -5,7 +5,7 @@
       <div class="label blue-border">Facility*</div>
       <div class="dropdown center blue-border">
         <select [(ngModel)]="facility" required="true">
-          <option value="SSMS">All Facilities</option>
+          <!-- <option value="SSMS">All Facilities</option> -->
           <option
             *ngFor="let facility of facilitiesList"
             value="{{ facility.id }}"
