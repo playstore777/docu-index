@@ -5,6 +5,15 @@
   border: 3px solid black;
 }
 
+.header {
+  display: grid;
+  place-items: center;
+  margin: 0.5%;
+  border: 1px solid skyblue;
+  background-color: skyblue;
+  font-weight: bold;
+}
+
 .all-rows {
   height: 85%;
   overflow-y: auto;
@@ -26,7 +35,7 @@
 .mini-fields-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: 200px repeat(4, 70px);
+  grid-template-columns: 200px repeat(3, 70px) 200px;
   place-items: center;
 }
 
@@ -43,8 +52,11 @@
 }
 
 .mini-table {
+  grid-column: span 7;
   margin: 10px;
-  width: 0;
+  width: 72.5%;
+  height: 150px;
+  overflow-y: scroll;
 }
 
 .bottom-toolbar {
@@ -61,4 +73,14 @@
 
 .bottom-toolbar div:active {
   background-color: rgb(162, 205, 255);
+}
+
+.show-all-btn {
+  margin-block: 20px;
+  justify-self: center;
+  align-self: start;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2rem;
 }

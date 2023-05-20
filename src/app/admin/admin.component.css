@@ -23,4 +23,18 @@
 
 .dropdown {
   margin-bottom: 1%;
+  padding-inline: 1%;
+  display: flex;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav-link {
+  border: 1px solid blue;
+  padding-inline: 0.6%;
+  border-radius: 6px;
+  cursor: pointer;
 }

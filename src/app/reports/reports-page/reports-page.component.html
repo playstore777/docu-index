@@ -23,6 +23,7 @@
         <div class="col">{{ row.scanned_date }}</div>
         <div class="col">{{ row.analysed_date }}</div>
         <div class="col">{{ row.analysed_user }}</div>
+        <button class="show-all-btn" (click)="showFullTable($event)">+</button>
         <div class="mini-table">
           <div class="mini-headings mini-fields-grid">
             <div class="col">Doc Type</div>

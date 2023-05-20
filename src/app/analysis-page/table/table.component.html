@@ -137,11 +137,14 @@
           </g>
           <g transform="matrix(NaN NaN NaN NaN 0 0)"></g>
         </svg>
+        <div class="{{ row.note ? 'btn-badge' : 'btn-badge-hide' }}">!</div>
       </div>
       <div class="col box">{{ row.field_no }}</div>
       <div class="col action">
         <div class="actions">
-          <div class="review review-active">
+          <div
+            class="review review-active  {{ row.isDisabled ? 'disabled' : '' }}"
+          >
             <label for="review-checkbox {{ row.field_no + row.page_no }}"
               >Review</label
             >
@@ -154,7 +157,7 @@
               [disabled]="row.isDisabled"
             />
           </div>
-          <div class="ignore">
+          <div class="ignore {{ row.isDisabled ? 'disabled' : '' }}">
             <label for="ignore-checkbox {{ row.field_no + row.page_no }}"
               >Ignore</label
             >

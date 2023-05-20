@@ -81,9 +81,27 @@ export class ReportsPageComponent implements OnInit {
       ],
     },
   ];
+  isTableExtended = false;
 
   onDownload() {
-    this.router.navigate(['reports-download']);
+    this.router.navigate(["reports-download"]);
+  }
+
+  showFullTable(event: any) {
+    const plusBtn = event.target;
+    plusBtn.textContent = plusBtn.textContent === "+" ? "-" : "+";
+    const miniTable = event.target.parentElement.lastChild as HTMLElement;
+    if (this.isTableExtended) {
+      miniTable!.style.width = "72.5%";
+      miniTable!.style.height = "150px";
+      miniTable!.style.overflowY = "scroll";
+      this.isTableExtended = false;
+    } else {
+      miniTable!.style.width = "auto";
+      miniTable!.style.height = "auto";
+      miniTable!.style.overflow = "auto";
+      this.isTableExtended = true;
+    }
   }
 
   constructor(private store: Store, private router: Router) {}

@@ -2,13 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { HttpHeaders } from "@angular/common/http";
 
 import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
 import {
   clearSUAdminData,
   updateSUAdminData,
 } from "../store/actions/app.action";
 import { SuperAdminService } from "../services/super-admin-services/super-admin.service";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "app-super-admin",
@@ -17,12 +17,14 @@ import { Observable } from "rxjs";
 })
 export class SuperAdminComponent implements OnInit {
   dropdownData$: Observable<any> = new Observable();
+  dropdownData: any[] = [];
   currentPageNumber: number = 1;
   docType: number = 0;
   pdfSrc: string = "";
   totalPages: any = 0;
   postRes: any;
   dropdownValue: String = "Select a pdf";
+  dropdownName: String = "";
 
   constructor(private store: Store, private service: SuperAdminService) {}
 
@@ -31,6 +33,7 @@ export class SuperAdminComponent implements OnInit {
       Accept: "*/*",
     });
     this.dropdownData$ = this.service.getMasterForms(headers);
+    this.dropdownData$.subscribe((e) => (this.dropdownData = e));
   }
 
   uploadFile(event: any) {
@@ -47,15 +50,26 @@ export class SuperAdminComponent implements OnInit {
 
   onDropdownChange() {
     console.log("dropdown value: ", this.dropdownValue);
+    this.dropdownName = "";
+    this.getDocName();
     if (this.dropdownValue !== "Select a pdf") {
       let bin = atob(this.dropdownValue as string);
       this.totalPages = bin.match(/\/Type\s*\/Page\b/g)?.length;
       this.UploadMasterDocument(
-        "testing_Name",
+        this.dropdownName as string,
         this.totalPages,
         this.dropdownValue as string
       );
     }
+  }
+
+  getDocName() {
+    this.dropdownData.forEach((element) => {
+      // console.log(element.from_Name);
+      if (element.from_value === this.dropdownValue) {
+        this.dropdownName = element.from_Name;
+      }
+    });
   }
 
   async UploadMasterDocument(name: string, totalPages: number, value: string) {

@@ -1,12 +1,22 @@
 <div class="form-main">
-    <div class="dropdown center" #dropdown>
-      <select (change)="onDropdownChange($event)">
-        <option style="text-align: center;" value="0">Select any PDF</option>
-        <option *ngFor="let form of dropdownList$ | async" value={{form.doc_id}}>{{form.doc_name}}</option>
-      </select>
-    </div>
-    <div class="flex">
-      <app-form-fields [docType]="docType" #formsfields></app-form-fields>
-      <app-pdf-view (getFieldsAPICallback)="formsfields.getFieldsAPI()" #pdfview></app-pdf-view>
-    </div>
+  <div class="dropdown center" #dropdown>
+    <div></div>
+    <select (change)="onDropdownChange($event)">
+      <option style="text-align: center" value="0">Select any PDF</option>
+      <option
+        *ngFor="let form of dropdownList$ | async"
+        value="{{ form.doc_id }}"
+      >
+        {{ form.doc_name }}
+      </option>
+    </select>
+    <div class="nav-link"><a id="link" routerLink="/super-admin">Super Admin</a></div>
   </div>
+  <div class="flex">
+    <app-form-fields [docType]="docType" #formsfields></app-form-fields>
+    <app-pdf-view
+      (getFieldsAPICallback)="formsfields.getFieldsAPI()"
+      #pdfview
+    ></app-pdf-view>
+  </div>
+</div>
