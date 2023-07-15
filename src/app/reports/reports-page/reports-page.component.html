@@ -1,56 +1,72 @@
 <div class="reports">
-  <div class="header">Analysis Review Report</div>
-  <div class="container">
-    <div class="headings fields-grid">
-      <div class="col">Facility</div>
-      <div class="col">Batch ID</div>
-      <div class="col">Patient Type</div>
-      <div class="col">Account#</div>
-      <div class="col">Admit Dt.</div>
-      <div class="col">Discharged Dt.</div>
-      <div class="col">Scanned Dt.</div>
-      <div class="col">Analysed Dt.</div>
-      <div class="col">Analysed User</div>
-    </div>
-    <div class="all-rows">
-      <div *ngFor="let row of data$ | async" class="rows fields-grid">
-        <div class="col">{{ row.facility }}</div>
-        <div class="col">{{ row.batch_id }}</div>
-        <div class="col">{{ row.patient_type }}</div>
-        <div class="col">{{ row.account }}</div>
-        <div class="col">{{ row.admit_date }}</div>
-        <div class="col">{{ row.discharge_date }}</div>
-        <div class="col">{{ row.scanned_date }}</div>
-        <div class="col">{{ row.analysed_date }}</div>
-        <div class="col">{{ row.analysed_user }}</div>
-        <button class="show-all-btn" (click)="showFullTable($event)">+</button>
-        <div class="mini-table">
-          <div class="mini-headings mini-fields-grid">
-            <div class="col">Doc Type</div>
-            <div class="col">Page#</div>
-            <div class="col">Field#</div>
-            <div class="col">Status</div>
-            <div class="col">Note</div>
-          </div>
-          <div class="mini-all-rows">
-            <div
-              *ngFor="let reportDocDataRow of row.reportDocData"
-              class="rows mini-fields-grid"
-            >
-              <div class="col">{{ reportDocDataRow.doc_type }}</div>
-              <div class="col">{{ reportDocDataRow.pages }}</div>
-              <div class="col">{{ reportDocDataRow.field }}</div>
-              <div class="col">{{ reportDocDataRow.status }}</div>
-              <div class="col">{{ reportDocDataRow.note }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <h1 class="mainHeading">Analysis Review Report</h1>
+  <div class="d-flex justify-content-end mx-2">
+    <button (click)="onDownload()" class="btn btn-primary">
+      Download View
+    </button>
   </div>
+  <table class="table table-striped table-hover mt-2">
+    <tbody>
+      <tr>
+        <td>Facility</td>
+        <td>Batch ID</td>
+        <td>Patient Type</td>
+        <td>Account#</td>
+        <td>Admit Dt.</td>
+        <td>Discharged Dt.</td>
+        <td>Scanned Dt.</td>
+        <td>Analysed Dt.</td>
+        <td>Analysed User</td>
+        <td></td>
+      </tr>
+      <ng-container *ngFor="let row of data$ | async">
+        <tr>
+          <td>{{ row.facility }}</td>
+          <td>{{ row.batch_id }}</td>
+          <td>{{ row.patient_type }}</td>
+          <td>{{ row.account }}</td>
+          <td>{{ row.admit_date }}</td>
+          <td>{{ row.discharge_date }}</td>
+          <td>{{ row.scanned_date }}</td>
+          <td>{{ row.analysed_date }}</td>
+          <td>{{ row.analysed_user }}</td>
+          <td>
+            <button
+              class="show-all-btn d-flex justify-content-center align-items-center btn btn-primary"
+              (click)="row.showNestedTable = !row.showNestedTable"
+            >
+              {{ row.showNestedTable ? "-" : "+" }}
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="row.showNestedTable">
+          <td colspan="9">
+            <table class="table table-striped table-hover">
+              <tr>
+                <td>Doc Type</td>
+                <td>Page#</td>
+                <td>Field#</td>
+                <td>Status</td>
+                <td>Note</td>
+              </tr>
+              <tr *ngFor="let reportDocDataRow of row.reportDocData">
+                <td>{{ reportDocDataRow.doc_type }}</td>
+                <td>{{ reportDocDataRow.pages }}</td>
+                <td>{{ reportDocDataRow.field }}</td>
+                <td>{{ reportDocDataRow.status }}</td>
+                <td>{{ reportDocDataRow.note }}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
 
-  <div class="bottom-toolbar">
-    <div (click)="onDownload()">Download</div>
-    <div>Cancel</div>
+  <div class="d-flex justify-content-center gap-3 mt-5">
+    <button (click)="onDownload()" class="btn btn-primary">
+      Download View
+    </button>
+    <button (click)="onCancel()" class="btn btn-secondary">Cancel</button>
   </div>
 </div>

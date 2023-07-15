@@ -1,31 +1,32 @@
-<div class="analysis-table">
-    <div class="container">
-      <div class="headings fields-grid">
-        <div class="col">Batch ID</div>
-        <div class="col">Facility</div>
-        <div class="col">MRN</div>
-        <div class="col">Encounter</div>
-        <div class="col">Scanned Date</div>
-        <div class="col">Scanned User</div>
-        <div class="col">Indexed Date</div>
-        <div class="col">Indexed User</div>
-        <div class="col">Analysis</div>
-      </div>
-      <div class="all-rows">
-        <div *ngFor="let row of data$ | async" class="rows fields-grid">
-          <div class="col">{{ row.batch_no }}</div>
-          <div class="col">{{ row.facility }}</div>
-          <div class="col">{{ row.mrn }}</div>
-          <div class="col">{{ row.encounter }}</div>
-          <div class="col">{{ row.scanned_date }}</div>
-          <div class="col">{{ row.scanned_user }}</div>
-          <div class="col">{{ row.indexed_date }}</div>
-          <div class="col">{{ row.indexed_user }}</div>
-          <div class="col" (click)="navigateToAnalysisPage(row)">
-            <span class="goto">Analysis</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+<div class="bodyContainer">
+  <h1 class="mainHeading">Analysis Report</h1>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <tr>
+        <th>Batch ID</th>
+        <th>Facility</th>
+        <th>MRN</th>
+        <th>Encounter</th>
+        <th>Scanned Date</th>
+        <th>Scanned User</th>
+        <th>Indexed Date</th>
+        <th>Indexed User</th>
+        <th>Analysis</th>
+      </tr>
+
+      <tr *ngFor="let row of data$ | async">
+        <td>{{ row.batch_no }}</td>
+        <td>{{ row.facility }}</td>
+        <td>{{ row.mrn }}</td>
+        <td>{{ row.encounter }}</td>
+        <td>{{ row.scanned_date }}</td>
+        <td>{{ row.scanned_user }}</td>
+        <td>{{ row.indexed_date }}</td>
+        <td>{{ row.indexed_user }}</td>
+        <td (click)="navigateToAnalysisPage(row)">
+          <span class="goto">Analysis</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

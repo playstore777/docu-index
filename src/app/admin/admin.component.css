@@ -1,19 +1,11 @@
-.form-header {
-  text-align: center;
-  border: 1px solid black;
-  padding: 4px;
-  background-color: rgb(200, 158, 255);
-  margin-bottom: 10px;
-}
-
 .form-main {
-  margin-top: 10px;
+  padding-top: 10px;
 }
 
 .form-main .flex {
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: stretch;
 }
 
 .center {
@@ -32,9 +24,6 @@ a {
   text-decoration: none;
 }
 
-.nav-link {
-  border: 1px solid blue;
-  padding-inline: 0.6%;
-  border-radius: 6px;
-  cursor: pointer;
+#link {
+  color: white;
 }

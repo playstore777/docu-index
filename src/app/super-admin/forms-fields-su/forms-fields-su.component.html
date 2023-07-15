@@ -1,8 +1,10 @@
 <div class="form-fields">
-  <div class="container">
+  <div class="bodyContainerAnalysisTable">
     <div class="popup-overlay">
       <div class="buttons">
-        <button (click)="drawRect()" class="btn btn-primary button-margin">Draw</button>
+        <button (click)="drawRect()" class="btn btn-primary button-margin">
+          Draw
+        </button>
         <button
           (click)="reset()"
           data-toggle="tooltip"
@@ -18,7 +20,7 @@
         <img #image src="" id="cropper-img" crossorigin />
       </div>
     </div>
-    
+
     <div class="draw-popup">
       <div class="buttons">
         <button (click)="uploadEdited()" class="btn btn-primary button-margin">
@@ -37,57 +39,60 @@
       </div>
       <canvas #layout></canvas>
     </div>
-    
-    <div id="header" class="fields-grid">
-      <div class="col">Field Name</div>
-      <div class="col">Fields#</div>
-      <div class="col">Pages#</div>
-      <div class="col">Review & Upload Region</div>
-    </div>
-    <div class="all-rows">
-      <div
-        *ngFor="let row of pageFields"
-        class="rows fields-grid"
-        [ngStyle]="{
-          'background-color': uploadedList.includes(row.field_no)
-            ? 'lime'
-            : 'transparent'
-        }"
-      >
-        <div class="col">{{ row.keyname }}</div>
-        <div class="col">{{ row.field_no }}</div>
-        <div class="col">{{ row.page_no }}</div>
-        <div class="col">
-          <ng-container
-            *ngIf="
-              row.imgSrc !== '' &&
-                row.imgSrc !== null &&
-                row.imgSrc !== undefined;
-              else elseBlock
-            "
-          >
-            <div class="image">
-              <img src="{{ row.imgSrc }}" alt="snippet" />
-            </div>
-          </ng-container>
-          <ng-template #elseBlock>
-            <div class="image">Please upload an image</div>
-          </ng-template>
-        </div>
-        <div class="col">
-          <div class="image">
-            <div
-              (click)="crop($event)"
-              class="btn btn-warning button-margin"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Crop"
+
+    <table class="table table-striped table-hover">
+      <tbody>
+        <tr>
+          <td>Reivew field#</td>
+          <td>Mandatory field#</td>
+          <td>Fields#</td>
+          <td>Pages#</td>
+          <td>Review & Display Region</td>
+          <td>  </td>
+        </tr>
+        <tr
+          *ngFor="let row of data$ | async"
+          [ngStyle]="{
+            'background-color': uploadedList.includes(row.field_no)
+              ? 'lime'
+              : 'transparent'
+          }"
+        >
+          <td>{{ row.keyname }}</td>
+          <td>{{ row.field_no }}</td>
+          <td>{{ row.page_no }}</td>
+          <td>
+            <ng-container
+              *ngIf="
+                row.imgSrc !== '' &&
+                  row.imgSrc !== null &&
+                  row.imgSrc !== undefined;
+                else elseBlock
+              "
             >
-              <i class="fa fa-crop" aria-hidden="true"></i>CROP
+              <div class="image">
+                <img src="{{ row.imgSrc }}" alt="snippet" />
+              </div>
+            </ng-container>
+            <ng-template #elseBlock>
+              <div class="image">Please upload an image</div>
+            </ng-template>
+          </td>
+          <td>
+            <div class="image">
+              <div
+                (click)="crop($event)"
+                class="btn btn-warning button-margin"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Crop"
+              >
+                CROP
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

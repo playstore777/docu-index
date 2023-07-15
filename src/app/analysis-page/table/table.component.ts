@@ -1,6 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
+import { LoaderService } from "src/app/loader.service";
 import { AnalysisService } from "src/app/services/analysis-services/analysis.service";
 import { updateAnalysisList } from "src/app/store/actions/app.action";
 
@@ -16,9 +17,14 @@ export class TableComponent implements OnInit {
   currPageNo: number = 1;
   base64String: string = "";
 
-  constructor(private store: Store, private service: AnalysisService) {}
+  constructor(
+    private store: Store,
+    private service: AnalysisService,
+    private loaderService: LoaderService
+  ) {}
 
   ngOnInit(): void {
+    this.loaderService.showLoader();
     this.loadData();
   }
 
@@ -27,9 +33,11 @@ export class TableComponent implements OnInit {
       .select((state) => state)
       .subscribe((data: any) => {
         data.app.analysisDataList.subscribe((element: any) => {
+          if (element.length > 0) {
+            this.loaderService.hideLoader();
+          }
           this.tableData = [];
           element.forEach((e: any) => {
-            // console.log(e, e.mandatory);
             e = {
               ...e,
               isMandatory: e.mandatory === "Y" ? true : false,
@@ -121,6 +129,10 @@ export class TableComponent implements OnInit {
     this.note = "";
     document.querySelector("body")?.classList.toggle("stop-overflow");
     document.querySelector<HTMLElement>(".card.doc")!.style.display = "none";
+    console.log(
+      "Document popup: ",
+      document.querySelector<HTMLElement>(".card.doc")
+    );
     document.querySelector(".popup-overlay")?.classList.toggle("show");
   }
 

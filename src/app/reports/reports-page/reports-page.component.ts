@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
+import { LoaderService } from "src/app/loader.service";
 
 @Component({
   selector: "app-reports-page",
@@ -83,12 +84,34 @@ export class ReportsPageComponent implements OnInit {
   ];
   isTableExtended = false;
 
+  constructor(
+    private store: Store,
+    private router: Router,
+    private loaderService: LoaderService
+  ) {}
+
+  ngOnInit(): void {
+    this.loaderService.showLoader();
+    this.store
+      .select((state) => state)
+      .subscribe((e: any) => {
+        console.log(e.app);
+        this.data$ = e.app.reportsDataList;
+      });
+  }
+
   onDownload() {
     this.router.navigate(["reports-download"]);
+    this.loaderService.hideLoader();
+  }
+
+  onCancel() {
+    this.router.navigate(["reports-form"]);
   }
 
   showFullTable(event: any) {
     const plusBtn = event.target;
+    console.log("plusBtn: ", plusBtn);
     plusBtn.textContent = plusBtn.textContent === "+" ? "-" : "+";
     const miniTable = event.target.parentElement.lastChild as HTMLElement;
     if (this.isTableExtended) {
@@ -102,16 +125,5 @@ export class ReportsPageComponent implements OnInit {
       miniTable!.style.overflow = "auto";
       this.isTableExtended = true;
     }
-  }
-
-  constructor(private store: Store, private router: Router) {}
-
-  ngOnInit(): void {
-    this.store
-      .select((state) => state)
-      .subscribe((e: any) => {
-        console.log(e.app);
-        this.data$ = e.app.reportsDataList;
-      });
   }
 }

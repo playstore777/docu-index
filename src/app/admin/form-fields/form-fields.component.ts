@@ -6,6 +6,7 @@ import { Observable, of } from "rxjs";
 
 import { clearAdminData } from "src/app/store/actions/app.action";
 import { AdminService } from "src/app/services/admin-services/admin.service";
+import { LoaderService } from "src/app/loader.service";
 
 @Component({
   selector: "app-form-fields",
@@ -27,7 +28,11 @@ export class FormFieldsComponent implements OnInit {
   addFieldButton = document.querySelector(".bottom-toolbar .add");
   rows = document.getElementsByClassName("rows");
 
-  constructor(private store: Store, private service: AdminService) {}
+  constructor(
+    private store: Store,
+    private service: AdminService,
+    private loaderService: LoaderService
+  ) {}
 
   ngOnInit() {
     this.getFieldsAPI();
@@ -41,6 +46,7 @@ export class FormFieldsComponent implements OnInit {
   }
 
   getFieldsAPI() {
+    this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((data: any) => {
@@ -60,6 +66,10 @@ export class FormFieldsComponent implements OnInit {
           this.currPageNo = currentPageNumber;
           let temp: any = [];
           this.data$.subscribe((element) => {
+            // hide loading screen
+            if (element.length > 0) {
+              this.loaderService.hideLoader();
+            }
             element.forEach((data: any) => {
               console.log(data, data.reviewed === "Y", data.mandatory === "Y");
               data = {
@@ -75,7 +85,7 @@ export class FormFieldsComponent implements OnInit {
       });
   }
 
-  addField() {
+  addField(event: any) {
     console.log("from onSubmit(): ", this.selectedFields);
     this.data$.subscribe(
       (fieldData: any) =>
@@ -100,5 +110,18 @@ export class FormFieldsComponent implements OnInit {
       });
       this.service.updateDocumentFields(headers, obj).subscribe((e) => e);
     });
+    this.highlightBottomNavBtns(event);
+  }
+
+  highlightBottomNavBtns(e: any) {
+    const btn = e.target;
+    const btns = Array.from(btn.parentElement.children);
+    for (let element of btns) {
+      const temp = element as HTMLElement;
+      temp.classList.remove("btn-primary");
+      temp.classList.add("btn-secondary");
+    }
+    btn.classList.remove("btn-secondary");
+    btn.classList.add("btn-primary");
   }
 }

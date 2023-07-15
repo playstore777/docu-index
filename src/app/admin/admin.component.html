@@ -1,16 +1,48 @@
 <div class="form-main">
   <div class="dropdown center" #dropdown>
     <div></div>
-    <select (change)="onDropdownChange($event)">
-      <option style="text-align: center" value="0">Select any PDF</option>
-      <option
-        *ngFor="let form of dropdownList$ | async"
-        value="{{ form.doc_id }}"
-      >
-        {{ form.doc_name }}
-      </option>
-    </select>
-    <div class="nav-link"><a id="link" routerLink="/super-admin">Super Admin</a></div>
+    <div class="dropdowns">
+      <div class="row">
+        <div class="col-md-6">
+          <div>Forms</div>
+          <select
+            class="form-select"
+            style="width: 200px; height: 30px; font-size: 14px"
+            (change)="onDropdownChange($event)"
+          >
+            <option style="text-align: center" value="0">Select any PDF</option>
+            <option
+              *ngFor="let form of dropdownList$ | async"
+              value="{{ form.doc_id }}"
+            >
+              {{ form.doc_name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <div>Faciliy</div>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            style="width: 200px; height: 30px; font-size: 14px"
+            [(ngModel)]="facility"
+            required="true"
+          >
+            <option style="text-align: center" value="">Select any Facility</option>
+            <option
+              selected
+              *ngFor="let facility of facilitiesList"
+              value="{{ facility.id }}"
+            >
+              {{ facility.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="btn btn-primary">
+      <a id="link" routerLink="/super-admin">Super Admin</a>
+    </div>
   </div>
   <div class="flex">
     <app-form-fields [docType]="docType" #formsfields></app-form-fields>

@@ -9,6 +9,7 @@ import {
   updateSUAdminData,
 } from "../store/actions/app.action";
 import { SuperAdminService } from "../services/super-admin-services/super-admin.service";
+import { LoaderService } from "../loader.service";
 
 @Component({
   selector: "app-super-admin",
@@ -25,15 +26,32 @@ export class SuperAdminComponent implements OnInit {
   postRes: any;
   dropdownValue: String = "Select a pdf";
   dropdownName: String = "";
+  facility: String = "";
+  facilitiesList: any = [
+    { id: "SSMS", name: "SSMS" },
+    { id: "SJHMC", name: "SJHMC" },
+    { id: "BJH", name: "BJH" },
+    { id: "STNH", name: "STNH" },
+    { id: "KUMS", name: "KUMS" },
+    { id: "HYCC", name: "HYCC" },
+  ];
 
-  constructor(private store: Store, private service: SuperAdminService) {}
+  constructor(
+    private store: Store,
+    private service: SuperAdminService,
+    private loaderService: LoaderService
+  ) {}
 
   ngOnInit(): void {
+    this.loaderService.showLoader();
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
     this.dropdownData$ = this.service.getMasterForms(headers);
-    this.dropdownData$.subscribe((e) => (this.dropdownData = e));
+    this.dropdownData$.subscribe((e) => {
+      this.dropdownData = e;
+      this.loaderService.hideLoader();
+    });
   }
 
   uploadFile(event: any) {
@@ -49,10 +67,11 @@ export class SuperAdminComponent implements OnInit {
   }
 
   onDropdownChange() {
-    console.log("dropdown value: ", this.dropdownValue);
+    // console.log("dropdown value: ", this.dropdownValue);
     this.dropdownName = "";
     this.getDocName();
     if (this.dropdownValue !== "Select a pdf") {
+      this.loaderService.showLoader();
       let bin = atob(this.dropdownValue as string);
       this.totalPages = bin.match(/\/Type\s*\/Page\b/g)?.length;
       this.UploadMasterDocument(

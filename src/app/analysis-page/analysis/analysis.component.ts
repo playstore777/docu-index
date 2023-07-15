@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
+import { LoaderService } from "src/app/loader.service";
 
 @Component({
   selector: "app-analysis",
@@ -8,20 +9,32 @@ import { Store } from "@ngrx/store";
 })
 export class AnalysisComponent {
   data: any;
-  constructor(private store: Store) {}
+  docTypes: any = [];
+  constructor(private store: Store, private loaderService: LoaderService) {}
 
   ngOnInit() {
+    this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((e: any) => {
+        if (e.length > 0) {
+          this.loaderService.hideLoader();
+        }
         this.data = e.app.analysisMasterData;
-        console.log(e, this.data);
+        e.app.analysisDataList.subscribe((element: any) => {
+          this.docTypes = [];
+          element.forEach((e: any) => {
+            if (!this.docTypes.includes(e.doc_type)) {
+              this.docTypes.push(e.doc_type);
+            }
+          });
+        });
       });
   }
 
-  docFilter() {
+  docFilter(event: any) {
     console.log("consent!", this.data);
-    const docType = "G"; // just for testing purpose
+    const docType = event.target.value;
     this.store
       .select((state) => state)
       .subscribe((e: any) => {
@@ -29,13 +42,13 @@ export class AnalysisComponent {
         data.subscribe((element: any) => {
           element.sort((a: any, b: any) => {
             if (
-              a.color_code.startsWith(docType) &&
-              !b.color_code.startsWith(docType)
+              a.doc_type.startsWith(docType) &&
+              !b.doc_type.startsWith(docType)
             ) {
               return -1; // a should come before b
             } else if (
-              b.color_code.startsWith(docType) &&
-              !a.color_code.startsWith(docType)
+              b.doc_type.startsWith(docType) &&
+              !a.doc_type.startsWith(docType)
             ) {
               return 1; // b should come before a
             } else {

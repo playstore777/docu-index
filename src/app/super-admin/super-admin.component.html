@@ -1,15 +1,50 @@
 <div class="form-main">
   <div class="upload">
-    <select (change)="onDropdownChange()" [(ngModel)]="dropdownValue">
-      <option class="text-center" value="Select a pdf">Select a pdf</option>
-      <option
-        *ngFor="let data of dropdownData$ | async"
-        value="{{ data.from_value }}"
-        class="text-center"
-      >
-        {{ data.from_Name }}
-      </option>
-    </select>
+    <div class="dropdowns">
+      <div class="row">
+        <div class="col-md-6">
+          <div>Forms</div>
+          <select
+            class="form-select"
+            style="width: 200px; height: 30px; font-size: 14px"
+            [(ngModel)]="dropdownValue"
+            (change)="onDropdownChange()"
+          >
+            <option style="text-align: center" value="Select a pdf">
+              Select any PDF
+            </option>
+            <option
+              *ngFor="let data of dropdownData$ | async"
+              value="{{ data.from_value }}"
+              class="text-center"
+            >
+              {{ data.from_Name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <div>Faciliy</div>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            style="width: 200px; height: 30px; font-size: 14px"
+            [(ngModel)]="facility"
+            required="true"
+          >
+            <option style="text-align: center" value="">
+              Select any Facility
+            </option>
+            <option
+              selected
+              *ngFor="let facility of facilitiesList"
+              value="{{ facility.id }}"
+            >
+              {{ facility.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
     <!-- <input type="file" class="file-upload" (change)="uploadFile($event)"/> -->
   </div>
   <div class="flex">

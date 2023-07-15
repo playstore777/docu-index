@@ -1,23 +1,65 @@
-<div class="analysis">
-  <div class="header">
-    <div class="left-section">
-      Batch ID: {{ data.batch_no }}, Scanned By: {{ data.scanned_user }},
-      Scanned Dt: {{ data.scanned_date }}, Indexed By: {{ data.indexed_user }},
-      Indexed Dt: {{ data.indexed_date }}
-    </div>
-    <div class="mid-section" (click)="docFilter()">Doc Type: consent</div>
-    <div class="right-section">
-      <div class="dropdown" #dropdown>
-        <select (change)="onDropdownChange($event)">
-          <option style="text-align: center" value="docType">
-            Doc Type View
-          </option>
-          <option style="text-align: center" value="encounter">
-            Encounter View
-          </option>
-        </select>
+
+<div class="bodyContainer">
+  <h1 class="mainHeading">Analysis Report of Batch ID: {{ data.batch_no }}</h1>
+  <div class="filterContainer">
+    <div class="row">
+      <div class="col-md-2">
+        <div>Scanned By</div>
+        <div>
+          <b> {{ data.scanned_user }} </b>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div>Scanned Dt</div>
+        <div>
+          <b> {{ data.scanned_date }} </b>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div>Indexed By</div>
+        <div>
+          <b> {{ data.indexed_user }} </b>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div>Indexed Dt</div>
+        <div>
+          <b> {{ data.indexed_date }} </b>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div>Doc Type</div>
+        <div class="dropdown" #dropdown>
+          <select (change)="docFilter($event)">
+            <option style="text-align: center" value="">
+              Select any Doc Type
+            </option>
+            <option
+              *ngFor="let type of docTypes"
+              style="text-align: center"
+              value="{{ type }}"
+            >
+              {{ type }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div>Filter by</div>
+        <div class="dropdown" #dropdown>
+          <select (change)="onDropdownChange($event)">
+            <option style="text-align: center" value="doc_type">
+              Doc Type View
+            </option>
+            <option style="text-align: center" value="encounter">
+              Encounter View
+            </option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
-  <app-table></app-table>
+  <div class="analysis mt-20">
+    <app-table></app-table>
+  </div>
 </div>

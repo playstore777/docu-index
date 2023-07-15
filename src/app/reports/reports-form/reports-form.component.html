@@ -1,74 +1,135 @@
 <div class="reports-form">
-  <div class="header">Analysis Review Report</div>
-  <div class="container">
-    <div class="cell">
-      <div class="label blue-border">Facility*</div>
-      <div class="dropdown center blue-border">
-        <select [(ngModel)]="facility" required="true">
-          <!-- <option value="SSMS">All Facilities</option> -->
-          <option
-            *ngFor="let facility of facilitiesList"
-            value="{{ facility.id }}"
+  <div class="header">
+    <h1 class="mainHeading">Analysis Review Report</h1>
+  </div>
+  <div class="bodyContainerReportsTable">
+    <div class="report-bg p-3 mx-4">
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label"
+            ><span style="color: red">*</span> Facility</label
           >
-            {{ facility.name }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="cell cell-outside">
-      <div class="cell-inside">
-        <div class="label blue-border">Analysed Date Range*</div>
-        <div class="dropdown center blue-border">
           <select
-            [(ngModel)]="Analysed"
+            class="form-select"
+            aria-label="Default select example"
+            style="width: 200px; height: 30px; font-size: 14px"
+            [(ngModel)]="facility"
             required="true"
-            (change)="onAnalysisDropdownChange()"
           >
-            <option *ngFor="let day of DateRange" value="{{ day.id }}">
-              {{ day.name }}
+            <option
+              selected
+              *ngFor="let facility of facilitiesList"
+              value="{{ facility.id }}"
+            >
+              {{ facility.name }}
             </option>
           </select>
         </div>
-      </div>
-      <div [ngClass]="showAnalysisDate">
-        <input type="date" [(ngModel)]="datePickerAnalysed" />
-      </div>
-    </div>
-    <div class="cell cell-outside">
-      <div class="cell-inside">
-        <div class="label blue-border">Indexed Date Range*</div>
-        <div class="dropdown center blue-border">
-          <select
-            [(ngModel)]="Indexed"
-            required="true"
-            (change)="onIndexedDropdownChange()"
-          >
-            <option *ngFor="let day of DateRange" value="{{ day.id }}">
-              {{ day.name }}
-            </option>
-          </select>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col">
+              <span class="me-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault1"
+                  value="Analysis"
+                  checked
+                  (change)="radioClicked($event)"
+                />
+                <label class="form-check-label ms-1" for="flexRadioDefault1">
+                  Analysed Date Range
+                </label>
+              </span>
+              <span class="me-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefaul2"
+                  value="Index"
+                  (change)="radioClicked($event)"
+                />
+                <label class="form-check-label ms-1" for="flexRadioDefaul2">
+                  Indexed Date Range
+                </label>
+              </span>
+              <span>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault3"
+                  value="Both"
+                  (change)="radioClicked($event)"
+                />
+                <label class="form-check-label ms-1" for="flexRadioDefault3">
+                  Both
+                </label>
+              </span>
+              <div class="row" [style]="'display:' + displayDropdown">
+                <div class="col mt-2">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    style="width: 200px; height: 30px; font-size: 14px"
+                    (change)="onDateDropdownChange()"
+                    [(ngModel)]="dropdownValue"
+                  >
+                    <option *ngFor="let day of DateRange" value="{{ day.id }}">
+                      {{ day.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row" [style]="'display:' + displayDateRange">
+                <div class="col-md-9 mt-2">
+                  <div class="row">
+                    <div class="col">
+                      <label for="batch-id" class="form-label">From</label>
+                      <input
+                        type="date"
+                        id="from-date"
+                        class="form-control"
+                        [(ngModel)]="datePickerFrom"
+                      />
+                    </div>
+                    <div class="col">
+                      <label for="analysis-user" class="form-label">To</label>
+                      <input
+                        type="date"
+                        id="to-date"
+                        class="form-control"
+                        [(ngModel)]="datePickerTo"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div [ngClass]="showIndexedDate">
-        <input type="date" [(ngModel)]="datePickerIndexed" />
+      <hr />
+      <div class="d-flex justify-content-end">
+        <div class="accordion" (click)="advancedSearchOptions()">
+          Advanced Search {{ accordion }}
+        </div>
       </div>
-    </div>
-    <div class="cell">
-      <div class="label blue-border">Batch ID</div>
-      <div class="input-box">
-        <input type="text" [(ngModel)]="BatchID" />
-      </div>
-    </div>
-    <div class="cell">
-      <div class="label blue-border">Analysis User</div>
-      <div class="input-box">
-        <input type="text" [(ngModel)]="AnalysisUser" />
+      <div class="row" [style]="'display:' + displayAdvancedOptions">
+        <div class="col-md-3">
+          <label for="batch-id" class="form-label">Batch ID</label>
+          <input type="input" id="batch-id" class="form-control" />
+        </div>
+        <div class="col-md-3">
+          <label for="analysis-user" class="form-label">Analysis User</label>
+          <input type="input" id="analysis-user" class="form-control" />
+        </div>
       </div>
     </div>
   </div>
-  <div class="bottom-toolbar">
-    <div (click)="onView()">View</div>
-    <div (click)="onDownload()">Download</div>
-    <div>Cancel</div>
+  <div class="d-flex justify-content-center gap-3 mt-5">
+    <button (click)="onView()" class="btn btn-primary">View Reports</button>
   </div>
 </div>

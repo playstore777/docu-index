@@ -15,6 +15,7 @@ import {
 
 import { updateSUAdminData } from "src/app/store/actions/app.action";
 import { SuperAdminService } from "src/app/services/super-admin-services/super-admin.service";
+import { LoaderService } from "src/app/loader.service";
 
 @Component({
   selector: "app-forms-fields-su",
@@ -43,7 +44,11 @@ export class FormsFieldsSuComponent implements OnInit {
 
   addFieldButton = document.querySelector(".bottom-toolbar .add");
 
-  constructor(private store: Store, private service: SuperAdminService) {}
+  constructor(
+    private store: Store,
+    private service: SuperAdminService,
+    private loaderService: LoaderService
+  ) {}
 
   ngOnInit() {
     this.getFieldsAPI();
@@ -80,6 +85,7 @@ export class FormsFieldsSuComponent implements OnInit {
           this.service
             .getMasterDocumentFields(headers, docID)
             .subscribe((res) => {
+              if (res) this.loaderService.hideLoader();
               this.data$ = of(res);
               this.updatePageData();
               this.store.dispatch(

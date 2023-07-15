@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
+import { LoaderService } from "src/app/loader.service";
 import { AnalysisService } from "src/app/services/analysis-services/analysis.service";
 import {
   addAnalysisMasterData,
@@ -20,14 +21,22 @@ export class AnalysisTableComponent implements OnInit {
   constructor(
     private service: AnalysisService,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
+    this.loaderService.showLoader();
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
     this.data$ = this.service.getAnalysisMasterData(headers);
+    this.data$.subscribe((e: any) => {
+      if (e.length > 0) {
+        console.log("number 1");
+        this.loaderService.hideLoader();
+      }
+    });
   }
 
   navigateToAnalysisPage(row: any) {
@@ -35,6 +44,8 @@ export class AnalysisTableComponent implements OnInit {
       Accept: "*/*",
     });
     this.responseData$ = this.service.getAnalysisData(headers, row.batch_no);
+    this.responseData$.subscribe((e: any) => {
+    });
     this.store.dispatch(
       updateAnalysisList({ analysisDataList: this.responseData$ })
     );

@@ -1,39 +1,4 @@
-.analysis {
-  display: grid;
-  place-items: center;
-  gap: 1%;
-}
-
-.search {
-  display: flex;
-  gap: 2%;
-}
-
-fieldset {
-  display: grid;
-  place-items: center;
-}
-
-button {
-  border-radius: 10%;
-  background-color: #0084ff;
-  color: white;
-  margin-left: 3px;
-}
-
-.left-section {
-  border: 1px solid black;
-}
-
-.mid-section {
-  cursor: pointer;
-  border: 1px solid black;
-}
-
-.header {
-  margin-block: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 1%;
+.filterContainer {
+  background: #e0f3f4;
+  padding: 15px;
 }

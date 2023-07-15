@@ -1,39 +1,50 @@
-<div class="container">
-  <table #table>
-    <tr>
-      <th>Facility</th>
-      <th>Batch ID</th>
-      <th>Patient Type</th>
-      <th>Account#</th>
-      <th>Doc Type</th>
-      <th>Page#</th>
-      <th>Field#</th>
-      <th>Admit Dt.</th>
-      <th>Discharge Dt.</th>
-      <th>Scanned Dt.</th>
-      <th>Analysed Dt.</th>
-      <th>Analysed User</th>
-      <th>Status</th>
-      <th>Note</th>
-    </tr>
-    <tr *ngFor="let row of data$ | async">
-      <td>{{ row.facility }}</td>
-      <td>{{ row.batch_id }}</td>
-      <td>{{ row.patient_type }}</td>
-      <td>{{ row.account }}</td>
-      <td>{{ row.doc_type }}</td>
-      <td>{{ row.pages }}</td>
-      <td>{{ row.field }}</td>
-      <td>{{ row.admit_date }}</td>
-      <td>{{ row.discharge_date }}</td>
-      <td>{{ row.scanned_date }}</td>
-      <td>{{ row.analysed_date }}</td>
-      <td>{{ row.analysed_user }}</td>
-      <td>{{ row.status }}</td>
-      <td>{{ row.note }}</td>
-    </tr>
+<div class="bodyContainerReportsTable">
+  <h1 class="mainHeading">Download reports in Excel</h1>
+  <div class="d-flex justify-content-end mx-2">
+    <button (click)="htmlTableToExcelFile()" class="btn btn-primary">
+      Download Excel
+    </button>
+  </div>
+  <table class="table table-striped table-hover mt-2">
+    <tbody>
+      <tr>
+        <th>Facility</th>
+        <th>Batch ID</th>
+        <th>Patient Type</th>
+        <th>Account#</th>
+        <th>Doc Type</th>
+        <th>Page#</th>
+        <th>Field#</th>
+        <th>Admit Dt.</th>
+        <th>Discharge Dt.</th>
+        <th>Scanned Dt.</th>
+        <th>Analysed Dt.</th>
+        <th>Analysed User</th>
+        <th>Status</th>
+        <th>Note</th>
+      </tr>
+      <tr *ngFor="let row of data$ | async">
+        <td>{{ row.facility }}</td>
+        <td>{{ row.batch_id }}</td>
+        <td>{{ row.patient_type }}</td>
+        <td>{{ row.account }}</td>
+        <td>{{ row.doc_type }}</td>
+        <td>{{ row.pages }}</td>
+        <td>{{ row.field }}</td>
+        <td>{{ row.admit_date }}</td>
+        <td>{{ row.discharge_date }}</td>
+        <td>{{ row.scanned_date }}</td>
+        <td>{{ row.analysed_date }}</td>
+        <td>{{ row.analysed_user }}</td>
+        <td>{{ row.status }}</td>
+        <td>{{ row.note }}</td>
+      </tr>
+    </tbody>
   </table>
-  <div class="center">
-    <button (click)="htmlTableToExcelFile()">Download reports</button>
+  <div class="d-flex justify-content-center gap-3 mt-5">
+    <button (click)="htmlTableToExcelFile()" class="btn btn-primary">
+      Download Excel
+    </button>
+    <button (click)="backClicked()" class="btn btn-secondary">Cancel</button>
   </div>
 </div>

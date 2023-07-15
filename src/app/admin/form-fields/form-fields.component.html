@@ -1,44 +1,63 @@
-<div class="form-fields">
-  <div class="container">
-    <div id="header" class="fields-grid">
-      <div class="col">Reivew field#</div>
-      <div class="col">Mandatory field#</div>
-      <div class="col">Fields#</div>
-      <div class="col">Pages#</div>
-      <div class="col">Review & Display Region</div>
-    </div>
-    <div class="all-rows">
-      <div *ngFor="let row of data$ | async" class="rows fields-grid">
-        <div class="col-checkbox">
+<div class="bodyContainerAnalysisTable">
+  <table class="table table-striped table-hover">
+    <tbody>
+      <tr>
+        <td>Reivew field#</td>
+        <td>Mandatory field#</td>
+        <td>Fields#</td>
+        <td>Pages#</td>
+        <td>Review & Display Region</td>
+      </tr>
+      <tr *ngFor="let row of data$ | async">
+        <td>
           <input
             type="checkbox"
             name="{{ row.field_no }}"
             id="{{ row.field_no }}"
             [(ngModel)]="row.reviewed"
           />
-        </div>
-        <div class="col-checkbox">
+        </td>
+        <td>
           <input
             type="checkbox"
             name="{{ row.field_no }}"
             id="{{ row.field_no }}"
             [(ngModel)]="row.mandatory"
           />
-        </div>
-        <div class="col">{{ row.field_no }}</div>
-        <div class="col">{{ row.page_no }}</div>
-        <div class="col">
+        </td>
+        <td>{{ row.field_no }}</td>
+        <td>{{ row.page_no }}</td>
+        <td>
           <div class="image">
             <img src="{{ row.filed_value }}" alt="snippet" />
           </div>
-        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <div class="bottom-toolbar">
+      <div class="add btn btn-primary" (click)="addField($event)">
+        Add Field
+      </div>
+      <div
+        class="delete btn btn-secondary"
+        (click)="highlightBottomNavBtns($event)"
+      >
+        Delete Field
+      </div>
+      <div
+        class="save btn btn-secondary"
+        (click)="highlightBottomNavBtns($event)"
+      >
+        Save & Exit
+      </div>
+      <div
+        class="cancel btn btn-secondary"
+        (click)="highlightBottomNavBtns($event)"
+      >
+        Cancel
       </div>
     </div>
-  </div>
-  <div class="bottom-toolbar">
-    <div class="add" (click)="addField()">Add Field</div>
-    <div class="delete">Delete Field</div>
-    <div class="save">Save & Exit</div>
-    <div class="cancel">Cancel</div>
   </div>
 </div>

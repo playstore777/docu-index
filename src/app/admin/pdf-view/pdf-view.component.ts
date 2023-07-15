@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 
 import { updateAdminData } from "src/app/store/actions/app.action";
 import { AdminService } from "src/app/services/admin-services/admin.service";
+import { LoaderService } from "src/app/loader.service";
 
 @Component({
   selector: "app-pdf-view",
@@ -26,14 +27,18 @@ export class PdfViewComponent implements OnInit {
   docData$: Observable<any> = new Observable();
   docID: number = 0;
 
-  constructor(private store: Store, private service: AdminService) {}
+  constructor(
+    private store: Store,
+    private service: AdminService,
+    private loaderService: LoaderService
+  ) {}
 
   ngOnInit() {
-    console.log(this.store.select((state) => state).subscribe((data) => data));
     this.pdfAPI();
   }
 
   pdfAPI() {
+    this.loaderService.showLoader();
     this.docData$ = this.store.select((state) => state);
     const headers = new HttpHeaders({
       Accept: "*/*",
@@ -42,6 +47,9 @@ export class PdfViewComponent implements OnInit {
       const docId = state.app.adminData.docId;
       if (this.docID !== docId && docId !== 0) {
         this.service.getDocument(headers, docId).subscribe((data) => {
+          if (data.length > 0) {
+            this.loaderService.hideLoader();
+          }
           this.store.dispatch(
             updateAdminData({
               adminData: {
@@ -58,11 +66,16 @@ export class PdfViewComponent implements OnInit {
   }
 
   updateBase64String() {
+    this.loaderService.showLoader();
     this.store
       .select((state) => state)
-      .subscribe(
-        (data: any) => (this.base64String = data.app.adminData.pdfSRC)
-      );
+      .subscribe((data: any) => {
+        if (data.app.adminData.pdfSRC.length > 0) {
+          this.loaderService.hideLoader();
+        }
+        this.base64String = data.app.adminData.pdfSRC;
+      });
+    // this.loaderService.hideLoader();
   }
 
   pageChange(event: any) {

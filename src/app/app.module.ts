@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,7 +16,6 @@ import { FormsFieldsSuComponent } from './super-admin/forms-fields-su/forms-fiel
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './store/reducers/app.reducer';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { LoadingInterceptor } from './loading.interceptor';
 import { AnalysisComponent } from './analysis-page/analysis/analysis.component';
 import { ReportsPageComponent } from './reports/reports-page/reports-page.component';
 import { ReportsFormComponent } from './reports/reports-form/reports-form.component';
@@ -49,9 +48,6 @@ import { AnalysisTableComponent } from './analysis-page/analysis-table/analysis-
     StoreModule.forRoot({ app: appReducer })
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
-    }
   ],
   bootstrap: [AppComponent]
 })

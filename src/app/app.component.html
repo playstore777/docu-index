@@ -1,26 +1,50 @@
-<app-spinner></app-spinner>
 <div class="header">
+  <div class="logoimage">
+    <img
+      src="assets/images/docAnalysis.png"
+      style="width: 180px; height: auto"
+      alt="Doc Analysis Logo - From DataSpotEye"
+    />
+  </div>
   <div>
-    <div class="image">
-      <img src="../assets/images/Logo.png" alt="Logo" />
+    <button class="btn btn-primary">logout</button>
+  </div>
+</div>
+<div class="content">
+  <div class="nav-bar">
+    <div class="nav-links">
+      <div class="nav-link" (click)="highlightNavLink($event)">
+        <a routerLink="/analysis">Analysis</a>
+      </div>
+      <div class="nav-link" (click)="highlightNavLink($event)">
+        <a routerLink="/reports-form">Reports</a>
+      </div>
+      <div class="nav-link" (click)="highlightNavLink($event)">
+        <a routerLink="/admin">Admin</a>
+      </div>
     </div>
-    <div class="vertical-line line-bold"></div>
-    <div class="Logo-text">Doc Analysis</div>
   </div>
-  <div>
-    <button class="link">logout</button>
-  </div>
+
+  <router-outlet>
+    <div class="loader" *ngIf="loaderService.loader$ | async">
+      <div data-title="dot-typing">
+        <div class="stage">
+          <div class="dot-typing"></div>
+          <div class="loading-text">
+            Please wait we are proccessing your request.
+          </div>
+        </div>
+      </div>
+    </div>
+  </router-outlet>
 </div>
 
-<div class="nav-bar">
-  <div class="nav-links">
-    <div class="nav-link">Home</div>
-    <div class="nav-link">Scanning</div>
-    <div class="nav-link">Indexing</div>
-    <div class="nav-link"><a routerLink="/analysis">Analysis</a></div>
-    <div class="nav-link"><a routerLink="/reports-form">Reports</a></div>
-    <div class="nav-link"><a routerLink="/admin">Admin</a></div>
+<!-- Footer Start-->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">©2023 DocAnalysis</div>
+    </div>
   </div>
-</div>
-
-<router-outlet></router-outlet>
+</footer>
+<!--Footer End-->

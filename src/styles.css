@@ -1,5 +1,118 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", Helvetica, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #444444;
+}
 
 .stop-overflow {
   overflow: hidden;
+}
+
+.container-fluid {
+  padding: 0px !important;
+}
+
+.bodyContainer {
+  padding: 10px 30px;
+  width: 100vw;
+}
+
+h1.mainHeading {
+  font-size: 24px;
+  margin: 10px 0 20px;
+  border-bottom: 1px solid #d6d6d6;
+  font-weight: bold;
+  color: #003359;
+  padding-bottom: 8px;
+}
+.mt-15 {
+  margin-top: 15px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-25 {
+  margin-top: 25px;
+}
+
+.table > tbody > tr > th {
+  line-height: 1.42857143;
+  vertical-align: top;
+  background-image: -webkit-linear-gradient(top, #f9f9f9, #eaeaea);
+  border: 1px solid #ddd;
+}
+
+.loader {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 999999;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+}
+
+.loading-text {
+  font-weight: bold;
+  font-size: 1.5rem;
+  position: relative;
+}
+
+.stage {
+  display: grid;
+  place-items: center;
+  row-gap: 20px;
+}
+
+.dot-typing {
+  --color: #1477bd;
+  position: relative;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--color);
+  color: var(--color);
+  box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+    10014px 0 0 0 var(--color);
+  animation: dot-typing 1.5s infinite linear;
+}
+
+@keyframes dot-typing {
+  0% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  16.667% {
+    box-shadow: 9984px -10px 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  33.333% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  50% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px -10px 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  66.667% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  83.333% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px -10px 0 0 var(--color);
+  }
+  100% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
 }

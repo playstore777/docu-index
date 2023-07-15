@@ -1,14 +1,30 @@
 <div class="form-fields">
   <div class="popup-overlay">
+    <!-- Note popup start -->
     <div class="card note">
-      <button class="close-btn" (click)="closeNote()">CLOSE</button>
-      <div class="text-content">
-        <textarea type="text" [(ngModel)]="note" cols="100" rows="5"></textarea>
+      <div class="flex-sb">
+        <h1 class="mainHeading">Notes</h1>
+        <div class="x btn btn-danger" (click)="closeNote()">X</div>
       </div>
-      <button class="submit-btn" (click)="submitNote()">Submit Note</button>
+      <div class="text-content">
+        <textarea type="text" [(ngModel)]="note" rows="5"></textarea>
+      </div>
+      <div class="buttons">
+        <button class="submit-btn btn btn-primary" (click)="submitNote()">
+          Submit Note
+        </button>
+        <button class="close-btn btn btn-danger" (click)="closeNote()">
+          CLOSE
+        </button>
+      </div>
     </div>
+    <!-- Note popup end -->
+    <!-- Document popup start -->
     <div class="card doc">
-      <button class="close-btn" (click)="closeDoc()">CLOSE</button>
+      <div class="flex-sb">
+        <h1 class="mainHeading">Document</h1>
+        <div class="x btn btn-danger" (click)="closeDoc()">X</div>
+      </div>
       <div class="document">
         <ngx-extended-pdf-viewer
           [base64Src]="base64String"
@@ -19,163 +35,100 @@
         ></ngx-extended-pdf-viewer>
       </div>
     </div>
+    <!-- Document popup end -->
   </div>
-  <div class="container">
-    <div id="header" class="fields-grid">
-      <div class="col">Fields</div>
-      <div class="col">Doc View</div>
-      <div class="col">Note</div>
-      <div class="col">Field#</div>
-      <div class="col">Actions</div>
-      <div class="col">Page#</div>
-      <div class="col">Doc Type</div>
-      <div class="col">Encounter</div>
-      <div class="col">Facility</div>
+  <!---ANALYSIS BATCH ID TABLE-->
+  <div class="bodyContainerAnalysisTable">
+    <div class="d-flex justify-content-end">
+      <div>
+        <button class="btn btn-primary mx-1">Submit</button>
+        <button class="btn btn-secondary mx-1">Save as draft</button>
+      </div>
     </div>
-    <div *ngFor="let row of tableData" class="rows fields-grid">
-      <div class="col image-{{ row.color_code }}">
-        <div class="image">
-          <img src="{{ row.field_value }}" alt="snippet" />
-        </div>
+    <div class="anlaysisBorder my-2">
+      <div id="header" class="fields-grid">
+        <div class="col">Fields</div>
+        <div class="col">Doc View</div>
+        <div class="col">Note</div>
+        <div class="col">Field#</div>
+        <div class="col">Actions</div>
+        <div class="col">Page#</div>
+        <div class="col">Doc Type</div>
+        <div class="col">Encounter</div>
+        <div class="col">Facility</div>
       </div>
-      <div class="col icon" (click)="openDoc(row)">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-paperclip"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"
+      <div
+        *ngFor="let row of tableData"
+        class="rows fields-grid analysisBtmBorder"
+      >
+        <div class="col image-{{ row.color_code }}">
+          <div class="image">
+            <img src="{{ row.field_value }}" alt="snippet" />
+          </div>
+        </div>
+        <div class="col icon" (click)="openDoc(row)">
+          <img
+            src="assets/images/pdf.svg"
+            alt="pdfSVG"
+            class="icon"
+            width="20px"
           />
-        </svg>
-      </div>
-      <div class="col icon" (click)="openNote(row)">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          version="1.1"
-          width="1080"
-          height="1080"
-          viewBox="0 0 1080 1080"
-          xml:space="preserve"
-        >
-          <desc>Created with Fabric.js 5.2.4</desc>
-          <defs></defs>
-          <g
-            transform="matrix(1 0 0 1 540 540)"
-            id="4bbf4fbe-194b-4b93-9186-8ff0503235f1"
-          >
-            <rect
-              style="
-                stroke: none;
-                stroke-width: 1;
-                stroke-dasharray: none;
-                stroke-linecap: butt;
-                stroke-dashoffset: 0;
-                stroke-linejoin: miter;
-                stroke-miterlimit: 4;
-                fill: rgb(255, 255, 255);
-                fill-rule: nonzero;
-                opacity: 1;
-                visibility: hidden;
-              "
-              vector-effect="non-scaling-stroke"
-              x="-540"
-              y="-540"
-              rx="0"
-              ry="0"
-              width="1080"
-              height="1080"
-            />
-          </g>
-          <g
-            transform="matrix(1 0 0 1 540 540)"
-            id="c14ba10a-8c2f-4c09-89f2-2d3970130f7b"
-          ></g>
-          <g
-            transform="matrix(-2.95 -2.95 4.46 -4.46 682.95 714.76)"
-            id="611e3067-97d8-4dd1-8d45-7edd4d32aa7d"
-          >
-            <polygon
-              style="
-                stroke: rgb(0, 0, 0);
-                stroke-width: 0;
-                stroke-dasharray: none;
-                stroke-linecap: butt;
-                stroke-dashoffset: 0;
-                stroke-linejoin: miter;
-                stroke-miterlimit: 4;
-                fill: rgb(24, 0, 0);
-                fill-rule: nonzero;
-                opacity: 1;
-              "
-              vector-effect="non-scaling-stroke"
-              points="-30.68,-37.41 30.68,0 -30.68,37.41 "
-            />
-          </g>
-          <g transform="matrix(67.5 0 0 67.5 540 575.51)">
-            <path
-              style="
-                stroke: none;
-                stroke-width: 1;
-                stroke-dasharray: none;
-                stroke-linecap: butt;
-                stroke-dashoffset: 0;
-                stroke-linejoin: miter;
-                stroke-miterlimit: 4;
-                fill: rgb(0, 0, 0);
-                fill-rule: nonzero;
-                opacity: 1;
-              "
-              transform=" translate(-8, -8)"
-              d="M 2.5 1 C 1.6715728752538097 1 1 1.6715728752538097 1 2.5 L 1 13.5 C 1 14.32842712474619 1.6715728752538097 15 2.5 15 L 8.586 15 C 8.983690700618997 14.999649895920237 9.364965283433596 14.841384974751913 9.646 14.56 L 14.561 9.646 C 14.842018248051218 9.364801610861363 14.999915118670994 8.98354720799812 15 8.586 L 15 2.5 C 15 1.6715728752538097 14.32842712474619 1 13.5 1 L 2.5 1 z M 2 2.5 C 2 2.2238576250846034 2.2238576250846034 2 2.5 2 L 13.5 2 C 13.776142374915397 2 14 2.2238576250846034 14 2.5 L 14 8 L 9.5 8 C 8.67157287525381 8 8 8.67157287525381 8 9.5 L 8 14 L 2.5 14 C 2.2238576250846034 14 2 13.776142374915397 2 13.5 L 2 2.5 z M 9 13.793 L 9 9.5 C 9 9.223857625084603 9.223857625084603 9 9.5 9 L 13.793 9 L 9 13.793 z"
-              stroke-linecap="round"
-            />
-          </g>
-          <g transform="matrix(NaN NaN NaN NaN 0 0)"></g>
-        </svg>
-        <div class="{{ row.note ? 'btn-badge' : 'btn-badge-hide' }}">!</div>
-      </div>
-      <div class="col box">{{ row.field_no }}</div>
-      <div class="col action">
-        <div class="actions">
-          <div
-            class="review review-active  {{ row.isDisabled ? 'disabled' : '' }}"
-          >
-            <label for="review-checkbox {{ row.field_no + row.page_no }}"
-              >Review</label
+        </div>
+        <div class="col icon" (click)="openNote(row)">
+          <img
+            src="assets/images/notes.svg"
+            alt="notesSVG"
+            class="icon"
+            width="20px"
+          />
+          <div class="{{ row.note ? 'btn-badge' : 'btn-badge-hide' }}">!</div>
+        </div>
+        <div class="col box">{{ row.field_no }}</div>
+        <div class="col action">
+          <div class="actions">
+            <div
+              class="review review-active  {{
+                row.isDisabled ? 'disabled' : ''
+              }}"
             >
-            <input
-              type="checkbox"
-              name="review-checkbox"
-              id="review-checkbox {{ row.field_no + row.page_no }}"
-              (change)="actions($event, row)"
-              [(ngModel)]="row.isMandatory"
-              [disabled]="row.isDisabled"
-            />
-          </div>
-          <div class="ignore {{ row.isDisabled ? 'disabled' : '' }}">
-            <label for="ignore-checkbox {{ row.field_no + row.page_no }}"
-              >Ignore</label
-            >
-            <input
-              type="checkbox"
-              name="ignore-checkbox"
-              id="ignore-checkbox {{ row.field_no + row.page_no }}"
-              (change)="actions($event, row)"
-              [(ngModel)]="row.isMandatory"
-              [disabled]="row.isDisabled"
-            />
+              <label for="review-checkbox {{ row.field_no + row.page_no }}"
+                >Review</label
+              >
+              <input
+                type="checkbox"
+                name="review-checkbox"
+                id="review-checkbox {{ row.field_no + row.page_no }}"
+                (change)="actions($event, row)"
+                [(ngModel)]="row.isMandatory"
+                [disabled]="row.isDisabled"
+              />
+            </div>
+            <div class="ignore {{ row.isDisabled ? 'disabled' : '' }}">
+              <label for="ignore-checkbox {{ row.field_no + row.page_no }}"
+                >Ignore</label
+              >
+              <input
+                type="checkbox"
+                name="ignore-checkbox"
+                id="ignore-checkbox {{ row.field_no + row.page_no }}"
+                (change)="actions($event, row)"
+                [(ngModel)]="row.isMandatory"
+                [disabled]="row.isDisabled"
+              />
+            </div>
           </div>
         </div>
+        <div class="col box">{{ row.page_no }}</div>
+        <div class="col box">{{ row.doc_type }}</div>
+        <div class="col box">{{ row.batch_no }}</div>
+        <div class="col box">{{ row.facility }}</div>
       </div>
-      <div class="col box">{{ row.page_no }}</div>
-      <div class="col box">{{ row.doc_type }}</div>
-      <div class="col box">{{ row.batch_no }}</div>
-      <div class="col box">{{ row.facility }}</div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div>
+        <button class="btn btn-primary mx-1">Submit</button>
+        <button class="btn btn-secondary mx-1">Save as draft</button>
+      </div>
     </div>
   </div>
 </div>

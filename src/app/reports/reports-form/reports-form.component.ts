@@ -2,6 +2,7 @@ import { HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
+import { LoaderService } from "src/app/loader.service";
 import { ReportsService } from "src/app/services/reports/reports.service";
 import {
   addReportDocData,
@@ -13,18 +14,25 @@ import {
   templateUrl: "./reports-form.component.html",
   styleUrls: ["./reports-form.component.css"],
 })
-export class ReportsFormComponent implements OnInit {
-  datePickerAnalysed: Date = new Date();
-  datePickerIndexed: Date = new Date();
+export class ReportsFormComponent {
+  displayDropdown: string = "flex";
+  displayDateRange: string = "none";
+  displayAdvancedOptions: string = "none";
+  accordion: string = "▼";
+  selectedDateType: string = "Analysis";
+
+  datePickerFrom: Date = new Date();
+  datePickerTo: Date = new Date();
   today: Date = new Date();
   facility: String = "SSMS";
-  Analysed: String = `${this.today.getFullYear()}-${this.today.getMonth()}-${this.today.getDate()}`;
-  Indexed: String = `${this.today.getFullYear()}-${this.today.getMonth()}-${this.today.getDate()}`;
+  dropdownValue: String = `${this.today.getFullYear()}-${this.today.getMonth()}-${this.today.getDate()}`;
   BatchID: String = "";
   AnalysisUser: String = "";
   responseData: any;
-  showIndexedDate: string = "calendar hide";
-  showAnalysisDate: string = "calendar hide";
+
+  radioClicked(e: any) {
+    this.selectedDateType = e.target.value;
+  }
 
   facilitiesList: any = [
     { id: "SSMS", name: "SSMS" },
@@ -62,7 +70,7 @@ export class ReportsFormComponent implements OnInit {
   constructor(
     private service: ReportsService,
     private router: Router,
-    private store: Store
+    private store: Store, private loaderService: LoaderService,
   ) {}
 
   getYesterday(today: Date) {
@@ -99,32 +107,13 @@ export class ReportsFormComponent implements OnInit {
     return `${lastDayOfMonth.getFullYear()}-${lastDayOfMonth.getMonth()}-${lastDayOfMonth.getDate()}`;
   }
 
-  onIndexedDropdownChange() {
-    console.log(this.Indexed);
-    const datepickerInput = document.querySelector(".calendar");
-    if (this.Indexed === "custom") {
-      this.showIndexedDate = "calendar show";
-    } else {
-      this.showIndexedDate = "calendar hide";
-    }
+  onDateDropdownChange() {
+    console.log(this.dropdownValue);
+    this.displayDateRange = this.dropdownValue === "custom" ? "flex" : "none";
   }
 
-  onAnalysisDropdownChange() {
-    console.log(this.Analysed);
-    const datepickerInput = document.querySelector(".calendar");
-    if (this.Analysed === "custom") {
-      this.showAnalysisDate = "calendar show";
-    } else {
-      this.showAnalysisDate = "calendar hide";
-    }
-  }
-
-  onDownload() {
-    this.callAPI();
-    this.router.navigate(["reports-download"]);
-  }
-
-  async callAPI() {
+  callAPI() {
+    this.loaderService.showLoader();
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
@@ -133,10 +122,39 @@ export class ReportsFormComponent implements OnInit {
       batch_id: this.BatchID,
       facility: this.facility,
       analysed_date:
-        this.Analysed === "custom" ? this.datePickerAnalysed : this.Analysed,
-      analysed_user: this.AnalysisUser,
+        this.dropdownValue !== "custom" &&
+        (this.selectedDateType === "Analysis" ||
+          this.selectedDateType === "Both")
+          ? this.dropdownValue
+          : "",
       indexed_date:
-        this.Indexed === "custom" ? this.datePickerIndexed : this.Indexed,
+        this.dropdownValue !== "custom" &&
+        (this.selectedDateType === "Index" || this.selectedDateType === "Both")
+          ? this.dropdownValue
+          : "",
+      analysed_user: this.AnalysisUser,
+      analysed_fromdate:
+        this.dropdownValue === "custom" &&
+        (this.selectedDateType === "Analysis" ||
+          this.selectedDateType === "Both")
+          ? this.datePickerFrom
+          : "",
+      analysed_todate:
+        this.dropdownValue === "custom" &&
+        (this.selectedDateType === "Analysis" ||
+          this.selectedDateType === "Both")
+          ? this.datePickerTo
+          : "",
+      indexed_fromdate:
+        this.dropdownValue !== "custom" &&
+        (this.selectedDateType === "Index" || this.selectedDateType === "Both")
+          ? this.dropdownValue
+          : "",
+      indexed_todate:
+        this.dropdownValue !== "custom" &&
+        (this.selectedDateType === "Index" || this.selectedDateType === "Both")
+          ? this.dropdownValue
+          : "",
     };
 
     this.responseData = this.service.getReportData(headers, obj);
@@ -146,15 +164,21 @@ export class ReportsFormComponent implements OnInit {
         this.store.dispatch(
           addReportDocData({ reportDocData: { batch_id: reportDocData } })
         );
+        this.loaderService.hideLoader();
       })
     );
     this.store.dispatch(addReportsList({ reportsDataList: this.responseData }));
   }
 
   onView() {
+    console.log("dates from & to: ", this.datePickerFrom, this.datePickerTo);
     this.callAPI();
     this.router.navigate(["reports"]);
   }
 
-  ngOnInit(): void {}
+  advancedSearchOptions() {
+    this.accordion = this.accordion === "▼" ? "▲" : "▼";
+    this.displayAdvancedOptions =
+      this.displayAdvancedOptions === "none" ? "flex" : "none";
+  }
 }
