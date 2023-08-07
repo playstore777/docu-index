@@ -97,7 +97,6 @@ input[type="checkbox"] {
 .popup-overlay {
   height: 100vh;
   box-sizing: border-box;
-  color: white;
   background-color: rgba(0, 0, 0, 0.5);
   display: none;
   position: absolute;
@@ -114,11 +113,12 @@ input[type="checkbox"] {
   position: fixed;
 }
 
-.popup-overlay .text-content textarea {
+.popup-overlay .text-content {
   width: 100%;
   padding: 2%;
   background-color: white;
-  color: black;
+  color: black !important;
+  font-weight: bold;
 }
 
 .submit-btn {

@@ -14,7 +14,10 @@
         <th>Analysis</th>
       </tr>
 
-      <tr *ngFor="let row of data$ | async">
+      <tr
+        *ngFor="let row of data"
+        [style.background-color]="row.submit_Action === 'D' ? '#FFD580' : ''"
+      >
         <td>{{ row.batch_no }}</td>
         <td>{{ row.facility }}</td>
         <td>{{ row.mrn }}</td>

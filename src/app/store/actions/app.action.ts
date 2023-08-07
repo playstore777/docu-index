@@ -30,6 +30,11 @@ export const updateAnalysisList = createAction(
   props<{ analysisDataList: Observable<any> }>()
 );
 
+export const updateAnalysisFilteredList = createAction(
+  "[AnalysisFilteredData] Update Analysis filtered table data",
+  props<{ analysisFilteredDataList: Observable<any> }>()
+);
+
 export const addReportsList = createAction(
   "[ReportsData] Update Reports table data",
   props<{ reportsDataList: Observable<any> }>()

@@ -7,6 +7,7 @@ import { LoaderService } from "src/app/loader.service";
 import { AnalysisService } from "src/app/services/analysis-services/analysis.service";
 import {
   addAnalysisMasterData,
+  updateAnalysisFilteredList,
   updateAnalysisList,
 } from "src/app/store/actions/app.action";
 
@@ -16,7 +17,7 @@ import {
   styleUrls: ["./analysis-table.component.css"],
 })
 export class AnalysisTableComponent implements OnInit {
-  data$: Observable<any> = new Observable();
+  data: any[] = [];
   responseData$: Observable<any> = new Observable();
   constructor(
     private service: AnalysisService,
@@ -30,10 +31,10 @@ export class AnalysisTableComponent implements OnInit {
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
-    this.data$ = this.service.getAnalysisMasterData(headers);
-    this.data$.subscribe((e: any) => {
+    this.service.getAnalysisMasterData(headers).subscribe((e: any) => {
       if (e.length > 0) {
-        console.log("number 1");
+        console.log("number: ", e);
+        this.data = e.filter((element: any) => element.submit_Action !== "S");
         this.loaderService.hideLoader();
       }
     });
@@ -44,10 +45,14 @@ export class AnalysisTableComponent implements OnInit {
       Accept: "*/*",
     });
     this.responseData$ = this.service.getAnalysisData(headers, row.batch_no);
-    this.responseData$.subscribe((e: any) => {
-    });
+    this.responseData$.subscribe((e: any) => {});
     this.store.dispatch(
       updateAnalysisList({ analysisDataList: this.responseData$ })
+    );
+    this.store.dispatch(
+      updateAnalysisFilteredList({
+        analysisFilteredDataList: this.responseData$,
+      })
     );
     this.store.dispatch(addAnalysisMasterData({ analysisMasterData: row }));
     this.router.navigate(["analysis-details"]);

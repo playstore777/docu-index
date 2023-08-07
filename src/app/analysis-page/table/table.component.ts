@@ -1,5 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { LoaderService } from "src/app/loader.service";
 import { AnalysisService } from "src/app/services/analysis-services/analysis.service";
@@ -16,28 +17,35 @@ export class TableComponent implements OnInit {
   tableData: any = [];
   currPageNo: number = 1;
   base64String: string = "";
+  batchId: string = "";
 
   constructor(
     private store: Store,
     private service: AnalysisService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loaderService.showLoader();
     this.loadData();
   }
 
   loadData() {
+    this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((data: any) => {
-        data.app.analysisDataList.subscribe((element: any) => {
+        this.batchId = data.app.analysisMasterData.batch_no;
+        data.app.analysisFilteredDataList.subscribe((element: any) => {
+          console.log("length: ", this.tableData.length);
           if (element.length > 0) {
             this.loaderService.hideLoader();
           }
           this.tableData = [];
           element.forEach((e: any) => {
+            if (this.tableData.length > 0) {
+              this.loaderService.hideLoader();
+            }
             e = {
               ...e,
               isMandatory: e.mandatory === "Y" ? true : false,
@@ -143,16 +151,42 @@ export class TableComponent implements OnInit {
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
+    console.log("popup data: ", data);
 
     const obj = {
       batch_no: data.batch_no,
-      doc_no: data.doc_no,
-      page_no: data.page_no,
-      field_no: data.field_no,
+      fileName: data.file_name,
     };
 
     this.service
       .getFieldDocumentView(headers, obj)
       .subscribe((e: any) => (this.base64String = e.doc_value));
+  }
+
+  submitAnalysisHandler() {
+    const headers = new HttpHeaders({
+      Accept: "*/*",
+    });
+    console.log(this.batchId);
+    const obj = {
+      batchId: this.batchId,
+      actionFlag: "S",
+    };
+    this.service.submitAnalysis(headers, obj).subscribe((e) => e);
+    this.router.navigate(["analysis"]);
+  }
+
+  saveAsDraftAnalysisHandler() {
+    const headers = new HttpHeaders({
+      Accept: "*/*",
+    });
+    console.log(this.batchId);
+    const obj = {
+      batchId: this.batchId,
+      actionFlag: "D",
+    };
+    this.service.submitAnalysis(headers, obj).subscribe((e) => e);
+    alert("Draft saved!");
+    this.router.navigate(["analysis"]);
   }
 }

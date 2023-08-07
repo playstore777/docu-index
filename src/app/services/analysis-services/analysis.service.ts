@@ -47,4 +47,12 @@ export class AnalysisService {
       { headers }
     );
   }
+
+  submitAnalysis(headers: any, obj: any) {
+    return this.http.post<any>(
+      "https://pdfanalysis.azurewebsites.net/api/Analysis/Submit",
+      obj,
+      { headers }
+    );
+  }
 }

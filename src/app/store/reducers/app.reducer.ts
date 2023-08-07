@@ -6,6 +6,7 @@ import {
   clearAdminData,
   clearSUAdminData,
   updateAdminData,
+  updateAnalysisFilteredList,
   updateAnalysisList,
   updateSUAdminData,
 } from "../actions/app.action";
@@ -19,6 +20,7 @@ export const initialState: AppState = {
   adminData: { currPage: 1, docId: 0, pdfSRC: "" },
   suAdminData: { currPage: 1, docId: 0, pdfSRC: "", fieldsList: [] },
   analysisDataList: of([]),
+  analysisFilteredDataList: of([]),
 };
 
 // Define the reducer using createReducer and on from @ngrx/store
@@ -48,6 +50,9 @@ export const appReducer = createReducer(
   }),
   on(updateAnalysisList, (state, { analysisDataList }) => {
     return { ...state, analysisDataList };
+  }),
+  on(updateAnalysisFilteredList, (state, { analysisFilteredDataList }) => {
+    return { ...state, analysisFilteredDataList };
   }),
   on(addReportsList, (state, { reportsDataList }) => {
     return { ...state, reportsDataList };

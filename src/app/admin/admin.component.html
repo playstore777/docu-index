@@ -1,54 +1,105 @@
+<div class="popup-overlay">
+  <!-- Note popup start -->
+  <div class="card">
+    <div class="flex-sb">
+      <h1 class="mainHeading">Are you sure?</h1>
+      <div (click)="(closePopupModal())" class="x btn btn-danger">X</div>
+    </div>
+    <div class="text-content" style="color: black">Fields Configuration is saved</div>
+    <div class="buttons">
+      <button class="submit-btn btn btn-primary" (click)="(saveHandler)">
+        OK
+      </button>
+      <button (click)="(closePopupModal())" class="close-btn btn btn-danger">
+        Cancel
+      </button>
+    </div>
+  </div>
+  <!-- Note popup end -->
+</div>
+
 <div class="form-main">
   <div class="dropdown center" #dropdown>
     <div></div>
     <div class="dropdowns">
-      <div class="row">
-        <div class="col-md-6">
-          <div>Forms</div>
+      <div class="d-flex justify-content-center gap-4">
+        <div>
+          <div>Fields Config Status</div>
           <select
             class="form-select"
             style="width: 200px; height: 30px; font-size: 14px"
-            (change)="onDropdownChange($event)"
+            (change)="onFieldConfigChange($event)"
           >
-            <option style="text-align: center" value="0">Select any PDF</option>
-            <option
-              *ngFor="let form of dropdownList$ | async"
-              value="{{ form.doc_id }}"
-            >
-              {{ form.doc_name }}
+            <option style="text-align: center" value="Not Saved">
+              Not Saved
             </option>
+            <option style="text-align: center" value="Saved">Saved</option>
           </select>
         </div>
-        <div class="col-md-6">
+        <div>
           <div>Faciliy</div>
           <select
             class="form-select"
             aria-label="Default select example"
             style="width: 200px; height: 30px; font-size: 14px"
             [(ngModel)]="facility"
+            (change)="onFacilityChange()"
             required="true"
           >
-            <option style="text-align: center" value="">Select any Facility</option>
+            <option style="text-align: center" value="Select any Facility">
+              Select any Facility
+            </option>
             <option
               selected
               *ngFor="let facility of facilitiesList"
-              value="{{ facility.id }}"
+              value="{{ facility }}"
             >
-              {{ facility.name }}
+              {{ facility }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="facility !== 'Select any Facility'">
+          <div>Forms</div>
+          <select
+            class="form-select"
+            style="width: 200px; height: 30px; font-size: 14px"
+            [(ngModel)]="form"
+            (change)="onFormsDropdownChange()"
+          >
+            <option style="text-align: center" value="0">Select any PDF</option>
+            <option
+              *ngFor="let formFromList of formsList$ | async"
+              value="{{ formFromList.id }}"
+            >
+              {{ formFromList.name }}
             </option>
           </select>
         </div>
       </div>
     </div>
-    <div class="btn btn-primary">
-      <a id="link" routerLink="/super-admin">Super Admin</a>
-    </div>
   </div>
-  <div class="flex">
-    <app-form-fields [docType]="docType" #formsfields></app-form-fields>
-    <app-pdf-view
-      (getFieldsAPICallback)="formsfields.getFieldsAPI()"
-      #pdfview
-    ></app-pdf-view>
+  <div class="flex" *ngIf="fieldConfig === 'Saved'">
+    <app-form-fields
+      [docType]="docType"
+      fieldConfig="fieldConfig"
+      #formsfields
+      *ngIf="form !== '0'"
+    ></app-form-fields>
+    <app-pdf-view fieldConfig="fieldConfig" #pdfview></app-pdf-view>
+  </div>
+  <div class="flex" *ngIf="fieldConfig === 'Not Saved'">
+    <app-forms-fields-su
+      [currentPageNumber]="currentPageNumber"
+      #formsfieldssu
+      *ngIf="form !== '0'"
+    ></app-forms-fields-su>
+    <app-pdf-view-su
+      [currentPageNumber]="currentPageNumber"
+      #pdfviewsu
+    ></app-pdf-view-su>
+  </div>
+  <div class="d-flex justify-content-center gap-4">
+    <button (click)="openPopupModal()" class="btn btn-primary">Save</button>
+    <button class="btn btn-primary">Cancel</button>
   </div>
 </div>

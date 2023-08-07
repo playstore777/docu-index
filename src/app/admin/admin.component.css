@@ -17,7 +17,7 @@
   margin-bottom: 1%;
   padding-inline: 1%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 a {
@@ -26,4 +26,50 @@ a {
 
 #link {
   color: white;
+}
+
+.flex-sb {
+  display: flex;
+  justify-content: space-between;
+}
+
+.x {
+  height: 36px;
+}
+
+.popup-overlay {
+  height: 100vh;
+  box-sizing: border-box;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.popup-overlay.show {
+  display: grid;
+  place-items: center;
+  position: fixed;
+}
+
+.popup-overlay .text-content textarea {
+  width: 100%;
+  padding: 2%;
+  background-color: white;
+  color: black;
+}
+
+.submit-btn {
+  color: white;
+  border-radius: 5%;
+}
+
+.close-btn {
+  color: white;
+  border-radius: 10%;
 }

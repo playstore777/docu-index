@@ -67,7 +67,6 @@ export class SuperAdminComponent implements OnInit {
   }
 
   onDropdownChange() {
-    // console.log("dropdown value: ", this.dropdownValue);
     this.dropdownName = "";
     this.getDocName();
     if (this.dropdownValue !== "Select a pdf") {

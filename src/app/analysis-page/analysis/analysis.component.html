@@ -1,6 +1,7 @@
-
 <div class="bodyContainer">
-  <h1 class="mainHeading">Analysis Report of Batch ID: {{ data.batch_no }}</h1>
+  <h1 class="mainHeading">
+    Analysis of Batch ID: <span class="batch-id">{{ data.batch_no }}</span>
+  </h1>
   <div class="filterContainer">
     <div class="row">
       <div class="col-md-2">
@@ -31,9 +32,7 @@
         <div>Doc Type</div>
         <div class="dropdown" #dropdown>
           <select (change)="docFilter($event)">
-            <option style="text-align: center" value="">
-              Select any Doc Type
-            </option>
+            <option style="text-align: center" value="all">All doc types</option>
             <option
               *ngFor="let type of docTypes"
               style="text-align: center"
@@ -45,7 +44,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <div>Filter by</div>
+        <div>View by</div>
         <div class="dropdown" #dropdown>
           <select (change)="onDropdownChange($event)">
             <option style="text-align: center" value="doc_type">
