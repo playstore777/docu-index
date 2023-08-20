@@ -5,13 +5,13 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class ReportsService {
+  readonly reportsAPIUrl = "http://localhost:1010/api/Analysis";
+  
   constructor(private http: HttpClient) {}
 
   getReportData(headers: any, obj: any) {
-    return this.http.post<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/GetReportData",
-      obj,
-      { headers }
-    );
+    return this.http.post<any>(`${this.reportsAPIUrl}/GetReportData`, obj, {
+      headers,
+    });
   }
 }

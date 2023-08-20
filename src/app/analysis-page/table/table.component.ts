@@ -31,7 +31,7 @@ export class TableComponent implements OnInit {
   }
 
   loadData() {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((data: any) => {
@@ -39,12 +39,12 @@ export class TableComponent implements OnInit {
         data.app.analysisFilteredDataList.subscribe((element: any) => {
           console.log("length: ", this.tableData.length);
           if (element.length > 0) {
-            this.loaderService.hideLoader();
+            // this.loaderService.hideLoader();
           }
           this.tableData = [];
           element.forEach((e: any) => {
             if (this.tableData.length > 0) {
-              this.loaderService.hideLoader();
+              // this.loaderService.hideLoader();
             }
             e = {
               ...e,

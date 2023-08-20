@@ -1,65 +1,133 @@
 .cssload-container {
-    position: fixed;
-    width: 100%;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.7);
-    z-index: 9999;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+}
+
+.cssload-speeding-wheel {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 48%;
+  top: 40%;
+  width: 63px;
+  height: 63px;
+  margin: 0 auto;
+  border: 4px solid rgb(0, 0, 0);
+  border-radius: 50%;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  animation: cssload-spin 500ms infinite linear;
+  -o-animation: cssload-spin 500ms infinite linear;
+  -ms-animation: cssload-spin 500ms infinite linear;
+  -webkit-animation: cssload-spin 500ms infinite linear;
+  -moz-animation: cssload-spin 500ms infinite linear;
+}
+
+@keyframes cssload-spin {
+  100% {
+    transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  
-  .cssload-speeding-wheel {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 48%;
-    top: 40%;
-    width: 63px;
-    height: 63px;
-    margin: 0 auto;
-    border: 4px solid rgb(0, 0, 0);
-    border-radius: 50%;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    animation: cssload-spin 500ms infinite linear;
-    -o-animation: cssload-spin 500ms infinite linear;
-    -ms-animation: cssload-spin 500ms infinite linear;
-    -webkit-animation: cssload-spin 500ms infinite linear;
-    -moz-animation: cssload-spin 500ms infinite linear;
+}
+
+@-o-keyframes cssload-spin {
+  100% {
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  
-  @keyframes cssload-spin {
-    100% {
-      transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
+}
+
+@-ms-keyframes cssload-spin {
+  100% {
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  
-  @-o-keyframes cssload-spin {
-    100% {
-      -o-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
+}
+
+@-webkit-keyframes cssload-spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  
-  @-ms-keyframes cssload-spin {
-    100% {
-      -ms-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
+}
+
+@-moz-keyframes cssload-spin {
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  
-  @-webkit-keyframes cssload-spin {
-    100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
+}
+
+.loader {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: grid;
+  place-items: center;
+}
+
+.loading-text {
+  font-weight: bold;
+  font-size: 1.5rem;
+  position: relative;
+  color: black;
+}
+
+.stage {
+  display: grid;
+  place-items: center;
+  row-gap: 20px;
+}
+
+.dot-typing {
+  --color: #1477bd;
+  position: relative;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--color);
+  color: var(--color);
+  box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+    10014px 0 0 0 var(--color);
+  animation: dot-typing 1.5s infinite linear;
+}
+
+@keyframes dot-typing {
+  0% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
   }
-  
-  @-moz-keyframes cssload-spin {
-    100% {
-      -moz-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
+  16.667% {
+    box-shadow: 9984px -10px 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
   }
+  33.333% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  50% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px -10px 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  66.667% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+  83.333% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px -10px 0 0 var(--color);
+  }
+  100% {
+    box-shadow: 9984px 0 0 0 var(--color), 9999px 0 0 0 var(--color),
+      10014px 0 0 0 var(--color);
+  }
+}

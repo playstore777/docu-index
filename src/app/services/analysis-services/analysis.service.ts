@@ -6,18 +6,20 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class AnalysisService {
+  readonly analysisAPIUrl = "http://localhost:1010/api/Analysis"
+
   constructor(private http: HttpClient) {}
 
   getAnalysisMasterData(headers: any) {
     return this.http.get<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/GetAnaylysisMasterData",
+      `${this.analysisAPIUrl}/GetAnaylysisMasterData`,
       { headers }
     );
   }
 
   getAnalysisData(headers: any, data: string): Observable<any> {
     return this.http.get<any>(
-      `https://pdfanalysis.azurewebsites.net/api/Analysis/GetAnaylysisData?data=${data}`,
+      `${this.analysisAPIUrl}/GetAnaylysisData?data=${data}`,
       {
         headers: headers,
       }
@@ -26,7 +28,7 @@ export class AnalysisService {
 
   updateNoteColumn(headers: any, obj: any) {
     return this.http.post<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateNoteCoulmn",
+      `${this.analysisAPIUrl}/UpdateNoteCoulmn`,
       obj,
       { headers }
     );
@@ -34,7 +36,7 @@ export class AnalysisService {
 
   getFieldDocumentView(headers: any, obj: any) {
     return this.http.post<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/GetFieldDocumentView",
+      `${this.analysisAPIUrl}/GetFieldDocumentView`,
       obj,
       { headers }
     );
@@ -42,7 +44,7 @@ export class AnalysisService {
 
   updateColorCode(headers: any, obj: any) {
     return this.http.post<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateColorCode",
+      `${this.analysisAPIUrl}/UpdateColorCode`,
       obj,
       { headers }
     );
@@ -50,7 +52,7 @@ export class AnalysisService {
 
   submitAnalysis(headers: any, obj: any) {
     return this.http.post<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/Submit",
+      `${this.analysisAPIUrl}/Submit`,
       obj,
       { headers }
     );

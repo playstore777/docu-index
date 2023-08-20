@@ -6,13 +6,13 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class AdminService {
-  readonly adminAPIUrl = "https://pdfanalysis.azurewebsites.net/api/Analysis";
+  readonly adminAPIUrl = "http://localhost:1010/api/Analysis";
 
   constructor(private http: HttpClient) {}
 
   getAllDocumentList(headers: any){
     return this.http.get<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/GetAllDocumentList",
+      `${this.adminAPIUrl}/GetAllDocumentList`,
       {
         headers: headers,
       }
@@ -25,7 +25,7 @@ export class AdminService {
     currentPageNumber: number
   ): Observable<any> {
     return this.http.get<any>(
-      `https://pdfanalysis.azurewebsites.net/api/Analysis/GetDocumentFields?Doc_Id=${docId}&page=${currentPageNumber}`,
+      `${this.adminAPIUrl}/GetDocumentFields?Doc_Id=${docId}&page=${currentPageNumber}`,
       {
         headers: headers,
       }
@@ -34,7 +34,7 @@ export class AdminService {
 
   updateDocumentFields(headers: any, obj: any) {
     return this.http.post<any>(
-      `https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateDocumentFields`,
+      `${this.adminAPIUrl}/UpdateDocumentFields`,
       obj,
       {
         headers: headers,
@@ -44,7 +44,7 @@ export class AdminService {
 
   getDocument(headers: any, docId: number): Observable<any> {
     return this.http.get<any>(
-      `https://pdfanalysis.azurewebsites.net/api/Analysis/GetDocument?data=${docId}`,
+      `${this.adminAPIUrl}/GetDocument?data=${docId}`,
       {
         headers: headers,
       }

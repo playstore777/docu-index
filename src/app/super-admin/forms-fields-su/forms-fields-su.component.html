@@ -1,5 +1,18 @@
+<div
+  class="form-fields-loader"
+  [ngStyle]="{ display: (data$ | async) === null ? 'grid' : 'none' }"
+>
+<div class="loading-container">
+  <div class="loading-dots">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+  <div class="loading-text">Please wait loading fields</div>
+</div>
+</div>
 <div class="form-fields">
-  <div class="bodyContainerAnalysisTable">
+  <div class="bodyContainerAnalysisTable" *ngIf="(data$ | async) !== null">
     <div class="popup-overlay">
       <div class="buttons">
         <button (click)="drawRect()" class="btn btn-primary button-margin">
@@ -48,7 +61,7 @@
           <td>Fields#</td>
           <td>Pages#</td>
           <td>Review & Display Region</td>
-          <td>  </td>
+          <td></td>
         </tr>
         <tr
           *ngFor="let row of data$ | async"

@@ -26,7 +26,7 @@
   </div>
 
   <router-outlet>
-    <div class="loader" *ngIf="loaderService.loader$ | async">
+    <!-- <div class="loader" *ngIf="loaderService.loader$ | async">
       <div data-title="dot-typing">
         <div class="stage">
           <div class="dot-typing"></div>
@@ -35,7 +35,8 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <app-spinner></app-spinner>
   </router-outlet>
 </div>
 

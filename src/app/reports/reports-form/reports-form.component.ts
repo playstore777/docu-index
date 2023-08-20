@@ -2,7 +2,7 @@ import { HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { LoaderService } from "src/app/loader.service";
+// import { LoaderService } from "src/app/loader.service";
 import { ReportsService } from "src/app/services/reports/reports.service";
 import {
   addReportDocData,
@@ -25,7 +25,7 @@ export class ReportsFormComponent {
   datePickerTo: Date = new Date();
   today: Date = new Date();
   facility: String = "SSMS";
-  dropdownValue: String = `${this.today.getFullYear()}-${this.today.getMonth()}-${this.today.getDate()}`;
+  dropdownValue: String = `${this.today.getFullYear()}-${this.today.getDate()}-${this.today.getMonth()}`;
   BatchID: String = "";
   AnalysisUser: String = "";
   responseData: any;
@@ -44,7 +44,7 @@ export class ReportsFormComponent {
   ];
   DateRange: any = [
     {
-      id: `${this.today.getFullYear()}-${this.today.getMonth()}-${this.today.getDate()}`,
+      id: `${this.today.getFullYear()}-${this.today.getDate()}-${this.today.getMonth()}`,
       name: "Today",
     },
     { id: this.getYesterday(this.today), name: "Yesterday" },
@@ -70,7 +70,7 @@ export class ReportsFormComponent {
   constructor(
     private service: ReportsService,
     private router: Router,
-    private store: Store, private loaderService: LoaderService,
+    private store: Store // private loaderService: LoaderService,
   ) {}
 
   getYesterday(today: Date) {
@@ -113,7 +113,7 @@ export class ReportsFormComponent {
   }
 
   callAPI() {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
@@ -164,7 +164,6 @@ export class ReportsFormComponent {
         this.store.dispatch(
           addReportDocData({ reportDocData: { batch_id: reportDocData } })
         );
-        this.loaderService.hideLoader();
       })
     );
     this.store.dispatch(addReportsList({ reportsDataList: this.responseData }));

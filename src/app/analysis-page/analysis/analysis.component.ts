@@ -16,12 +16,12 @@ export class AnalysisComponent {
   constructor(private store: Store, private loaderService: LoaderService) {}
 
   ngOnInit() {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((e: any) => {
         if (e.length > 0) {
-          this.loaderService.hideLoader();
+          // this.loaderService.hideLoader();
         }
         this.data = e.app.analysisMasterData;
         e.app.analysisDataList.subscribe((element: any) => {

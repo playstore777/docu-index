@@ -27,7 +27,7 @@ export class AnalysisTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
@@ -35,7 +35,7 @@ export class AnalysisTableComponent implements OnInit {
       if (e.length > 0) {
         console.log("number: ", e);
         this.data = e.filter((element: any) => element.submit_Action !== "S");
-        this.loaderService.hideLoader();
+        // this.loaderService.hideLoader();
       }
     });
   }

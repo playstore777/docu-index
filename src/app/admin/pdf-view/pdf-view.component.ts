@@ -38,7 +38,7 @@ export class PdfViewComponent implements OnInit {
   }
 
   pdfAPI() {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     this.docData$ = this.store.select((state) => state);
     const headers = new HttpHeaders({
       Accept: "*/*",
@@ -48,7 +48,7 @@ export class PdfViewComponent implements OnInit {
       if (this.docID !== docId && docId !== 0) {
         this.service.getDocument(headers, docId).subscribe((data) => {
           if (data.length > 0) {
-            this.loaderService.hideLoader();
+            // this.loaderService.hideLoader();
           }
           this.store.dispatch(
             updateAdminData({
@@ -66,16 +66,16 @@ export class PdfViewComponent implements OnInit {
   }
 
   updateBase64String() {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((data: any) => {
         if (data.app.adminData.pdfSRC.length > 0) {
-          this.loaderService.hideLoader();
+          // this.loaderService.hideLoader();
         }
         this.base64String = data.app.adminData.pdfSRC;
       });
-    // this.loaderService.hideLoader();
+    // // this.loaderService.hideLoader();
   }
 
   pageChange(event: any) {

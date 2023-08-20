@@ -91,7 +91,7 @@ export class ReportsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((e: any) => {
@@ -102,7 +102,7 @@ export class ReportsPageComponent implements OnInit {
 
   onDownload() {
     this.router.navigate(["reports-download"]);
-    this.loaderService.hideLoader();
+    // this.loaderService.hideLoader();
   }
 
   onCancel() {

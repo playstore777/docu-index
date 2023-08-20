@@ -3,14 +3,16 @@
   <div class="card">
     <div class="flex-sb">
       <h1 class="mainHeading">Are you sure?</h1>
-      <div (click)="(closePopupModal())" class="x btn btn-danger">X</div>
+      <div (click)="closePopupModal()" class="x btn btn-danger">X</div>
     </div>
-    <div class="text-content" style="color: black">Fields Configuration is saved</div>
+    <div class="text-content" style="color: black">
+      Fields Configuration is saved
+    </div>
     <div class="buttons">
-      <button class="submit-btn btn btn-primary" (click)="(saveHandler)">
+      <button class="submit-btn btn btn-primary" (click)="saveHandler()">
         OK
       </button>
-      <button (click)="(closePopupModal())" class="close-btn btn btn-danger">
+      <button (click)="closePopupModal()" class="close-btn btn btn-danger">
         Cancel
       </button>
     </div>
@@ -98,8 +100,14 @@
       #pdfviewsu
     ></app-pdf-view-su>
   </div>
-  <div class="d-flex justify-content-center gap-4">
-    <button (click)="openPopupModal()" class="btn btn-primary">Save</button>
+  <div class="d-flex justify-content-center gap-4 py-2">
+    <button
+      *ngIf="form !== '0'"
+      (click)="openPopupModal()"
+      class="btn btn-primary"
+    >
+      Save
+    </button>
     <button class="btn btn-primary">Cancel</button>
   </div>
 </div>

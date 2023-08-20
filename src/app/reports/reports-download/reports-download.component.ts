@@ -22,7 +22,7 @@ export class ReportsDownloadComponent implements OnInit {
   @ViewChild(HTMLElement) table!: ElementRef;
 
   ngOnInit(): void {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((e: any) => {
@@ -57,21 +57,21 @@ export class ReportsDownloadComponent implements OnInit {
           });
         }
         console.log("combined array: ", combinedArray);
-        this.loaderService.hideLoader();
+        // this.loaderService.hideLoader();
       });
       this.data$ = of(combinedArray);
     });
   }
 
   htmlTableToExcelFile(): void {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     const table = document.querySelector("table") as HTMLElement;
     const fileName = "reports";
     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     XLSX.writeFile(workbook, fileName + ".xlsx");
-    this.loaderService.hideLoader();
+    // this.loaderService.hideLoader();
   }
 
   backClicked() {

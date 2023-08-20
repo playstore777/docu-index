@@ -31,7 +31,7 @@ export class FormFieldsComponent implements OnInit {
   constructor(
     private store: Store,
     private service: AdminService,
-    private loaderService: LoaderService
+    // private loaderService: LoaderService
   ) {}
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class FormFieldsComponent implements OnInit {
   }
 
   getFieldsAPI() {
-    this.loaderService.showLoader();
+    // // this.loaderService.showLoader();
     this.store
       .select((state) => state)
       .subscribe((data: any) => {
@@ -68,7 +68,7 @@ export class FormFieldsComponent implements OnInit {
           this.data$.subscribe((element) => {
             // hide loading screen
             if (element.length > 0) {
-              this.loaderService.hideLoader();
+              // this.loaderService.hideLoader();
             }
             element.forEach((data: any) => {
               console.log(data, data.reviewed === "Y", data.mandatory === "Y");

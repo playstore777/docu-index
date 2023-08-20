@@ -5,18 +5,19 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class SuperAdminService {
+  readonly superAdminAPIUrl = "http://localhost:1010/api/Analysis";
+
   constructor(private http: HttpClient) {}
 
   getMasterForms(headers: any) {
-    return this.http.get<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/GetMasterForms",
-      { headers }
-    );
+    return this.http.get<any>(`${this.superAdminAPIUrl}/GetMasterForms`, {
+      headers,
+    });
   }
 
   uploadMasterDocument(headers: any, obj: any) {
     return this.http.post<object>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdloadMasterDocument",
+      `${this.superAdminAPIUrl}/UpdloadMasterDocument`,
       obj,
       { headers }
     );
@@ -24,7 +25,7 @@ export class SuperAdminService {
 
   getMasterDocumentFields(headers: any, docID: number) {
     return this.http.get<any>(
-      `https://pdfanalysis.azurewebsites.net/api/Analysis/GetMasterDocumentFields?Doc_Id=${docID}`,
+      `${this.superAdminAPIUrl}/GetMasterDocumentFields?Doc_Id=${docID}`,
       {
         headers,
       }
@@ -33,7 +34,7 @@ export class SuperAdminService {
 
   updateMasterDocumentFields(headers: any, obj: any) {
     return this.http.post<any>(
-      "https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateMasterDocumentFields",
+      `${this.superAdminAPIUrl}/UpdateMasterDocumentFields`,
       obj,
       { headers }
     );
@@ -41,7 +42,7 @@ export class SuperAdminService {
 
   updateDocumentFields(headers: any, obj: any) {
     return this.http.post<any>(
-      `https://pdfanalysis.azurewebsites.net/api/Analysis/UpdateDocumentFields`,
+      `${this.superAdminAPIUrl}/UpdateDocumentFields`,
       obj,
       {
         headers: headers,

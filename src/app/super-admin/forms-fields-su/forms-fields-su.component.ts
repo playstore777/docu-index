@@ -42,12 +42,9 @@ export class FormsFieldsSuComponent implements OnInit {
   subscription: Subscription = new Subscription();
   uploadedList: Array<Number> = [];
 
-  addFieldButton = document.querySelector(".bottom-toolbar .add");
-
   constructor(
     private store: Store,
-    private service: SuperAdminService,
-    private loaderService: LoaderService
+    private service: SuperAdminService // private loaderService: LoaderService
   ) {}
 
   ngOnInit() {
@@ -76,7 +73,7 @@ export class FormsFieldsSuComponent implements OnInit {
         if (this.allSelectedReview) {
           this.allSelectedReview = false;
         }
-        const docID = data?.app?.suAdminData?.docId; // Use optional chaining to safely access nested properties
+        const docID = data?.app?.suAdminData?.docId;
         if (docID !== this.docId && docID !== 0) {
           this.pageFields = [];
           const headers = new HttpHeaders({
@@ -85,7 +82,8 @@ export class FormsFieldsSuComponent implements OnInit {
           this.service
             .getMasterDocumentFields(headers, docID)
             .subscribe((res) => {
-              if (res) this.loaderService.hideLoader();
+              // if (res)
+              // this.loaderService.hideLoader();
               this.data$ = of(res);
               this.updatePageData();
               this.store.dispatch(

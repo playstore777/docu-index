@@ -11,13 +11,13 @@ export class LoaderService {
   public loader$ = this.loaderSubject.asObservable();
   private loading: boolean = false;
 
-  showLoader() {
-    this.loaderSubject.next(true);
-  }
+  // showLoader() {
+  //   this.loaderSubject.next(true);
+  // }
 
-  hideLoader() {
-    this.loaderSubject.next(false);
-  }
+  // hideLoader() {
+  //   this.loaderSubject.next(false);
+  // }
 
   setLoading(loading: boolean) {
     this.loading = loading;

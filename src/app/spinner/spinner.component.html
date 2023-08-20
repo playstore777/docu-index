@@ -1,3 +1,14 @@
-<div *ngIf="this.loader.getLoading()" class="cssload-container">
+<!-- <div *ngIf="this.loader.getLoading()" class="cssload-container">
     <div class="cssload-speeding-wheel"></div>
+</div> -->
+
+<div class="loader" *ngIf="this.loader.getLoading()">
+  <div data-title="dot-typing">
+    <div class="stage">
+      <div class="dot-typing"></div>
+      <div class="loading-text">
+        Please wait we are proccessing your request.
+      </div>
+    </div>
+  </div>
 </div>

@@ -43,12 +43,12 @@ export class AdminComponent {
     private store: Store,
     private adminService: AdminService,
     private superAdminService: SuperAdminService,
-    private loaderService: LoaderService,
+    // private loaderService: LoaderService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     this.checkConfigStatus();
   }
 
@@ -59,7 +59,9 @@ export class AdminComponent {
   closePopupModal() {
     document.querySelector(".popup-overlay")?.classList.toggle("show");
   }
+  
   saveHandler() {
+    this.closePopupModal();
     this.router.navigate(["analysis"]);
   }
 
@@ -81,7 +83,7 @@ export class AdminComponent {
         });
         console.log("e for facilities: ", e);
         this.filterResponse();
-        this.loaderService.hideLoader();
+        // this.loaderService.hideLoader();
       }
     });
   }
@@ -139,7 +141,7 @@ export class AdminComponent {
         this.selectedForm.name = "";
         this.selectedForm.value = "";
         this.setDocNameAndValue();
-        this.loaderService.showLoader();
+        // this.loaderService.showLoader();
         let bin = atob(this.selectedForm.value as string);
         this.totalPages = bin.match(/\/Type\s*\/Page\b/g)?.length;
         this.UploadMasterDocument(this.totalPages as number);

@@ -43,14 +43,14 @@ export class SuperAdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loaderService.showLoader();
+    // this.loaderService.showLoader();
     const headers = new HttpHeaders({
       Accept: "*/*",
     });
     this.dropdownData$ = this.service.getMasterForms(headers);
     this.dropdownData$.subscribe((e) => {
       this.dropdownData = e;
-      this.loaderService.hideLoader();
+      // this.loaderService.hideLoader();
     });
   }
 
@@ -70,7 +70,7 @@ export class SuperAdminComponent implements OnInit {
     this.dropdownName = "";
     this.getDocName();
     if (this.dropdownValue !== "Select a pdf") {
-      this.loaderService.showLoader();
+      // this.loaderService.showLoader();
       let bin = atob(this.dropdownValue as string);
       this.totalPages = bin.match(/\/Type\s*\/Page\b/g)?.length;
       this.UploadMasterDocument(
