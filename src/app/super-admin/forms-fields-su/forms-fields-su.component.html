@@ -2,18 +2,19 @@
   class="form-fields-loader"
   [ngStyle]="{ display: (data$ | async) === null ? 'grid' : 'none' }"
 >
-<div class="loading-container">
-  <div class="loading-dots">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
+  <div class="loading-container">
+    <div class="loading-dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <div class="loading-text">Please wait loading fields</div>
   </div>
-  <div class="loading-text">Please wait loading fields</div>
-</div>
 </div>
 <div class="form-fields">
   <div class="bodyContainerAnalysisTable" *ngIf="(data$ | async) !== null">
-    <div class="popup-overlay">
+    <!-- Crop image popup Start -->
+    <div class="popup-overlay-su" *ngIf="isCropping">
       <div class="buttons">
         <button (click)="drawRect()" class="btn btn-primary button-margin">
           Draw
@@ -33,8 +34,9 @@
         <img #image src="" id="cropper-img" crossorigin />
       </div>
     </div>
-
-    <div class="draw-popup">
+    <!-- Crop image popup End -->
+    <!-- Draw rect on image popup Start -->
+    <div class="draw-popup-su">
       <div class="buttons">
         <button (click)="uploadEdited()" class="btn btn-primary button-margin">
           Upload
@@ -44,14 +46,16 @@
           data-toggle="tooltip"
           data-placement="top"
           title="Reset"
-          *ngIf="isCropImage"
           class="btn btn-danger button-margin"
         >
           <i class="fa fa-undo" aria-hidden="true"></i>X
         </button>
       </div>
-      <canvas #layout></canvas>
+      <div class="canvas-ele">
+        <canvas #layout></canvas>
+      </div>
     </div>
+    <!-- Draw rect on image popup End -->
 
     <table class="table table-striped table-hover">
       <tbody>

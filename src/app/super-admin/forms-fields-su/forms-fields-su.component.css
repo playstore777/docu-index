@@ -5,11 +5,13 @@ img {
   object-position: top;
   border: 1px solid #ccc;
 }
+
 input {
   width: 16px;
   height: 16px;
   outline: 1px solid #ccc;
 }
+
 .bottom-toolbar {
   margin: 10px;
   display: flex;
@@ -39,13 +41,14 @@ input {
   height: 100%;
 }
 
-.popup-overlay {
+.popup-overlay-su {
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
-  display: none;
+  display: grid;
+  place-items: center;
   position: absolute;
   left: 0;
   top: 0;
@@ -74,20 +77,20 @@ input {
   background-color: lime;
 }
 
-.draw-popup {
+.draw-popup-su {
+  display: none;
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
-  display: none;
   position: absolute;
   left: 0;
   top: 0;
   z-index: 10;
 }
 
-.draw-popup-active {
+.draw-popup-su.active {
   display: grid;
   place-items: center;
 }
@@ -104,6 +107,7 @@ input {
   display: grid;
   place-items: center;
 }
+
 .loading-container {
   display: flex;
   align-items: center;

@@ -38,6 +38,7 @@ export class AdminComponent {
   formsList: any;
   pdfSrc: string = "";
   postRes: any;
+  isSaveBtnClicked: boolean = false;
 
   constructor(
     private store: Store,

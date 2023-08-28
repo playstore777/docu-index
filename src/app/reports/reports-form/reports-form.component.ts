@@ -146,17 +146,18 @@ export class ReportsFormComponent {
           ? this.datePickerTo
           : "",
       indexed_fromdate:
-        this.dropdownValue !== "custom" &&
+        this.dropdownValue === "custom" &&
         (this.selectedDateType === "Index" || this.selectedDateType === "Both")
-          ? this.dropdownValue
+          ? this.datePickerFrom
           : "",
       indexed_todate:
-        this.dropdownValue !== "custom" &&
+        this.dropdownValue === "custom" &&
         (this.selectedDateType === "Index" || this.selectedDateType === "Both")
-          ? this.dropdownValue
+          ? this.datePickerTo
           : "",
     };
 
+    // console.log("selected Date type: ", this.selectedDateType, this.selectedDateType === "Index", obj);
     this.responseData = this.service.getReportData(headers, obj);
     this.responseData.subscribe((e: any) =>
       e.forEach((element: any) => {

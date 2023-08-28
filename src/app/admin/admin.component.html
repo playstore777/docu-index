@@ -1,6 +1,6 @@
-<div class="popup-overlay">
-  <!-- Note popup start -->
-  <div class="card">
+<div class="popup-overlay" *ngIf="isSaveBtnClicked">
+  <!-- Save button popup start -->
+  <div class="card" *ngIf="isSaveBtnClicked">
     <div class="flex-sb">
       <h1 class="mainHeading">Are you sure?</h1>
       <div (click)="closePopupModal()" class="x btn btn-danger">X</div>
@@ -17,7 +17,7 @@
       </button>
     </div>
   </div>
-  <!-- Note popup end -->
+  <!-- Save button popup end -->
 </div>
 
 <div class="form-main">
@@ -85,7 +85,7 @@
       [docType]="docType"
       fieldConfig="fieldConfig"
       #formsfields
-      *ngIf="form !== '0'"
+*ngIf="form !== '0'"
     ></app-form-fields>
     <app-pdf-view fieldConfig="fieldConfig" #pdfview></app-pdf-view>
   </div>
@@ -93,7 +93,7 @@
     <app-forms-fields-su
       [currentPageNumber]="currentPageNumber"
       #formsfieldssu
-      *ngIf="form !== '0'"
+*ngIf="form !== '0'"
     ></app-forms-fields-su>
     <app-pdf-view-su
       [currentPageNumber]="currentPageNumber"

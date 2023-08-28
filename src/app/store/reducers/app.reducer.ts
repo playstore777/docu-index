@@ -17,7 +17,7 @@ import { of } from "rxjs";
 
 // Define the initial state
 export const initialState: AppState = {
-  adminData: { currPage: 1, docId: 0, pdfSRC: "" },
+  adminData: { currPage: 1, docId: 0, pdfSRC: "", fieldsList: [] },
   suAdminData: { currPage: 1, docId: 0, pdfSRC: "", fieldsList: [] },
   analysisDataList: of([]),
   analysisFilteredDataList: of([]),

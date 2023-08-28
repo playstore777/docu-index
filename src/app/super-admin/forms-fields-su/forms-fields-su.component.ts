@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild, ElementRef } from "@angular/core";
 import { HttpHeaders } from "@angular/common/http";
 
 import html2canvas from "html2canvas";
@@ -22,7 +22,7 @@ import { LoaderService } from "src/app/loader.service";
   templateUrl: "./forms-fields-su.component.html",
   styleUrls: ["./forms-fields-su.component.css"],
 })
-export class FormsFieldsSuComponent implements OnInit {
+export class FormsFieldsSuComponent {
   @Input() currentPageNumber: number = 1;
   allSelectedReview: boolean = false;
   allSelectedMandatory: boolean = false;
@@ -32,9 +32,12 @@ export class FormsFieldsSuComponent implements OnInit {
   cropTarget: any;
   @ViewChild("layout") canvasRef: any;
   croppedImageSRC: string = "";
+  isCropping: boolean = false;
+  isDrawing: boolean = false;
 
   data$: Observable<any> = new Observable();
-  pageFields: any = [];
+  pageFields: any = [
+  ];
 
   //cache data
   currPageNo: number = 0;
@@ -44,7 +47,7 @@ export class FormsFieldsSuComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private service: SuperAdminService // private loaderService: LoaderService
+    private service: SuperAdminService // private loaderService: LoaderService,
   ) {}
 
   ngOnInit() {
@@ -147,7 +150,8 @@ export class FormsFieldsSuComponent implements OnInit {
 
   public crop(event: any) {
     this.cropTarget = event.target;
-    document.querySelector(".popup-overlay")?.classList.toggle("show");
+    this.isCropping = true;
+    // document.querySelector(".popup-overlay")?.classList.toggle("show");
     html2canvas(document.querySelector(".pdf-container") as HTMLElement).then(
       (canvas: any) => {
         // console.log(canvas);
@@ -158,6 +162,7 @@ export class FormsFieldsSuComponent implements OnInit {
           .replace("image/png", "image/png");
         document.querySelector("#cropper-img")?.setAttribute("src", image);
         document.querySelector("#cropper-img")?.classList.add("ready");
+        console.log("#cropper-img: ", document.querySelector("#cropper-img"));
         this.isCropImage = true;
         let cropImg: any = document.getElementById("cropper-img");
         this.cropper = new Cropper(cropImg, {
@@ -180,7 +185,8 @@ export class FormsFieldsSuComponent implements OnInit {
     this.isCropImage = false;
     this.cropper.clear();
     this.cropper.destroy();
-    document.querySelector(".popup-overlay")?.classList.toggle("show");
+    this.isCropping = false;
+    // document.querySelector(".popup-overlay")?.classList.toggle("show");
   }
 
   // reset crop image
@@ -188,9 +194,8 @@ export class FormsFieldsSuComponent implements OnInit {
     this.isCropImage = false;
     this.cropper.clear();
     this.cropper.destroy();
-    document
-      .querySelector(".draw-popup")
-      ?.classList.toggle("draw-popup-active");
+    this.isDrawing = false;
+    document.querySelector(".draw-popup-su")?.classList.toggle("active");
   }
 
   updateImageAfterUpload(imgSrc: string, fieldNumber: number) {
@@ -213,19 +218,18 @@ export class FormsFieldsSuComponent implements OnInit {
   }
 
   public drawRect() {
-    document.querySelector(".popup-overlay")?.classList.toggle("show");
+    // document.querySelector(".popup-overlay")?.classList.toggle("show");
     this.croppedImageSRC = this.download();
-    document
-      .querySelector(".draw-popup")
-      ?.classList.toggle("draw-popup-active");
-    console.log("draw: ", document.querySelector(".draw-popup"));
+    this.isCropping = false;
+    this.isDrawing = true;
+    document.querySelector(".draw-popup-su")?.classList.toggle("active");
     let canvas = this.canvasRef.nativeElement;
     let context = canvas.getContext("2d");
     const ctx = context;
 
     let source = new Image();
     source.onload = () => {
-      context.drawImage(source, 0, 0);
+      context!.drawImage(source, 0, 0);
       //Variables
       const a = canvas.getBoundingClientRect();
       var canvasx = canvas.getBoundingClientRect().left;
@@ -253,15 +257,15 @@ export class FormsFieldsSuComponent implements OnInit {
         mousex = e.clientX - canvasx;
         mousey = e.clientY - canvasy;
         if (mousedown) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height); //clear canvas
-          context.drawImage(source, 0, 0);
-          ctx.beginPath();
+          ctx!.clearRect(0, 0, canvas.width, canvas.height); //clear canvas
+          context!.drawImage(source, 0, 0);
+          ctx!.beginPath();
           var width = mousex - last_mousex;
           var height = mousey - last_mousey;
-          ctx.rect(last_mousex, last_mousey, width, height);
-          ctx.strokeStyle = "red";
-          ctx.lineWidth = 3;
-          ctx.stroke();
+          ctx!.rect(last_mousex, last_mousey, width, height);
+          ctx!.strokeStyle = "red";
+          ctx!.lineWidth = 3;
+          ctx!.stroke();
         }
       });
     };

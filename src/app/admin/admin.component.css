@@ -42,7 +42,9 @@ a {
   box-sizing: border-box;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
-  display: none;
+  display: grid;
+  place-items: center;
+  position: fixed;
   position: absolute;
   left: 0;
   right: 0;
