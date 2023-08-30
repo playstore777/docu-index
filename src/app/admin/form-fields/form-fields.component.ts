@@ -32,7 +32,7 @@ export class FormFieldsComponent {
   isDrawing: boolean = false;
 
   data$: Observable<any> = new Observable();
-
+  
   // cache data
   docID: number = 0;
   currPageNo: number = 0;
@@ -48,14 +48,14 @@ export class FormFieldsComponent {
   ) {}
 
   ngOnInit() {
-    this.getFieldsAPI();
+  this.getFieldsAPI();
   }
 
   ngOnDestroy() {
-    this.store.dispatch(clearAdminData());
-    this.store
-      .select((state) => state)
-      .subscribe((data: any) => console.log("data on destroy: ", data));
+  this.store.dispatch(clearAdminData());
+  this.store
+  .select((state) => state)
+  .subscribe((data: any) => console.log("data on destroy: ", data));
   }
 
   getFieldsAPI() {
@@ -287,9 +287,8 @@ export class FormFieldsComponent {
     html2canvas(document.querySelector("canvas") as HTMLElement).then(
       (canvas: any) => {
         const imageBase64SRC = this.getCanvasToDownload(canvas);
-        console.log("edited image: ", imageBase64SRC);
         const fieldNumber = parseInt(
-          this.cropTarget.parentElement.parentElement.parentElement.children[1]
+          this.cropTarget.parentElement.parentElement.parentElement.children[2]
             .textContent
         );
         this.store
